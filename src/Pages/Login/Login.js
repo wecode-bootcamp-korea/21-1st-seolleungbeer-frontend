@@ -13,18 +13,16 @@ class Login extends React.Component {
   }
 
   goToMainPage = () => {
-    console.log('goToMainPage');
-    // this.props.history.push('/main');
+    this.props.history.push('/main');
   };
 
   goToSignUpPage = () => {
-    console.log('goToSignUpPage');
-    // this.props.history.push('/signup');
+    this.props.history.push('/signup');
   };
 
   handleSubmitForm = e => {
     e.preventDefault();
-    console.log('submitForm');
+
     const { email, password } = this.state;
     if (!validateEmail(email) || !validatePassword(password)) return;
 
