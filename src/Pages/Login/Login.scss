@@ -1,0 +1,47 @@
+@import '../../Style/common.scss';
+
+.login {
+  @include flex(_, center, column);
+  position: relative;
+  width: 400px;
+  height: 500px;
+  border: 1px solid #dfdfdf;
+  margin: 200px auto;
+
+  h2 {
+    margin-top: 20%;
+    color: $green;
+    font-size: 40px;
+    font-weight: 900;
+  }
+
+  form {
+    @include flex(center, center, column);
+    margin-top: 15%;
+    width: 100%;
+
+    input {
+      padding: 10px;
+      width: 90%;
+      height: 45px;
+      border: 1px solid #dfdfdf;
+
+      &:nth-child(2) {
+        margin-bottom: 10%;
+        border-top: none;
+      }
+    }
+
+    button {
+      margin-bottom: 3px;
+      width: 90%;
+      height: 40px;
+      background-color: $green;
+      color: white;
+
+      &:hover {
+        background-color: #72ff00;
+      }
+    }
+  }
+}
