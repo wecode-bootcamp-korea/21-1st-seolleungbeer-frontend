@@ -17,31 +17,47 @@
 
   form {
     @include flex(center, center, column);
-    margin-top: 15%;
     width: 100%;
+    margin-top: 15%;
 
     input {
-      padding: 10px;
       width: 90%;
       height: 45px;
+      padding: 10px;
       border: 1px solid #dfdfdf;
 
       &:nth-child(2) {
-        margin-bottom: 10%;
         border-top: none;
       }
     }
 
-    button {
-      margin-bottom: 3px;
+    span {
+      align-self: flex-start;
+      margin: 5px 0 5px 7%;
+      color: dodgerblue;
+      font-size: 13.5px;
+    }
+
+    .login-button {
       width: 90%;
       height: 40px;
+      margin: 10% 0 3px 0;
       background-color: $green;
       color: white;
 
       &:hover {
         background-color: #72ff00;
       }
+    }
+  }
+  .signUp-button {
+    width: 90%;
+    height: 40px;
+    background-color: $green;
+    color: white;
+
+    &:hover {
+      background-color: #72ff00;
     }
   }
 }
