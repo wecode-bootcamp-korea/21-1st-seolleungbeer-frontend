@@ -1,0 +1,9 @@
+$green: #009d3e;
+$yellow: #fae100;
+
+@mixin flex($justify: flex-start, $align: flex-start, $flexDirection: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $flexDirection;
+}
