@@ -1,6 +1,22 @@
 import React from 'react';
 import './SignUp.scss';
 
+// const validateEmail = asValue => {
+//   const regExp =
+//     /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+//   return regExp.test(asValue);
+// };
+
+// const validatePassword = asValue => {
+//   const regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/; //  8 ~ 15자 특수문자, 문자, 숫자 조합
+//   return regExp.test(asValue);
+// };
+
+// const validateMobile = asValue => {
+//   const regExp = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
+//   return regExp.test(asValue);
+// };
+
 class SignUp extends React.Component {
   constructor() {
     super();
