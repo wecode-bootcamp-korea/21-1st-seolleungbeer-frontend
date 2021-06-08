@@ -1,0 +1,17 @@
+@import '../../Style/common.scss';
+
+.UserLink {
+  @include flex(flex-end, center, row);
+
+  a {
+    margin: 0 15px;
+    cursor: pointer;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
