@@ -1,0 +1,63 @@
+@import '../../Style/common.scss';
+
+.login {
+  @include flex(_, center, column);
+  position: relative;
+  width: 400px;
+  border: 1px solid #dfdfdf;
+  margin: 200px auto;
+
+  h2 {
+    margin-top: 20%;
+    color: $green;
+    font-size: 40px;
+    font-weight: 900;
+  }
+
+  form {
+    @include flex(center, center, column);
+    width: 100%;
+    margin-top: 15%;
+
+    input {
+      width: 90%;
+      height: 45px;
+      padding: 10px;
+      border: 1px solid #dfdfdf;
+
+      &:nth-child(2) {
+        border-top: none;
+      }
+    }
+
+    span {
+      align-self: flex-start;
+      margin: 5px 0 5px 7%;
+      color: dodgerblue;
+      font-size: 13.5px;
+    }
+
+    .login-button {
+      width: 90%;
+      height: 40px;
+      margin: 10% 0 3px 0;
+      background-color: $green;
+      color: white;
+
+      &:hover {
+        background-color: #72ff00;
+      }
+    }
+  }
+  .signUp-button {
+    width: 90%;
+    height: 40px;
+    margin-bottom: 20%;
+    background-color: $green;
+    color: white;
+
+    &:hover {
+      background-color: #72ff00;
+    }
+  }
+}
