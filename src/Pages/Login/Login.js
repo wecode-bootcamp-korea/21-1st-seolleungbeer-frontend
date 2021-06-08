@@ -1,6 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { validateEmail, validatePassword } from '../../utils/utils';
+import validator from '../../utils/validator';
 import './Login.scss';
 
 class Login extends React.Component {
@@ -24,7 +23,7 @@ class Login extends React.Component {
     e.preventDefault();
 
     const { email, password } = this.state;
-    if (!validateEmail(email) || !validatePassword(password)) return;
+    if (!validator.email(email) || !validator.password(password)) return;
 
     this.goToMainPage();
   };
@@ -36,10 +35,6 @@ class Login extends React.Component {
   };
 
   handleClickSignUpButton = () => {
-    this.setState({
-      email: '',
-      password: '',
-    });
     this.goToSignUpPage();
   };
 
@@ -72,7 +67,7 @@ class Login extends React.Component {
             value={email}
             name="email"
           />
-          {validateEmail(email) || email.length === 0 ? null : (
+          {!validator.email(email) && email.length !== 0 && (
             <span>이메일이 올바르지 않습니다.</span>
           )}
           <input
@@ -82,7 +77,7 @@ class Login extends React.Component {
             value={this.state.password}
             name="password"
           />
-          {validatePassword(password) || password.length === 0 ? null : (
+          {!validator.password(password) && password.length !== 0 && (
             <span>비밀번호가 올바르지 않습니다.</span>
           )}
           <button className="login-button">로그인</button>
@@ -98,4 +93,4 @@ class Login extends React.Component {
   }
 }
 
-export default withRouter(Login);
+export default Login;
