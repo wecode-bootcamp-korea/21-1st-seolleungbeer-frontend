@@ -17,9 +17,7 @@ class Nav extends React.Component {
                 <Link to="/">선릉맥주</Link>
               </h1>
             </div>
-            <div>
-              <UserLink />
-            </div>
+            <UserLink />
           </div>
           <div className="NavMain">
             <div>
