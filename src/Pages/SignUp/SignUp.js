@@ -27,7 +27,7 @@ class SignUp extends React.Component {
       <div className="signUp">
         <div className="title">
           <h3>JOIN</h3>
-          <span>안녕하세요 선릉맥주입니다.</span>
+          <p>안녕하세요 선릉맥주입니다.</p>
         </div>
         <div className="profile-image">
           <img src="/images/profile.jpeg" />
@@ -38,12 +38,17 @@ class SignUp extends React.Component {
         </div>
         <form>
           <div className="email">
-            <input placeholder="이메일" />
-            <button>중복확인</button>
+            <div>
+              <input placeholder="이메일" />
+              <button>중복확인</button>
+            </div>
+            <span>이메일이 올바르지 않습니다.</span>
           </div>
           <div className="password">
             <input placeholder="비밀번호: 8~15 자 문자, 숫자, 특수문자 조합" />
+            <span>이메일이 올바르지 않습니다.</span>
             <input placeholder="비밀번호 확인" />
+            <span>이메일이 올바르지 않습니다.</span>
           </div>
           <div className="name">
             <p>이름</p>
@@ -61,8 +66,11 @@ class SignUp extends React.Component {
             </div>
           </div>
           <div className="mobile">
-            <p>연락처</p>
-            <input placeholder="연락처: 숫자만 입력하세요" />
+            <div>
+              <p>연락처</p>
+              <input placeholder="핸드폰 번호: 숫자만 입력하세요" />
+            </div>
+            <span>핸드폰번호가 올바르지 않습니다.</span>
           </div>
           <button>가입하기</button>
         </form>
