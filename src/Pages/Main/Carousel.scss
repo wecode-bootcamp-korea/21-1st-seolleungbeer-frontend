@@ -1,0 +1,73 @@
+@import '.././../Style/common.scss';
+
+.Carousel {
+  position: relative;
+
+  .list {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+
+    img,
+    video {
+      width: 100%;
+    }
+
+    .active {
+      display: block;
+    }
+    .nonActive {
+      display: none;
+    }
+  }
+
+  .left {
+    left: 30px;
+  }
+  .right {
+    right: 30px;
+  }
+
+  $selectColor: $yellow;
+
+  button {
+    position: absolute;
+    top: 50%;
+    background: none;
+    cursor: pointer;
+    font-size: 50px;
+    color: white;
+
+    &:hover {
+      color: $selectColor;
+    }
+  }
+
+  .listButton {
+    position: absolute;
+    width: 100%;
+    bottom: 50px;
+    text-align: center;
+  }
+
+  .dot {
+    cursor: pointer;
+    height: 5px;
+    width: 35px;
+    margin: 0 2px;
+    background-color: white;
+    border-radius: 0%;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: $selectColor;
+    }
+
+    &.selected {
+      background-color: $selectColor;
+    }
+  }
+}

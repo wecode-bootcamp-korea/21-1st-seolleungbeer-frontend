@@ -1,0 +1,56 @@
+@import '../../Style/common.scss';
+
+.Nav {
+  @include flex(center, center);
+  position: relative;
+  z-index: 10;
+
+  .NavContainer {
+    position: absolute;
+    @include flex(center, center, column);
+    width: 1200px;
+    top: 0;
+
+    .NavHead {
+      @include flex(space-between, center, row);
+      margin: 30px;
+      text-align: center;
+
+      div {
+        width: 300px;
+
+        h1 > a {
+          font-size: 30px;
+          cursor: pointer;
+          color: white;
+        }
+      }
+    }
+
+    .NavMain {
+      @include flex(center, center, row);
+      border-bottom: 1px solid white;
+      width: 100%;
+
+      div {
+        margin-bottom: 20px;
+      }
+
+      li {
+        display: inline-block;
+
+        a {
+          margin: 0 50px;
+          cursor: pointer;
+          color: white;
+          font-size: 14px;
+          font-weight: bold;
+
+          &:hover {
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+  }
+}
