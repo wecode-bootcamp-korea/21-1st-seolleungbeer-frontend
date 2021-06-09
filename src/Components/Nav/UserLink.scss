@@ -6,12 +6,16 @@
   a {
     margin: 0 15px;
     cursor: pointer;
-    color: white;
     font-size: 12px;
     font-weight: bold;
+    color: #888888;
 
     &:hover {
       opacity: 0.5;
+    }
+
+    &.fontColorWhite {
+      color: white;
     }
   }
 }
