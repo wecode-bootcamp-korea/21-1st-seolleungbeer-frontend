@@ -1,28 +1,178 @@
 import React from 'react';
+import validator from '../../utils/validator';
 import './SignUp.scss';
-
-// const validateEmail = asValue => {
-//   const regExp =
-//     /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-//   return regExp.test(asValue);
-// };
-
-// const validatePassword = asValue => {
-//   const regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/; //  8 ~ 15자 특수문자, 문자, 숫자 조합
-//   return regExp.test(asValue);
-// };
-
-// const validateMobile = asValue => {
-//   const regExp = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
-//   return regExp.test(asValue);
-// };
 
 class SignUp extends React.Component {
   constructor() {
     super();
+
+    this.state = {
+      profileImage: '',
+      email: '',
+      password: '',
+      checkPassword: '',
+      name: '',
+      sex: '',
+      mobile: '',
+      previewImage: '',
+      existMobile: false,
+      isCheckedEmail: false,
+      isClickedEmailButton: false,
+      isClickedSignUpButton: false,
+    };
   }
 
+  convertImageIntoFile = image => {
+    const reader = new FileReader();
+    const file = image;
+
+    reader.onload = () => {
+      this.setState({
+        profileImage: file,
+        previewImage: reader.result,
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  handleChangeInput = e => {
+    if (e.target.name === 'profileImage') {
+      this.convertImageIntoFile(e.target.files[0]);
+      return;
+    }
+
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  handleClickEmailButton = () => {
+    console.log(this.state);
+    this.requestCheckEmail();
+  };
+
+  handleSubmitForm = e => {
+    e.preventDefault();
+
+    this.setState({
+      isClickedSignUpButton: true,
+    });
+
+    if (!this.validateAllInfomation()) return;
+
+    this.requestSignUp();
+  };
+
+  validateAllInfomation = () => {
+    const {
+      email,
+      password,
+      checkPassword,
+      name,
+      sex,
+      mobile,
+      isClickedEmailButton,
+    } = this.state;
+
+    if (
+      !validator.email(email) ||
+      !validator.password(password) ||
+      password !== checkPassword ||
+      !name ||
+      !sex ||
+      !validator.mobile(mobile) ||
+      !isClickedEmailButton
+    ) {
+      return;
+    }
+
+    return true;
+  };
+
+  async requestSignUp() {
+    const { profileImage, email, password, name, sex, mobile } = this.state;
+    const profile_image = new FormData();
+    profile_image.append('file', profileImage);
+
+    try {
+      const res = await fetch('http://10.58.7.23:8000/users/signup', {
+        method: 'POST',
+        body: JSON.stringify({
+          profile_image,
+          email,
+          password,
+          name,
+          sex,
+          mobile,
+        }),
+      });
+
+      const result = await res.json();
+      console.log(result);
+
+      if (result.message === 'SUCCESS') {
+        this.goToLoginPage();
+        return;
+      }
+
+      if (result.message === 'MOBILE_EXISTS') {
+        this.setState({
+          existMobile: true,
+        });
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async requestCheckEmail() {
+    const { email } = this.state;
+
+    try {
+      const res = await fetch('http://10.58.7.23:8000/users/emailcheck', {
+        method: 'POST',
+        body: JSON.stringify({
+          email,
+        }),
+      });
+
+      const result = await res.json();
+      console.log(result);
+      if (result.message === 'SUCCESS') {
+        this.setState({
+          isCheckedEmail: true,
+          isClickedEmailButton: true,
+        });
+      } else {
+        this.setState({
+          isClickedEmailButton: true,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  goToLoginPage = () => {
+    this.props.history.push('/login');
+  };
+
   render() {
+    const {
+      email,
+      password,
+      checkPassword,
+      name,
+      sex,
+      mobile,
+      previewImage,
+      existMobile,
+      isCheckedEmail,
+      isClickedEmailButton,
+      isClickedSignUpButton,
+    } = this.state;
+    console.log(this.state);
     return (
       <div className="signUp">
         <div className="title">
@@ -30,49 +180,137 @@ class SignUp extends React.Component {
           <p>안녕하세요 선릉맥주입니다.</p>
         </div>
         <div className="profile-image">
-          <img src="/images/profile.jpeg" />
+          <img src={previewImage ? previewImage : '/images/profile.jpeg'} />
           <div className="upload-image">
-            <i className="fas fa-camera-retro fa-2x"></i>
-            <input />
+            <i className="fas fa-camera-retro fa-lg"></i>
+            <input
+              id="upload"
+              type="file"
+              accept=".jpeg,.jpg,.png,.gif,.svg+xml"
+              onChange={this.handleChangeInput}
+              name="profileImage"
+            />
           </div>
         </div>
-        <form>
+        <form onSubmit={this.handleSubmitForm}>
           <div className="email">
             <div>
-              <input placeholder="이메일" />
-              <button>중복확인</button>
+              <input
+                type="text"
+                placeholder="이메일"
+                onChange={this.handleChangeInput}
+                value={email}
+                name="email"
+              />
+              <button type="button" onClick={this.handleClickEmailButton}>
+                중복확인
+              </button>
             </div>
-            <span>이메일이 올바르지 않습니다.</span>
+            {!validator.email(email) && email.length !== 0 && (
+              <span>이메일이 올바르지 않습니다</span>
+            )}
+            {!isClickedEmailButton && isClickedSignUpButton && (
+              <span>이메일 중복확인을 해주세요</span>
+            )}
+            {!isCheckedEmail && isClickedEmailButton && (
+              <span>동일한 이메일이 존재합니다</span>
+            )}
           </div>
           <div className="password">
-            <input placeholder="비밀번호: 8~15 자 문자, 숫자, 특수문자 조합" />
-            <span>이메일이 올바르지 않습니다.</span>
-            <input placeholder="비밀번호 확인" />
-            <span>이메일이 올바르지 않습니다.</span>
+            <input
+              type="password"
+              placeholder="비밀번호: 10~15 자 문자, 숫자, 특수문자 조합"
+              onChange={this.handleChangeInput}
+              value={password}
+              name="password"
+              style={
+                (!validator.email(email) && email.length !== 0) ||
+                (!isClickedEmailButton && isClickedSignUpButton)
+                  ? { borderTop: '1px solid #dfdfdf' }
+                  : { borderTop: 'none' }
+              }
+            />
+            {((!validator.password(password) && password.length !== 0) ||
+              (isClickedSignUpButton && password.length === 0)) && (
+              <span>비밀번호가 올바르지 않습니다</span>
+            )}
+            <input
+              type="password"
+              placeholder="비밀번호 확인"
+              onChange={this.handleChangeInput}
+              value={checkPassword}
+              name="checkPassword"
+              style={
+                (!validator.password(password) && password.length !== 0) ||
+                (isClickedSignUpButton && password.length === 0)
+                  ? { borderTop: '1px solid #dfdfdf' }
+                  : { borderTop: 'none' }
+              }
+            />
+            {((password !== checkPassword && checkPassword.length !== 0) ||
+              (isClickedSignUpButton && checkPassword.length === 0)) && (
+              <span>비밀번호가 올바르지 않습니다</span>
+            )}
           </div>
           <div className="name">
             <p>이름</p>
-            <input placeholder="이름을 입력하세요" />
+            <input
+              type="text"
+              placeholder="이름을 입력하세요"
+              onChange={this.handleChangeInput}
+              value={name}
+              name="name"
+            />
+            {isClickedSignUpButton && name.length === 0 && (
+              <span>이름이 올바르지 않습니다</span>
+            )}
           </div>
           <div className="sex">
             <p>성별</p>
             <div>
-              <input type="radio" id="man" />
+              <input
+                type="radio"
+                id="man"
+                value="M"
+                name="sex"
+                onChange={this.handleChangeInput}
+              />
               <label htmlFor="man">남자</label>
             </div>
             <div>
-              <input type="radio" id="woman" />
+              <input
+                type="radio"
+                id="woman"
+                value="F"
+                name="sex"
+                onChange={this.handleChangeInput}
+              />
               <label htmlFor="woman">여자</label>
             </div>
+            {isClickedSignUpButton && sex.length === 0 && (
+              <span>성별이 올바르지 않습니다</span>
+            )}
           </div>
           <div className="mobile">
             <div>
               <p>연락처</p>
-              <input placeholder="핸드폰 번호: 숫자만 입력하세요" />
+              <input
+                type="number"
+                placeholder="핸드폰 번호: 숫자만 입력하세요"
+                onChange={this.handleChangeInput}
+                value={mobile}
+                name="mobile"
+              />
             </div>
-            <span>핸드폰번호가 올바르지 않습니다.</span>
+            {((!validator.mobile(mobile) && mobile.length !== 0) ||
+              (isClickedSignUpButton && mobile.length === 0)) && (
+              <span>핸드폰 번호가 올바르지 않습니다</span>
+            )}
+            {isClickedSignUpButton && existMobile && (
+              <span>동일한 핸드폰 번호가 존재합니다</span>
+            )}
           </div>
-          <button>가입하기</button>
+          <button type="submit">가입하기</button>
         </form>
       </div>
     );

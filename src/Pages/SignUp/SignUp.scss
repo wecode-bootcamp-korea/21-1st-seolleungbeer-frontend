@@ -3,8 +3,8 @@
 .signUp {
   @include flex(flex-start, center, column);
   margin: 100px auto;
-  min-width: 370px;
-  max-width: 450px;
+  min-width: 400px;
+  max-width: 480px;
   border: 1px solid #dfdfdf;
   color: #2f3332;
 
@@ -13,8 +13,8 @@
     margin-top: 50px;
 
     h3 {
-      color: #479f78;
-      font-size: 40px;
+      color: $green;
+      font-size: 35px;
       font-weight: 900;
     }
 
@@ -47,14 +47,15 @@
 
         i {
           position: absolute;
-          top: 33%;
-          left: 33%;
+          bottom: 10%;
+          left: 38%;
           color: #2a4454;
         }
 
         input {
           width: 100%;
           height: 100%;
+          opacity: 0;
           background: none;
           cursor: pointer;
         }
@@ -63,15 +64,19 @@
 
     img {
       width: 100%;
+      height: 100%;
+      border-radius: 50%;
     }
   }
 
   form {
+    @include flex(center, center, column);
     width: 80%;
     margin: 30px;
 
     span {
-      margin-left: 5px;
+      display: block;
+      margin: 5px 0 5px 5px;
       color: dodgerblue;
       font-size: 13.5px;
     }
@@ -83,20 +88,18 @@
     input {
       padding: 10px;
       width: 100%;
-      height: 100%;
+      height: 40px;
       border: 1px solid #dfdfdf;
     }
 
     .email {
       width: 100%;
 
-      :nth-child(1) {
-        width: 100%;
-        height: 40px;
+      div {
+        @include flex(_, center);
 
         input {
           width: 80%;
-          height: 100%;
         }
 
         button {
@@ -108,16 +111,16 @@
 
     .password {
       width: 100%;
-      height: 80px;
 
       input {
-        height: 50%;
+        height: 40px;
         border-top: none;
       }
     }
 
     .name {
-      margin-top: 40px;
+      margin-top: 20px;
+      width: 100%;
 
       input {
         margin-top: 10px;
@@ -126,7 +129,8 @@
 
     .sex {
       @include flex(center, flex-start, column);
-      margin-top: 30px;
+      margin-top: 20px;
+      width: 100%;
 
       div {
         @include flex(flex-start, center);
@@ -146,7 +150,8 @@
     }
 
     .mobile {
-      margin-top: 30px;
+      width: 100%;
+      margin-top: 20px;
 
       input {
         margin-top: 10px;
@@ -154,10 +159,10 @@
     }
 
     button {
-      margin: 20px 0;
+      margin: 25px 0;
       width: 100%;
       height: 40px;
-      background-color: #479f78;
+      background-color: $green;
       color: white;
 
       &:hover {
