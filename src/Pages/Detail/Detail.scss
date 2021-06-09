@@ -1,0 +1,14 @@
+@import '../../Style/common.scss';
+
+.Detail {
+  @include flex(center, center);
+
+  .DetailWrapper {
+    @include flex(center, center, column);
+    padding: 5px;
+  }
+
+  *::selection {
+    background-color: $green;
+  }
+}

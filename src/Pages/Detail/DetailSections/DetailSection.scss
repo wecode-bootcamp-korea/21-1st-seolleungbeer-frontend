@@ -1,0 +1,48 @@
+@import '../../../Style/common.scss';
+
+.Goods {
+  @include flex(center, center);
+  width: 100%;
+
+  .GoodsImg {
+    width: 50%;
+    margin-right: 30px;
+
+    img {
+      width: 100%;
+      height: fit-content;
+    }
+  }
+
+  .GoodsForm {
+    width: 50%;
+  }
+}
+
+.Categories {
+  width: 100%;
+  margin-top: 50px;
+
+  .CategoriesTitle {
+    @include flex(space-between, center);
+    width: 100%;
+    text-align: center;
+
+    .CategorieList {
+      width: 100%;
+      height: 30px;
+      border-bottom: 1px solid lightgray;
+
+      &.seleted {
+        border-bottom: 1px solid $green;
+      }
+    }
+
+    button {
+      width: 100%;
+      background-color: white;
+      color: #3d464b;
+      cursor: pointer;
+    }
+  }
+}

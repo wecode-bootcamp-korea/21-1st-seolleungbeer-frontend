@@ -1,0 +1,67 @@
+@import '../../../../Style/common.scss';
+
+.GoodsDetail {
+  @include flex(center, center, column);
+  margin: 100px 0;
+
+  .GoodsWrapper {
+    @include flex(center, center, column);
+    max-width: 700px;
+    margin: 0 auto;
+
+    p {
+      width: 100%;
+      img {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.GoodsReview {
+  margin-bottom: 200px;
+  color: #55585b;
+
+  .ReviewHead {
+    border-bottom: 1px solid #55585b;
+
+    div {
+      @include flex(flex-start, center);
+      margin: 10px 0;
+    }
+
+    span {
+      @include flex(center, center);
+      margin-left: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 20px;
+      background-color: $green;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    button {
+      display: block;
+      margin-bottom: 20px;
+      cursor: pointer;
+      background-color: white;
+    }
+
+    .ReviewButton {
+      padding: 10px 25px;
+      color: white;
+      background-color: $green;
+    }
+    .ReviewPhoto {
+      height: 20px;
+      font-size: 15px;
+      color: #55585b;
+    }
+  }
+
+  .ReviewList {
+    margin-top: 50px;
+    text-align: center;
+  }
+}

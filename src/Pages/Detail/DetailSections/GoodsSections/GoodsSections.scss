@@ -1,0 +1,117 @@
+@import '../../../../Style/common.scss';
+
+.GoodsName {
+  @include flex(center, flex-start, column);
+  font-size: 22px;
+  color: #55585b;
+
+  .GoodsHeartWrapper {
+    @include flex(space-between, center);
+    width: 100%;
+    margin-bottom: 10px;
+    font-weight: bold;
+
+    .GoodsHeart {
+      @include flex(center, center);
+
+      a {
+        cursor: pointer;
+        color: $green;
+      }
+    }
+  }
+
+  .GoodsKorName {
+    font-size: 20px;
+    margin-bottom: 30px;
+
+    span {
+      font-weight: bold;
+    }
+  }
+
+  .GoodsPrice {
+    font-size: 40px;
+    font-weight: bold;
+  }
+}
+
+.GoodsAmount {
+  margin: 30px 0;
+  color: #55585b;
+
+  .GoodsDelivery {
+    font-size: 24px;
+    margin: 30px 0;
+    font-weight: bold;
+
+    .GoodsEffect {
+      color: white;
+      background-color: $green;
+    }
+  }
+
+  .GoodsPayment {
+    background-color: #f9f9f9;
+    margin-bottom: 30px;
+    padding: 20px;
+
+    .PaymentTitle {
+      @include flex(flex-start, flex-start);
+      margin-bottom: 20px;
+      height: 30px;
+      font-size: 13px;
+      border-bottom: 1px dotted black;
+      text-align: center;
+    }
+
+    .PaymentCount {
+      @include flex(space-between, center);
+      height: 30px;
+
+      button {
+        width: 26px;
+        height: 30px;
+        font-size: 10px;
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        cursor: pointer;
+      }
+      input {
+        width: 50px;
+        height: 30px;
+        text-align: center;
+        padding: 10px;
+        cursor: text;
+      }
+    }
+  }
+
+  .GoodsTotal {
+    @include flex(space-between, center);
+    color: gray;
+  }
+}
+
+.BuyButtonGroup {
+  .ButtonGrooups {
+    font-size: 20px;
+    width: 200px;
+    height: 75px;
+    line-height: 75px;
+    border-radius: 75px;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+  .BuyButton {
+    color: white;
+    background-color: $green;
+  }
+
+  .CartButton {
+    color: $green;
+    background-color: white;
+    border: 1px solid $green;
+  }
+}
