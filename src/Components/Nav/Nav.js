@@ -14,7 +14,9 @@ class Nav extends React.Component {
   render() {
     return (
       <nav className="Nav">
-        <div className="NavContainer">
+        <div
+          className={this.isMain() ? 'NavContainer navMain' : 'NavContainer'}
+        >
           <div className="NavHead">
             <div></div>
             <div>

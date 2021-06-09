@@ -8,8 +8,13 @@
   .NavContainer {
     position: absolute;
     @include flex(center, center, column);
-    width: 1200px;
+    width: 100%;
     top: 0;
+    background-color: white;
+
+    &.navMain {
+      background-color: transparent !important;
+    }
 
     .NavHead {
       @include flex(space-between, center, row);
@@ -34,7 +39,7 @@
     .NavMain {
       @include flex(center, center, row);
       border-bottom: 1px solid white;
-      width: 100%;
+      width: 85%;
 
       div {
         margin-bottom: 20px;
