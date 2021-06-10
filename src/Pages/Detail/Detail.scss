@@ -1,11 +1,14 @@
 @import '../../Style/common.scss';
 
-.Detail {
+.detail {
   @include flex(center, center);
+  position: relative;
+  top: 200px;
 
-  .DetailWrapper {
+  .detail-wrapper {
     @include flex(center, center, column);
     padding: 5px;
+    max-width: 1200px;
   }
 
   *::selection {

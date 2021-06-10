@@ -6,14 +6,14 @@ import './DetailSection.scss';
 class Goods extends React.Component {
   render() {
     return (
-      <div className="Goods">
-        <div className="GoodsImg">
+      <div className="goods">
+        <div className="goods-img">
           <img
-            src="https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E"
+            src="https://cdn.imweb.me/upload/S20200702f03eaee38b16e/1150315c58715.png"
             alt="123"
           />
         </div>
-        <div className="GoodsForm">
+        <div className="goods-form">
           <GoodsName />
           <GoodsAmount />
           <BuyButtonGroup />

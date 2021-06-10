@@ -1,17 +1,17 @@
 @import '../../../../Style/common.scss';
 
-.GoodsName {
+.goods-name {
   @include flex(center, flex-start, column);
   font-size: 22px;
   color: #55585b;
 
-  .GoodsHeartWrapper {
+  .goods-heart-wrapper {
     @include flex(space-between, center);
     width: 100%;
     margin-bottom: 10px;
     font-weight: bold;
 
-    .GoodsHeart {
+    .goods-heart {
       @include flex(center, center);
 
       a {
@@ -21,7 +21,7 @@
     }
   }
 
-  .GoodsKorName {
+  .goods-kor-name {
     font-size: 20px;
     margin-bottom: 30px;
 
@@ -30,33 +30,33 @@
     }
   }
 
-  .GoodsPrice {
-    font-size: 40px;
+  .goods-price {
+    font-size: 30px;
     font-weight: bold;
   }
 }
 
-.GoodsAmount {
+.goods-amount {
   margin: 30px 0;
   color: #55585b;
 
-  .GoodsDelivery {
+  .goods-delivery {
     font-size: 24px;
     margin: 30px 0;
     font-weight: bold;
 
-    .GoodsEffect {
+    .goods-effect {
       color: white;
       background-color: $green;
     }
   }
 
-  .GoodsPayment {
+  .goods-payment {
     background-color: #f9f9f9;
     margin-bottom: 30px;
     padding: 20px;
 
-    .PaymentTitle {
+    .payment-title {
       @include flex(flex-start, flex-start);
       margin-bottom: 20px;
       height: 30px;
@@ -65,7 +65,7 @@
       text-align: center;
     }
 
-    .PaymentCount {
+    .payment-count {
       @include flex(space-between, center);
       height: 30px;
 
@@ -88,14 +88,14 @@
     }
   }
 
-  .GoodsTotal {
+  .goods-total {
     @include flex(space-between, center);
     color: gray;
   }
 }
 
-.BuyButtonGroup {
-  .ButtonGrooups {
+.buy-button-group {
+  .button-grooups {
     font-size: 20px;
     width: 200px;
     height: 75px;
@@ -104,12 +104,12 @@
     margin-right: 20px;
     cursor: pointer;
   }
-  .BuyButton {
+  .buy-button {
     color: white;
     background-color: $green;
   }
 
-  .CartButton {
+  .cart-button {
     color: $green;
     background-color: white;
     border: 1px solid $green;

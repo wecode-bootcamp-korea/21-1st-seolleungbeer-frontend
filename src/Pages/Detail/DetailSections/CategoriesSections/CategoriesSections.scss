@@ -1,10 +1,10 @@
 @import '../../../../Style/common.scss';
 
-.GoodsDetail {
+.goods-detail {
   @include flex(center, center, column);
   margin: 100px 0;
 
-  .GoodsWrapper {
+  .goods-wrapper {
     @include flex(center, center, column);
     max-width: 700px;
     margin: 0 auto;
@@ -18,11 +18,11 @@
   }
 }
 
-.GoodsReview {
+.goods-review {
   margin-bottom: 200px;
   color: #55585b;
 
-  .ReviewHead {
+  .review-head {
     border-bottom: 1px solid #55585b;
 
     div {
@@ -48,19 +48,19 @@
       background-color: white;
     }
 
-    .ReviewButton {
+    .review-button {
       padding: 10px 25px;
       color: white;
       background-color: $green;
     }
-    .ReviewPhoto {
+    .review-photo {
       height: 20px;
       font-size: 15px;
       color: #55585b;
     }
   }
 
-  .ReviewList {
+  .review-list {
     margin-top: 50px;
     text-align: center;
   }

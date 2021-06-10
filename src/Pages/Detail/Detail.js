@@ -7,12 +7,26 @@ class Detail extends React.Component {
     goods: {},
   };
 
+  componentDidMount = () => {
+    fetch('/Data/detail.json', {
+      method: 'GET',
+    })
+      .then(res => res.json())
+      .then(goods =>
+        this.setState({
+          goods,
+        })
+      );
+  };
+
   render() {
+    const { goods } = this.state;
+
     return (
-      <div className="Detail">
-        <div className="DetailWrapper">
-          <Goods />
-          <Categories />
+      <div className="detail">
+        <div className="detail-wrapper">
+          <Goods goods={goods} />
+          <Categories goods={goods} />
         </div>
       </div>
     );

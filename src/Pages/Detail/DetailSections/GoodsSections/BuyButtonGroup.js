@@ -5,10 +5,10 @@ import './GoodsSections.scss';
 class BuyButtonGroup extends React.Component {
   render() {
     return (
-      <div className="BuyButtonGroup">
+      <div className="buy-button-group">
         <div>
-          <button className="ButtonGrooups BuyButton">BUY NOW</button>
-          <button className="ButtonGrooups CartButton">CART</button>
+          <button className="button-grooups buy-button">BUY NOW</button>
+          <button className="button-grooups cart-button">CART</button>
         </div>
       </div>
     );

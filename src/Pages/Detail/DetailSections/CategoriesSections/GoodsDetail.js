@@ -3,17 +3,13 @@ import DeliveryInfo from '../../../../Components/Goods/DeliveryInfo';
 import GoodsInfo from '../../../../Components/Goods/GoodsInfo';
 import Refunds from '../../../../Components/Goods/Refunds';
 import './CategoriesSections.scss';
-import { data } from './Data';
-class GoodsDetail extends React.Component {
-  state = {
-    text: data.text,
-  };
 
+class GoodsDetail extends React.Component {
   render() {
     return (
-      <div className="GoodsDetail">
-        <div className="GoodsWrapper">
-          <div dangerouslySetInnerHTML={{ __html: this.state.text }}></div>
+      <div className="goods-detail">
+        <div className="goods-wrapper">
+          <div dangerouslySetInnerHTML={{ __html: '' }}></div>
           <GoodsInfo />
           <DeliveryInfo />
           <Refunds />

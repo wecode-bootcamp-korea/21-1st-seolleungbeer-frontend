@@ -3,7 +3,7 @@ import './Goods.scss';
 export default class Refunds extends React.Component {
   render() {
     return (
-      <div className="Refunds">
+      <div className="refunds">
         <h2>교환 및 환불 안내</h2>
         <ul>
           <li>

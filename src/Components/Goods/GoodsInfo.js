@@ -3,7 +3,7 @@ import './Goods.scss';
 export default class GoodsInfo extends React.Component {
   render() {
     return (
-      <div className="GoodsInfo">
+      <div className="goods-info">
         <h2>상품정보</h2>
         <table>
           <tr>

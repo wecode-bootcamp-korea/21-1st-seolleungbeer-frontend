@@ -6,10 +6,10 @@ import './GoodsSections.scss';
 class GoodsName extends React.Component {
   render() {
     return (
-      <div className="GoodsName">
-        <div className="GoodsHeartWrapper">
+      <div className="goods-name">
+        <div className="goods-heart-wrapper">
           <div>CRISPY LAVAR SNACK</div>
-          <div className="GoodsHeart">
+          <div className="goods-heart">
             <Link to="">
               <span>
                 <i className="far fa-heart"></i>
@@ -19,10 +19,8 @@ class GoodsName extends React.Component {
             </Link>
           </div>
         </div>
-        <div className="GoodsKorName">
-          제주에서 만난 찹쌀 김부각<span>(4ea)</span>
-        </div>
-        <div className="GoodsPrice">₩12,100원</div>
+        <div className="goods-kor-name">제주에서 만난 찹쌀 김부각(4ea)</div>
+        <div className="goods-price">₩12,100,103,100원</div>
       </div>
     );
   }
