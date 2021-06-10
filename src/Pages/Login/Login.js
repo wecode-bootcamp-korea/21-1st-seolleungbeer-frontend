@@ -1,5 +1,6 @@
 import React from 'react';
 import validator from '../../utils/validator';
+import API from '../../config';
 import './Login.scss';
 
 class Login extends React.Component {
@@ -25,7 +26,8 @@ class Login extends React.Component {
     const { email, password } = this.state;
     if (!validator.email(email) || !validator.password(password)) return;
 
-    this.goToMainPage();
+    this.requestLogin();
+    // this.goToMainPage();
   };
 
   handleChangeInput = e => {
@@ -38,21 +40,24 @@ class Login extends React.Component {
     this.goToSignUpPage();
   };
 
-  // async requestLogin() {
-  //   try {
-  //     const res = await fetch('#', {
-  //       method: '',
-  //       body: JSON.stringify({
-  //         email: '',
-  //         password: '',
-  //       }),
-  //     });
+  async requestLogin() {
+    const { email, password } = this.state;
+    try {
+      const res = await fetch(`${API}/users/login`, {
+        method: 'POST',
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
 
-  //     const login = await res.json();
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // }
+      const result = await res.json();
+
+      console.log(result);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   render() {
     const { email, password } = this.state;
