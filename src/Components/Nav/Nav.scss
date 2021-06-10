@@ -2,13 +2,16 @@
 
 .nav {
   @include flex(center, center);
-  position: relative;
+  position: absolute;
+  width: 100%;
+  top: 0;
   z-index: 10;
 
   .nav-container {
     position: absolute;
     @include flex(center, center, column);
     width: 100%;
+    min-width: 950px;
     top: 0;
     background-color: white;
 

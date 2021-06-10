@@ -31,7 +31,7 @@ class Nav extends React.Component {
                   <Link to="">EXPERIENCE</Link>
                 </li>
                 <li>
-                  <Link to="">SHOP</Link>
+                  <Link to="/shop">SHOP</Link>
                 </li>
                 <li>
                   <Link to="">BREWERY</Link>
