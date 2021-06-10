@@ -13,46 +13,48 @@ class Nav extends React.Component {
 
   render() {
     return (
-      <nav className="Nav">
+      <nav className="nav">
         <div
-          className={this.isMain() ? 'NavContainer navMain' : 'NavContainer'}
+          className={
+            this.isMain() ? 'nav-container color-white' : 'nav-container'
+          }
         >
-          <div className="NavHead">
+          <div className="nav-head">
             <div></div>
             <div>
               <h1>
-                <Link to="/" className={this.isMain() && 'fontColorWhite'}>
+                <Link to="/" className={this.isMain() && 'font-color-white'}>
                   선릉맥주
                 </Link>
               </h1>
             </div>
             <UserLink isMain={this.isMain()} />
           </div>
-          <div className="NavMain">
+          <div className="nav-main">
             <div>
               <ul>
                 <li>
-                  <Link to="" className={this.isMain() && 'fontColorWhite'}>
+                  <Link to="" className={this.isMain() && 'font-color-white'}>
                     EVENT
                   </Link>
                 </li>
                 <li>
-                  <Link to="" className={this.isMain() && 'fontColorWhite'}>
+                  <Link to="" className={this.isMain() && 'font-color-white'}>
                     PLAYLIST
                   </Link>
                 </li>
                 <li>
-                  <Link to="" className={this.isMain() && 'fontColorWhite'}>
+                  <Link to="" className={this.isMain() && 'font-color-white'}>
                     EXPERIENCE
                   </Link>
                 </li>
                 <li>
-                  <Link to="" className={this.isMain() && 'fontColorWhite'}>
+                  <Link to="" className={this.isMain() && 'font-color-white'}>
                     SHOP
                   </Link>
                 </li>
                 <li>
-                  <Link to="" className={this.isMain() && 'fontColorWhite'}>
+                  <Link to="" className={this.isMain() && 'font-color-white'}>
                     BREWERY
                   </Link>
                 </li>

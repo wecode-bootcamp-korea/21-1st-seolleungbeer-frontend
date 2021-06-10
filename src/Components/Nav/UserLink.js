@@ -8,14 +8,14 @@ class UserLink extends React.Component {
     const { isMain } = this.props;
 
     return (
-      <div className="UserLink">
-        <Link to="/login" className={isMain && 'fontColorWhite'}>
+      <div className="user-link">
+        <Link to="/login" className={isMain && 'font-color-white'}>
           LOGIN
         </Link>
-        <Link to="/join" className={isMain && 'fontColorWhite'}>
+        <Link to="/join" className={isMain && 'font-color-white'}>
           JOIN
         </Link>
-        <Link to="" className={isMain && 'fontColorWhite'}>
+        <Link to="" className={isMain && 'font-color-white'}>
           CART
         </Link>
       </div>

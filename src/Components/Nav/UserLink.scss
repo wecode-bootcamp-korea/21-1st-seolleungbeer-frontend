@@ -1,6 +1,6 @@
 @import '../../Style/common.scss';
 
-.UserLink {
+.user-link {
   @include flex(flex-end, center, row);
 
   a {
@@ -14,7 +14,7 @@
       opacity: 0.5;
     }
 
-    &.fontColorWhite {
+    &.font-color-white {
       color: white;
     }
   }
