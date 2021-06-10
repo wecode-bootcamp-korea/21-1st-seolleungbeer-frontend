@@ -1,5 +1,13 @@
 import React from 'react';
 import './Goods.scss';
+
+// meterial. : 재질
+// size : 크기
+// manufacturer : 제조자
+// made : 제조국
+// distributor : 유통판매원
+// afterservice :a/s
+
 export default class GoodsInfo extends React.Component {
   render() {
     return (
