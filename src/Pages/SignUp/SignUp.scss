@@ -1,6 +1,6 @@
 @import '../../Style/common.scss';
 
-.signUp {
+.signup {
   @include flex(flex-start, center, column);
   margin: 100px auto;
   min-width: 400px;
@@ -112,9 +112,16 @@
     .password {
       width: 100%;
 
+      .devide {
+        border-top: 1px solid #dfdfdf;
+      }
+
+      .non-devide {
+        border-top: none;
+      }
+
       input {
         height: 40px;
-        border-top: none;
       }
     }
 
@@ -133,18 +140,17 @@
       width: 100%;
 
       div {
-        @include flex(flex-start, center);
         margin-top: 10px;
 
-        input {
-          margin: 0;
-          width: 15px;
-          height: 15px;
-        }
-
         label {
-          margin-left: 10px;
+          @include flex(flex-start, center);
           font-size: 14px;
+
+          input {
+            margin: 0 7px 0 3px;
+            width: 15px;
+            height: 15px;
+          }
         }
       }
     }

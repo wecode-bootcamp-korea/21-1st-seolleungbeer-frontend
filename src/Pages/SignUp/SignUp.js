@@ -15,7 +15,7 @@ class SignUp extends React.Component {
       sex: '',
       mobile: '',
       previewImage: '',
-      existMobile: false,
+      existsMobile: false,
       isCheckedEmail: false,
       isClickedEmailButton: false,
       isClickedSignUpButton: false,
@@ -47,7 +47,6 @@ class SignUp extends React.Component {
   };
 
   handleClickEmailButton = () => {
-    console.log(this.state);
     this.requestCheckEmail();
   };
 
@@ -90,15 +89,14 @@ class SignUp extends React.Component {
   };
 
   async requestSignUp() {
-    const { profileImage, email, password, name, sex, mobile } = this.state;
-    const profile_image = new FormData();
-    profile_image.append('file', profileImage);
+    const { email, password, name, sex, mobile } = this.state;
+    // const profile_image = new FormData();
+    // profile_image.append('file', profileImage);
 
     try {
       const res = await fetch('http://10.58.7.23:8000/users/signup', {
         method: 'POST',
         body: JSON.stringify({
-          profile_image,
           email,
           password,
           name,
@@ -108,16 +106,15 @@ class SignUp extends React.Component {
       });
 
       const result = await res.json();
-      console.log(result);
 
       if (result.message === 'SUCCESS') {
         this.goToLoginPage();
         return;
       }
 
-      if (result.message === 'MOBILE_EXISTS') {
+      if (result.message === 'MOBILE_EXIST') {
         this.setState({
-          existMobile: true,
+          existsMobile: true,
         });
         return;
       }
@@ -138,7 +135,7 @@ class SignUp extends React.Component {
       });
 
       const result = await res.json();
-      console.log(result);
+
       if (result.message === 'SUCCESS') {
         this.setState({
           isCheckedEmail: true,
@@ -167,14 +164,14 @@ class SignUp extends React.Component {
       sex,
       mobile,
       previewImage,
-      existMobile,
+      existsMobile,
       isCheckedEmail,
       isClickedEmailButton,
       isClickedSignUpButton,
     } = this.state;
-    console.log(this.state);
+
     return (
-      <div className="signUp">
+      <div className="signup">
         <div className="title">
           <h3>JOIN</h3>
           <p>안녕하세요 선릉맥주입니다.</p>
@@ -223,11 +220,11 @@ class SignUp extends React.Component {
               onChange={this.handleChangeInput}
               value={password}
               name="password"
-              style={
+              className={
                 (!validator.email(email) && email.length !== 0) ||
                 (!isClickedEmailButton && isClickedSignUpButton)
-                  ? { borderTop: '1px solid #dfdfdf' }
-                  : { borderTop: 'none' }
+                  ? 'devide'
+                  : 'non-devide'
               }
             />
             {((!validator.password(password) && password.length !== 0) ||
@@ -240,11 +237,11 @@ class SignUp extends React.Component {
               onChange={this.handleChangeInput}
               value={checkPassword}
               name="checkPassword"
-              style={
+              className={
                 (!validator.password(password) && password.length !== 0) ||
                 (isClickedSignUpButton && password.length === 0)
-                  ? { borderTop: '1px solid #dfdfdf' }
-                  : { borderTop: 'none' }
+                  ? 'devide'
+                  : 'non-devide'
               }
             />
             {((password !== checkPassword && checkPassword.length !== 0) ||
@@ -268,24 +265,26 @@ class SignUp extends React.Component {
           <div className="sex">
             <p>성별</p>
             <div>
-              <input
-                type="radio"
-                id="man"
-                value="M"
-                name="sex"
-                onChange={this.handleChangeInput}
-              />
-              <label htmlFor="man">남자</label>
+              <label>
+                <input
+                  type="radio"
+                  value="M"
+                  name="sex"
+                  onChange={this.handleChangeInput}
+                />
+                남자
+              </label>
             </div>
             <div>
-              <input
-                type="radio"
-                id="woman"
-                value="F"
-                name="sex"
-                onChange={this.handleChangeInput}
-              />
-              <label htmlFor="woman">여자</label>
+              <label>
+                <input
+                  type="radio"
+                  value="F"
+                  name="sex"
+                  onChange={this.handleChangeInput}
+                />
+                여자
+              </label>
             </div>
             {isClickedSignUpButton && sex.length === 0 && (
               <span>성별이 올바르지 않습니다</span>
@@ -306,7 +305,7 @@ class SignUp extends React.Component {
               (isClickedSignUpButton && mobile.length === 0)) && (
               <span>핸드폰 번호가 올바르지 않습니다</span>
             )}
-            {isClickedSignUpButton && existMobile && (
+            {isClickedSignUpButton && existsMobile && (
               <span>동일한 핸드폰 번호가 존재합니다</span>
             )}
           </div>
