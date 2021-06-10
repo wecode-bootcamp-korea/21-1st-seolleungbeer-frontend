@@ -1,0 +1,69 @@
+@import '../../Style/common.scss';
+
+.nav {
+  @include flex(center, center);
+  position: relative;
+  z-index: 10;
+
+  .nav-container {
+    position: absolute;
+    @include flex(center, center, column);
+    width: 100%;
+    top: 0;
+    background-color: white;
+
+    &.color-white {
+      background-color: transparent !important;
+    }
+
+    .nav-head {
+      @include flex(space-between, center, row);
+      margin: 30px;
+      text-align: center;
+
+      div {
+        width: 300px;
+
+        h1 > a {
+          font-size: 30px;
+          cursor: pointer;
+          color: $green;
+
+          &.font-color-white {
+            color: white;
+          }
+        }
+      }
+    }
+
+    .nav-main {
+      @include flex(center, center, row);
+      border-bottom: 1px solid white;
+      width: 85%;
+
+      div {
+        margin-bottom: 20px;
+      }
+
+      li {
+        display: inline-block;
+
+        a {
+          margin: 0 50px;
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: bold;
+          color: #888888;
+
+          &.font-color-white {
+            color: white;
+          }
+
+          &:hover {
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+  }
+}

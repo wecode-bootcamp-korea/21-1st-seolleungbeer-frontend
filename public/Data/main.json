@@ -1,0 +1,31 @@
+[
+  {
+    "id": 1,
+    "imgUrl": "https://jbimweb.s3.ap-northeast-2.amazonaws.com/video/jb_home_brewery_web.mp4",
+    "imgAlt": "aaa",
+    "urlLink": ""
+  },
+  {
+    "id": 2,
+    "imgUrl": "https://jbimweb.s3.ap-northeast-2.amazonaws.com/video/jb_home_playlist_web.mp4",
+    "imgAlt": "bbbb",
+    "urlLink": ""
+  },
+  {
+    "id": 3,
+    "imgUrl": "https://jbimweb.s3.ap-northeast-2.amazonaws.com/video/jb_home_+brandfilm_web.mp4",
+    "imgAlt": "asdfa"
+  },
+  {
+    "id": 4,
+    "imgUrl": "https://jbimweb.s3.ap-northeast-2.amazonaws.com/video/jb_home_shop_web.mp4",
+    "imgAlt": "aaa",
+    "urlLink": ""
+  },
+  {
+    "id": 5,
+    "imgUrl": "https://jbimweb.s3.ap-northeast-2.amazonaws.com/video/jb_home_experience_campingcar_web.mp4",
+    "imgAlt": "bbbb",
+    "urlLink": ""
+  }
+]
