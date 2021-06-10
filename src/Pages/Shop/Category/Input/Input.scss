@@ -1,0 +1,17 @@
+@import '../../../../Style/common.scss';
+
+div {
+  @include flex(center, center);
+
+  span {
+    margin-right: 20px;
+  }
+}
+
+.checked {
+  background-color: $yellow;
+}
+
+.non-checked {
+  background-color: none;
+}

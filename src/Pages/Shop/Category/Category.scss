@@ -1,0 +1,57 @@
+@import '../../../Style/common.scss';
+
+.category {
+  @include flex(justify-content, center);
+  // width: 80%;
+  position: relative;
+  width: 600px;
+  height: 50px;
+  margin: 100px auto;
+  border: 1px solid #dfdfdf;
+
+  input {
+    display: none;
+  }
+
+  label {
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    border: 1px solid #dfdfdf;
+  }
+
+  .liquor-container {
+    @include flex(_, center);
+    width: 33.333%;
+
+    .liquor {
+      @include flex(_, center);
+    }
+
+    .category-liquor {
+      @include flex(justify-content, center);
+      position: absolute;
+      bottom: -50px;
+      left: -1px;
+      width: 600px;
+      height: 50px;
+      border: 1px solid #dfdfdf;
+      border-top: none;
+
+      div {
+        width: 33.333%;
+      }
+    }
+  }
+
+  .food {
+    @include flex(_, center);
+    width: 33.333%;
+  }
+
+  .merchandise {
+    @include flex(_, center);
+    width: 33.333%;
+  }
+}
