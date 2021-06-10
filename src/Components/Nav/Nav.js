@@ -1,10 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-
 import UserLink from './UserLink';
-
 import './Nav.scss';
-
 class Nav extends React.Component {
   render() {
     const isMain = this.props.location.pathname === '/';
@@ -16,9 +13,7 @@ class Nav extends React.Component {
             <div></div>
             <div>
               <h1>
-                <Link to="/" className={isMain && 'font-color-white'}>
-                  선릉맥주
-                </Link>
+                <Link to="/">선릉맥주</Link>
               </h1>
             </div>
             <UserLink isMain={isMain} />
@@ -27,29 +22,19 @@ class Nav extends React.Component {
             <div>
               <ul>
                 <li>
-                  <Link to="" className={isMain && 'font-color-white'}>
-                    EVENT
-                  </Link>
+                  <Link to="">EVENT</Link>
                 </li>
                 <li>
-                  <Link to="" className={isMain && 'font-color-white'}>
-                    PLAYLIST
-                  </Link>
+                  <Link to="">PLAYLIST</Link>
                 </li>
                 <li>
-                  <Link to="" className={isMain && 'font-color-white'}>
-                    EXPERIENCE
-                  </Link>
+                  <Link to="">EXPERIENCE</Link>
                 </li>
                 <li>
-                  <Link to="" className={isMain && 'font-color-white'}>
-                    SHOP
-                  </Link>
+                  <Link to="">SHOP</Link>
                 </li>
                 <li>
-                  <Link to="" className={isMain && 'font-color-white'}>
-                    BREWERY
-                  </Link>
+                  <Link to="">BREWERY</Link>
                 </li>
               </ul>
             </div>
