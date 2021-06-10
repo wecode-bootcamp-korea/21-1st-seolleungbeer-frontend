@@ -5,7 +5,7 @@ import ItemList from './ItemList/ItemList';
 class Shop extends React.Component {
   render() {
     return (
-      <div>
+      <div className="shop">
         {/* <Nav/> */}
         <Category />
         <ItemList />

@@ -3,7 +3,11 @@ import './ItemList.scss';
 
 class ItemList extends React.Component {
   render() {
-    return <div></div>;
+    return (
+      <div className="item-list">
+        <ul></ul>
+      </div>
+    );
   }
 }
 

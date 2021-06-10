@@ -7,24 +7,22 @@ class Input extends React.Component {
   }
 
   render() {
-    const { categoryValue, categoryInputValue, handleChangeInput } = this.props;
-    // console.log(categoryValue, categoryValue);
+    const { value, categoryInputValue, handleChangeInput, name } = this.props;
+    // console.log(value, value);
     return (
-      <div className={categoryValue}>
+      <div className={value}>
         <input
           type="radio"
-          id={categoryValue}
+          id={value}
           onChange={handleChangeInput}
-          value={categoryValue}
-          name="select-category"
+          value={value}
+          name={name}
         />
         <label
-          htmlFor={categoryValue}
-          className={
-            categoryInputValue === categoryValue ? 'checked' : 'non-checked'
-          }
+          htmlFor={value}
+          className={categoryInputValue === value ? 'checked' : 'non-checked'}
         />
-        <span>{categoryValue[0].toUpperCase() + categoryValue.slice(1)}</span>
+        <span>{value[0].toUpperCase() + value.slice(1)}</span>
       </div>
     );
   }

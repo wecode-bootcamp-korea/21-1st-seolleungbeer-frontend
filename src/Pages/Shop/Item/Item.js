@@ -3,7 +3,17 @@ import './Item.scss';
 
 class Item extends React.Component {
   render() {
-    return <div></div>;
+    return (
+      <li className="item">
+        <div>
+          <img />
+        </div>
+        <div>
+          <span>title</span>
+          <span>span</span>
+        </div>
+      </li>
+    );
   }
 }
 export default Item;

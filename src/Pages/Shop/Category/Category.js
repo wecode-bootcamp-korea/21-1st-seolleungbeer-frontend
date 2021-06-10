@@ -7,56 +7,62 @@ class Category extends React.Component {
     super();
     this.state = {
       categoryInputValue: '',
+      subCategoryInputValue: '',
     };
   }
 
   handleChangeInput = e => {
-    // console.log(e.target.value);
     this.setState({
-      categoryInputValue: e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
   render() {
-    const { categoryInputValue } = this.state;
-    console.log(categoryInputValue);
+    const { categoryInputValue, subCategoryInputValue } = this.state;
+    console.log(categoryInputValue, subCategoryInputValue);
     return (
       <div className="category">
         <div className="liquor-container">
           <Input
             categoryInputValue={categoryInputValue}
-            categoryValue={'liquor'}
+            value="liquor"
             handleChangeInput={this.handleChangeInput}
+            name="categoryInputValue"
           />
           {categoryInputValue === 'liquor' && (
             <div className="category-liquor">
               <Input
-                categoryInputValue={categoryInputValue}
-                categoryValue={'soju'}
+                categoryInputValue={subCategoryInputValue}
+                value="soju"
                 handleChangeInput={this.handleChangeInput}
+                name="subCategoryInputValue"
               />
               <Input
-                categoryInputValue={categoryInputValue}
-                categoryValue={'beer'}
+                categoryInputValue={subCategoryInputValue}
+                value="beer"
                 handleChangeInput={this.handleChangeInput}
+                name="subCategoryInputValue"
               />
               <Input
-                categoryInputValue={categoryInputValue}
-                categoryValue={'wine'}
+                categoryInputValue={subCategoryInputValue}
+                value="wine"
                 handleChangeInput={this.handleChangeInput}
+                name="subCategoryInputValue"
               />
             </div>
           )}
         </div>
         <Input
           categoryInputValue={categoryInputValue}
-          categoryValue={'food'}
+          value="food"
           handleChangeInput={this.handleChangeInput}
+          name="categoryInputValue"
         />
         <Input
           categoryInputValue={categoryInputValue}
-          categoryValue={'merchandise'}
+          value="merchandise"
           handleChangeInput={this.handleChangeInput}
+          name="categoryInputValue"
         />
       </div>
     );
