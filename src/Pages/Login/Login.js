@@ -1,5 +1,6 @@
 import React from 'react';
 import validator from '../../utils/validator';
+import API from '../../config';
 import './Login.scss';
 
 class Login extends React.Component {
@@ -42,7 +43,7 @@ class Login extends React.Component {
   async requestLogin() {
     const { email, password } = this.state;
     try {
-      const res = await fetch('http://10.58.7.23:8000/users/login', {
+      const res = await fetch(`${API}/users/login`, {
         method: 'POST',
         body: JSON.stringify({
           email,

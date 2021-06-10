@@ -1,5 +1,6 @@
 import React from 'react';
 import validator from '../../utils/validator';
+import API from '../../config';
 import './SignUp.scss';
 
 class SignUp extends React.Component {
@@ -88,13 +89,13 @@ class SignUp extends React.Component {
     return true;
   };
 
-  async requestSignUp() {
+  requestSignUp = async () => {
     const { email, password, name, sex, mobile } = this.state;
     // const profile_image = new FormData();
     // profile_image.append('file', profileImage);
 
     try {
-      const res = await fetch('http://10.58.7.23:8000/users/signup', {
+      const res = await fetch(`${API}/users/signup`, {
         method: 'POST',
         body: JSON.stringify({
           email,
@@ -121,13 +122,13 @@ class SignUp extends React.Component {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
-  async requestCheckEmail() {
+  requestCheckEmail = async () => {
     const { email } = this.state;
 
     try {
-      const res = await fetch('http://10.58.7.23:8000/users/emailcheck', {
+      const res = await fetch(`${API}/users/email-check`, {
         method: 'POST',
         body: JSON.stringify({
           email,
@@ -149,7 +150,7 @@ class SignUp extends React.Component {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   goToLoginPage = () => {
     this.props.history.push('/login');
