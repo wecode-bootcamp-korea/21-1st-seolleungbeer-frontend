@@ -47,7 +47,7 @@ class Carousel extends React.Component {
     const { currentIndex, carouselImgList } = this.state;
 
     return (
-      <div className="Carousel">
+      <div className="carousel">
         <div className="list">
           {carouselImgList.map((carousel, index) => (
             <div
@@ -74,7 +74,7 @@ class Carousel extends React.Component {
           ))}
         </div>
 
-        <div className="listButton">
+        <div className="list-button">
           {carouselImgList.map((carousel, index) => (
             <span
               key={carousel.id}

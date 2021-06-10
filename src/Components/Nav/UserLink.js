@@ -5,11 +5,19 @@ import './UserLink.scss';
 
 class UserLink extends React.Component {
   render() {
+    const { isMain } = this.props;
+
     return (
-      <div className="UserLink">
-        <Link to="">LOGIN</Link>
-        <Link to="">JOIN</Link>
-        <Link to="">CART</Link>
+      <div className="user-link">
+        <Link to="/login" className={isMain && 'font-color-white'}>
+          LOGIN
+        </Link>
+        <Link to="/join" className={isMain && 'font-color-white'}>
+          JOIN
+        </Link>
+        <Link to="" className={isMain && 'font-color-white'}>
+          CART
+        </Link>
       </div>
     );
   }
