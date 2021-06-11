@@ -2,18 +2,33 @@
 
 .nav {
   @include flex(center, center);
-  position: relative;
+  position: absolute;
+  width: 100%;
+  top: 0;
   z-index: 10;
 
   .nav-container {
     position: absolute;
     @include flex(center, center, column);
     width: 100%;
+    min-width: 950px;
     top: 0;
     background-color: white;
 
+    h1 > a {
+      color: $green;
+    }
+
+    a {
+      color: #888888;
+    }
+
     &.color-white {
       background-color: transparent !important;
+
+      a {
+        color: white;
+      }
     }
 
     .nav-head {
@@ -27,11 +42,6 @@
         h1 > a {
           font-size: 30px;
           cursor: pointer;
-          color: $green;
-
-          &.font-color-white {
-            color: white;
-          }
         }
       }
     }
@@ -53,11 +63,6 @@
           cursor: pointer;
           font-size: 14px;
           font-weight: bold;
-          color: #888888;
-
-          &.font-color-white {
-            color: white;
-          }
 
           &:hover {
             opacity: 0.5;
