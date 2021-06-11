@@ -32,6 +32,10 @@ class Detail extends React.Component {
   };
 
   componentDidMount = () => {
+    const { id } = this.props.match.params;
+
+    console.log(id);
+
     fetch('/Data/detail.json')
       .then(res => res.json())
       .then(data => this.setState({ goods: data.result }));
@@ -51,7 +55,9 @@ class Detail extends React.Component {
                 </div>
                 <div class="button-list">
                   <button onClick={e => this.handelModal(e)}>계속쇼핑</button>
-                  <button>장바구니</button>
+                  <button onClick={() => this.props.history.push('/cart')}>
+                    장바구니
+                  </button>
                 </div>
               </div>
             ) : (
