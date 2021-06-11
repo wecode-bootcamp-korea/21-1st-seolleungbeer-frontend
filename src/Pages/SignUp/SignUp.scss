@@ -1,0 +1,179 @@
+@import '../../Style/common.scss';
+
+.signup {
+  @include flex(flex-start, center, column);
+  margin: 100px auto;
+  min-width: 400px;
+  max-width: 480px;
+  border: 1px solid #dfdfdf;
+  color: #2f3332;
+
+  .title {
+    @include flex(center, center, column);
+    margin-top: 50px;
+
+    h3 {
+      color: $green;
+      font-size: 35px;
+      font-weight: 900;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+
+  .profile-image {
+    position: relative;
+    margin-top: 40px;
+    width: 120px;
+    height: 120px;
+
+    .upload-image {
+      display: none;
+    }
+
+    &:hover {
+      .upload-image {
+        display: block;
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        width: 90px;
+        height: 90px;
+        background-color: rgba(71, 159, 120, 0.3);
+        border-radius: 50%;
+        z-index: 10;
+
+        i {
+          position: absolute;
+          bottom: 10%;
+          left: 38%;
+          color: #2a4454;
+        }
+
+        input {
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          background: none;
+          cursor: pointer;
+        }
+      }
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+
+  form {
+    @include flex(center, center, column);
+    width: 80%;
+    margin: 30px;
+
+    span {
+      display: block;
+      margin: 5px 0 5px 5px;
+      color: dodgerblue;
+      font-size: 13.5px;
+    }
+
+    p {
+      font-size: 15px;
+    }
+
+    input {
+      padding: 10px;
+      width: 100%;
+      height: 40px;
+      border: 1px solid #dfdfdf;
+    }
+
+    .email {
+      width: 100%;
+
+      div {
+        @include flex(_, center);
+
+        input {
+          width: 80%;
+        }
+
+        button {
+          margin: 0;
+          width: 20%;
+        }
+      }
+    }
+
+    .password {
+      width: 100%;
+
+      .devide {
+        border-top: 1px solid #dfdfdf;
+      }
+
+      .non-devide {
+        border-top: none;
+      }
+
+      input {
+        height: 40px;
+      }
+    }
+
+    .name {
+      margin-top: 20px;
+      width: 100%;
+
+      input {
+        margin-top: 10px;
+      }
+    }
+
+    .sex {
+      @include flex(center, flex-start, column);
+      margin-top: 20px;
+      width: 100%;
+
+      div {
+        margin-top: 10px;
+
+        label {
+          @include flex(flex-start, center);
+          font-size: 14px;
+
+          input {
+            margin: 0 7px 0 3px;
+            width: 15px;
+            height: 15px;
+          }
+        }
+      }
+    }
+
+    .mobile {
+      width: 100%;
+      margin-top: 20px;
+
+      input {
+        margin-top: 10px;
+      }
+    }
+
+    button {
+      margin: 25px 0;
+      width: 100%;
+      height: 40px;
+      background-color: $green;
+      color: white;
+
+      &:hover {
+        background-color: #72ff00;
+      }
+    }
+  }
+}
