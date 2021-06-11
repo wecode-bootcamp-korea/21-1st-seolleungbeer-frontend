@@ -107,11 +107,19 @@
   .buy-button {
     color: white;
     background-color: $green;
+
+    &:hover {
+      opacity: 0.5;
+    }
   }
 
   .cart-button {
     color: $green;
     background-color: white;
     border: 1px solid $green;
+
+    &:hover {
+      opacity: 0.5;
+    }
   }
 }

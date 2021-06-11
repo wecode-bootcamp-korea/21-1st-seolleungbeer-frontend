@@ -6,11 +6,13 @@ import './CategoriesSections.scss';
 
 class GoodsDetail extends React.Component {
   render() {
+    const { goods, detailRef } = this.props;
+
     return (
       <div className="goods-detail">
-        <div className="goods-wrapper">
-          <div dangerouslySetInnerHTML={{ __html: '' }}></div>
-          <GoodsInfo />
+        <div className="goods-wrapper" ref={detailRef}>
+          <div dangerouslySetInnerHTML={{ __html: goods.description }}></div>
+          <GoodsInfo info={goods.info} />
           <DeliveryInfo />
           <Refunds />
         </div>

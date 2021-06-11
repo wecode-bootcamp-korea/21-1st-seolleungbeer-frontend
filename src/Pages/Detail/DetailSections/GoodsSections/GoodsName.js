@@ -5,11 +5,14 @@ import './GoodsSections.scss';
 
 class GoodsName extends React.Component {
   render() {
+    const { goods } = this.props;
+    const price = Number(goods.price).toLocaleString();
+
     return (
       <div className="goods-name">
         <div className="goods-heart-wrapper">
-          <div>CRISPY LAVAR SNACK</div>
-          <div className="goods-heart">
+          <div>{goods.english_name}</div>
+          <div className="goods-heart" style={{ display: 'none' }}>
             <Link to="">
               <span>
                 <i className="far fa-heart"></i>
@@ -19,8 +22,8 @@ class GoodsName extends React.Component {
             </Link>
           </div>
         </div>
-        <div className="goods-kor-name">제주에서 만난 찹쌀 김부각(4ea)</div>
-        <div className="goods-price">₩12,100,103,100원</div>
+        <div className="goods-kor-name">{goods.korean_name}</div>
+        <div className="goods-price">₩{price}원</div>
       </div>
     );
   }

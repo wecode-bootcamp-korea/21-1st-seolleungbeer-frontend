@@ -7,7 +7,7 @@ export default class Refunds extends React.Component {
         <h2>교환 및 환불 안내</h2>
         <ul>
           <li>
-            제주맥주에서 구매하신 제품은 받으셨을 때와 동일한 상태로, 구매 후
+            선릉맥주에서 구매하신 제품은 받으셨을 때와 동일한 상태로, 구매 후
             7일 이내 교환/환불이 가능합니다.
           </li>
           <li>
