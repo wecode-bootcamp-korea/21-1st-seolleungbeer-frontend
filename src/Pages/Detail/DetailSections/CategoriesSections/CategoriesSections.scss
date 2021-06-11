@@ -2,12 +2,12 @@
 
 .goods-detail {
   @include flex(center, center, column);
+  padding-top: 50px;
 
   .goods-wrapper {
     @include flex(center, center, column);
     max-width: 700px;
     margin: 0 auto;
-    padding-top: 100px;
 
     p {
       width: 100%;

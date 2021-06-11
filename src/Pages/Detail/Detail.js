@@ -1,49 +1,61 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import Goods from './DetailSections/Goods';
 import Categories from './DetailSections/Categories';
 import Popup from '../../Components/ShoppingModal/Popup';
 import Login from '../Login/Login';
 import './Detail.scss';
+
 class Detail extends React.Component {
   state = {
     goods: {},
-    isModal: false,
-    page: 'Cart',
+    isModalOpen: false,
+    isLogin: false,
+    content: {},
   };
 
-  handelModal = () => {
-    this.setState({
-      isModal: !this.state.isModal,
-    });
+  handelModal = e => {
+    const { name } = e.target;
+    const { isLogin } = this.state;
+
+    if (isLogin && name === 'buy') {
+      this.props.history.push('/payment');
+      return;
+    }
+
+    if (name === 'buy' || name === 'cart') {
+      this.setState({ isModalOpen: true });
+      return;
+    }
+
+    this.setState({ isModalOpen: false });
   };
 
   componentDidMount = () => {
-    fetch('/Data/detail.json', {
-      method: 'GET',
-    })
+    fetch('/Data/detail.json')
       .then(res => res.json())
       .then(data => this.setState({ goods: data.result }));
   };
 
   render() {
-    const { goods, isModal, page } = this.state;
+    const { goods, isModalOpen, isLogin } = this.state;
 
     return (
       <div className="detail">
-        {isModal && (
-          <Popup handelModal={this.handelModal}>
-            {page === 'Cart' ? (
+        {isModalOpen && (
+          <Popup handelModal={this.handelModal} isUsed={isLogin ? false : true}>
+            {isLogin ? (
               <div className="promp-popup">
                 <div class="container">
                   <p>선택하신 상품을 장바구니에 담았습니다.</p>
                 </div>
                 <div class="button-list">
-                  <button onClick={this.handelModal}>계속쇼핑</button>
+                  <button onClick={e => this.handelModal(e)}>계속쇼핑</button>
                   <button>장바구니</button>
                 </div>
               </div>
             ) : (
-              <Login />
+              <Login handelModal={this.handelModal} />
             )}
           </Popup>
         )}
@@ -56,4 +68,4 @@ class Detail extends React.Component {
   }
 }
 
-export default Detail;
+export default withRouter(Detail);

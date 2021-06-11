@@ -13,6 +13,11 @@
   .popup-body {
     position: relative;
 
+    .child {
+      position: relative;
+      background-color: white;
+    }
+
     .cancel {
       position: absolute;
       right: 5px;
@@ -33,8 +38,6 @@
     .promp-popup {
       @include flex(center, center, column);
       position: relative;
-      font-size: 15px;
-      border-radius: 10px;
       background-color: white;
 
       .container {

@@ -4,7 +4,6 @@ import GoodsReview from './CategoriesSections/GoodsReview';
 import './DetailSection.scss';
 
 class Categories extends React.Component {
-  buttonRef = React.createRef();
   detailRef = React.createRef();
   reviewRef = React.createRef();
 
@@ -13,22 +12,13 @@ class Categories extends React.Component {
     this[name].current.scrollIntoView();
   };
 
-  onScroll = e => {
-    const scrollTop = e.srcElement.scrollingElement.scrollTop;
-    console.log(this.buttonRef, scrollTop);
-  };
-
-  componentDidUpdate = () => {
-    window.addEventListener('scroll', this.onScroll);
-  };
-
   render() {
     const { goods } = this.props;
 
     return (
       <div className="categories">
-        <div className="categories-title title-fixed">
-          <div className="categorie-list seleted" ref={this.buttonRef}>
+        <div className="categories-title">
+          <div className="categorie-list seleted">
             <button name="detailRef" onClick={e => this.focusPage(e)}>
               상세정보
             </button>
