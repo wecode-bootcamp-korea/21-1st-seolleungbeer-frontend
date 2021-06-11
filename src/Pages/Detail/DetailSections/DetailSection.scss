@@ -21,8 +21,20 @@
 }
 
 .categories {
+  position: static;
   width: 100%;
-  margin-top: 50px;
+
+  .title-fixed {
+    @include flex(center, center);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    max-width: 1200px;
+    background-color: white;
+    z-index: 3;
+  }
 
   .categories-title {
     @include flex(space-between, center);
@@ -30,12 +42,14 @@
     text-align: center;
 
     .categorie-list {
+      margin-top: 30px;
       width: 100%;
       height: 30px;
-      border-bottom: 1px solid lightgray;
+      border-bottom: 1.5px solid lightgray;
+      background-color: white;
 
       &.seleted {
-        border-bottom: 1px solid $green;
+        border-bottom: 1.5px solid $green;
       }
     }
 

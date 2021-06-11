@@ -14,9 +14,8 @@ class Categories extends React.Component {
   };
 
   onScroll = e => {
-    const scrollTop = ('scroll', e.srcElement.scrollingElement.scrollTop);
+    const scrollTop = e.srcElement.scrollingElement.scrollTop;
     console.log(this.buttonRef, scrollTop);
-    this.setState({ scrollTop });
   };
 
   componentDidUpdate = () => {
@@ -28,7 +27,7 @@ class Categories extends React.Component {
 
     return (
       <div className="categories">
-        <div className="categories-title">
+        <div className="categories-title title-fixed">
           <div className="categorie-list seleted" ref={this.buttonRef}>
             <button name="detailRef" onClick={e => this.focusPage(e)}>
               상세정보
