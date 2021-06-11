@@ -3,66 +3,62 @@ import './Category.scss';
 import Input from './Input/Input';
 
 class Category extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      categoryInputValue: '',
-      subCategoryInputValue: '',
-    };
-  }
-
-  handleChangeInput = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
   render() {
-    const { categoryInputValue, subCategoryInputValue } = this.state;
-    console.log(categoryInputValue, subCategoryInputValue);
+    const { categoryValue } = this.props;
+    const renderSubCategory = () => {
+      if (
+        categoryValue === 'liquor' ||
+        categoryValue === 'soju' ||
+        categoryValue === 'beer' ||
+        categoryValue === 'wine'
+      ) {
+        return (
+          <div className="category-liquor">
+            <Input
+              categoryInputValue={categoryValue}
+              value="soju"
+              selectCategory={this.props.selectCategory}
+              name="subCategory"
+            />
+            <Input
+              categoryInputValue={categoryValue}
+              value="beer"
+              selectCategory={this.props.selectCategory}
+              name="subCategory"
+            />
+            <Input
+              categoryInputValue={categoryValue}
+              value="wine"
+              selectCategory={this.props.selectCategory}
+              name="subCategory"
+            />
+          </div>
+        );
+      }
+    };
+
     return (
       <div className="category">
         <div className="liquor-container">
           <Input
-            categoryInputValue={categoryInputValue}
+            categoryInputValue={categoryValue}
             value="liquor"
-            handleChangeInput={this.handleChangeInput}
-            name="categoryInputValue"
+            selectCategory={this.props.selectCategory}
+            name="mainCategory"
           />
-          {categoryInputValue === 'liquor' && (
-            <div className="category-liquor">
-              <Input
-                categoryInputValue={subCategoryInputValue}
-                value="soju"
-                handleChangeInput={this.handleChangeInput}
-                name="subCategoryInputValue"
-              />
-              <Input
-                categoryInputValue={subCategoryInputValue}
-                value="beer"
-                handleChangeInput={this.handleChangeInput}
-                name="subCategoryInputValue"
-              />
-              <Input
-                categoryInputValue={subCategoryInputValue}
-                value="wine"
-                handleChangeInput={this.handleChangeInput}
-                name="subCategoryInputValue"
-              />
-            </div>
-          )}
+          {renderSubCategory()}
         </div>
         <Input
-          categoryInputValue={categoryInputValue}
+          categoryInputValue={categoryValue}
           value="food"
-          handleChangeInput={this.handleChangeInput}
-          name="categoryInputValue"
+          selectCategory={this.props.selectCategory}
+          name="mainCategory"
         />
         <Input
-          categoryInputValue={categoryInputValue}
+          categoryInputValue={categoryValue}
           value="merchandise"
-          handleChangeInput={this.handleChangeInput}
-          name="categoryInputValue"
+          selectCategory={this.props.selectCategory}
+          name="mainCategory"
         />
       </div>
     );

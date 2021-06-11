@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "sub_category_id": 1,
+    "korean_name": "김치",
+    "english_name": "kimchi",
+    "price": 20000,
+    "description": "안녕하세요",
+    "img_url": "http://www.mandysam.com/img/random.jpg"
+  },
+  {
+    "id": 2,
+    "sub_category_id": 2,
+    "korean_name": "피자",
+    "english_name": "pizza",
+    "price": 30000,
+    "description": "아아아아아아아아아아아아아아아아",
+    "img_url": "http://www.mandysam.com/img/random.jpg"
+  },
+  {
+    "id": 3,
+    "sub_category_id": 3,
+    "korean_name": "하트",
+    "english_name": "heart",
+    "price": 40000,
+    "description": "나나ㅏ나나ㅏ나나나나나난",
+    "img_url": "https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cmFuZG9tJTIwb2JqZWN0c3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80"
+  },
+  {
+    "id": 4,
+    "sub_category_id": 4,
+    "korean_name": "시계",
+    "english_name": "watch",
+    "price": 50000,
+    "description": "hi",
+    "img_url": "https://i.pinimg.com/originals/a3/9b/46/a39b46106646c596800621b698abae73.jpg"
+  },
+  {
+    "id": 5,
+    "sub_category_id": 5,
+    "korean_name": "오디오",
+    "english_name": "audio",
+    "price": 60000,
+    "description": "안녕히가세요",
+    "img_url": "https://static.scientificamerican.com/sciam/cache/file/4F73FD83-3377-42FC-915AD56BD66159FE_source.jpg"
+  },
+  {
+    "id": 6,
+    "sub_category_id": 6,
+    "korean_name": "안경",
+    "english_name": "glasses",
+    "price": 70000,
+    "description": "하이",
+    "img_url": "https://images.unsplash.com/photo-1485550409059-9afb054cada4?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
+  }
+]
