@@ -4,58 +4,60 @@ import Input from './Input/Input';
 
 class Category extends React.Component {
   render() {
-    const { categoryValue } = this.props;
+    const { category, subCategory } = this.props;
     const renderSubCategory = () => {
-      if (
-        categoryValue === 'liquor' ||
-        categoryValue === 'soju' ||
-        categoryValue === 'beer' ||
-        categoryValue === 'wine'
-      ) {
-        return (
-          <div className="category-liquor">
-            <Input
-              categoryInputValue={categoryValue}
-              value="soju"
-              selectCategory={this.props.selectCategory}
-              name="subCategory"
-            />
-            <Input
-              categoryInputValue={categoryValue}
-              value="beer"
-              selectCategory={this.props.selectCategory}
-              name="subCategory"
-            />
-            <Input
-              categoryInputValue={categoryValue}
-              value="wine"
-              selectCategory={this.props.selectCategory}
-              name="subCategory"
-            />
-          </div>
-        );
-      }
+      return (
+        <div className="category-liquor">
+          <Input
+            category={category}
+            subCategory={subCategory}
+            value="cocktail"
+            selectCategory={this.props.selectCategory}
+            name="subCategory"
+          />
+          <Input
+            category={category}
+            subCategory={subCategory}
+            value="beer"
+            selectCategory={this.props.selectCategory}
+            name="subCategory"
+          />
+          <Input
+            category={category}
+            subCategory={subCategory}
+            value="wine"
+            selectCategory={this.props.selectCategory}
+            name="subCategory"
+          />
+        </div>
+      );
     };
 
     return (
       <div className="category">
+        <Input
+          category={category}
+          value="all"
+          selectCategory={this.props.selectCategory}
+          name="mainCategory"
+        />
         <div className="liquor-container">
           <Input
-            categoryInputValue={categoryValue}
+            category={category}
             value="liquor"
             selectCategory={this.props.selectCategory}
             name="mainCategory"
           />
-          {renderSubCategory()}
+          {category === 'liquor' && renderSubCategory()}
         </div>
         <Input
-          categoryInputValue={categoryValue}
+          category={category}
           value="food"
           selectCategory={this.props.selectCategory}
           name="mainCategory"
         />
         <Input
-          categoryInputValue={categoryValue}
+          category={category}
           value="merchandise"
           selectCategory={this.props.selectCategory}
           name="mainCategory"

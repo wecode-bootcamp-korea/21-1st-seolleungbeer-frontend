@@ -1,7 +1,7 @@
 @import '../../../Style/common.scss';
 
 .category {
-  @include flex(flex-start, center);
+  @include flex(space-around, center);
   width: 500px;
   position: relative;
   height: 40px;
@@ -9,20 +9,24 @@
   border: 1px solid #dfdfdf;
 
   div {
-    @include flex(flex-start, center);
+    @include flex(center, center);
+    // width: 150px;
+  }
+
+  .all {
     width: 150px;
   }
 
   .liquor-container {
-    @include flex(_, center);
-    margin-left: 40px;
+    @include flex(center, center);
+    width: 150px;
 
     .liquor {
       @include flex(_, center);
     }
 
     .category-liquor {
-      @include flex(flex-start, center);
+      @include flex(space-around, center);
       position: absolute;
       bottom: -40px;
       left: -1px;
@@ -31,10 +35,14 @@
       margin-left: 1px;
       border: 1px solid #dfdfdf;
       border-top: none;
-
-      :nth-child(1) {
-        margin-left: 40px;
-      }
     }
+  }
+
+  .food {
+    width: 150px;
+  }
+
+  .merchandise {
+    width: 150px;
   }
 }

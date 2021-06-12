@@ -1,0 +1,13 @@
+@import '../../../Style/common.scss';
+
+.empty-list {
+  position: relative;
+  width: 95%;
+  max-width: 1000px;
+  min-height: 700px;
+  border: 1px solid #dfdfdf;
+
+  span {
+    font-size: 16px;
+  }
+}

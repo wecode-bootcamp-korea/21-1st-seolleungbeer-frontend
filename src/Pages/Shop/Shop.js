@@ -1,5 +1,7 @@
 import React from 'react';
+import API from '../../config';
 import Category from './Category/Category';
+import EmptyList from './EmptyList/EmptyList';
 import ItemList from './ItemList/ItemList';
 import './Shop.scss';
 
@@ -8,8 +10,13 @@ class Shop extends React.Component {
     super();
 
     this.state = {
-      categoryValue: '',
       items: [],
+      category: '',
+      subCategory: '',
+      offset: 0,
+      limit: 6,
+      isLast: false,
+      isLoading: true,
     };
   }
 
@@ -17,36 +24,113 @@ class Shop extends React.Component {
     this.fetchItems();
   }
 
-  fetchItems = async () => {
-    const res = await fetch('/Data/items.json', {
-      method: 'GET',
-    });
+  componentDidUpdate(_, prevState) {
+    const { category, subCategory } = this.state;
 
-    const result = await res.json();
-    console.log(result);
+    if (prevState.category !== category) {
+      this.setState(
+        {
+          items: [],
+          offset: 0,
+          isLast: false,
+          isLoading: true,
+        },
+        () => {
+          this.fetchItems(this.state.offset, category, subCategory);
+        }
+      );
+      return;
+    }
+
+    if (prevState.subCategory !== subCategory) {
+      this.setState(
+        {
+          items: [],
+          offset: 0,
+          isLast: false,
+          isLoading: true,
+        },
+        () => {
+          this.fetchItems(this.state.offset, category, subCategory);
+        }
+      );
+      return;
+    }
+  }
+
+  fetchItems = async (offset = 0, category = '', subCategory = '') => {
+    if (this.state.isLast) return;
+
+    try {
+      const res = await fetch(
+        `http://121.134.103.58:8000/products?category=${
+          category === 'all' ? '' : category
+        }&subcategory=${subCategory}&offset=${
+          offset * this.state.limit
+        }&limit=${this.state.limit}`,
+        {
+          method: 'GET',
+        }
+      );
+
+      const result = await res.json();
+      const items = result.content;
+      const message = result.message;
+
+      if (message === 'Last Page') {
+        this.setState({
+          isLast: true,
+        });
+      }
+
+      this.setState({
+        items: [...this.state.items, ...items],
+        isLoading: false,
+      });
+    } catch (err) {
+      console.error(err);
+      this.setState({
+        isLoading: false,
+      });
+    }
+  };
+
+  selectCategory = (category, subCategory = '') => {
     this.setState({
-      items: result,
+      category,
+      subCategory,
     });
   };
 
-  selectCategory = item => {
-    this.setState({
-      categoryValue: item,
-    });
+  moreLoadItems = () => {
+    const { category, subCategory } = this.state;
+    this.setState(
+      {
+        offset: this.state.offset + 1,
+      },
+      () => this.fetchItems(this.state.offset, category, subCategory)
+    );
   };
 
   render() {
-    console.log(this.state);
-    const { categoryValue, items } = this.state;
+    const { category, subCategory, items, isLast, isLoading } = this.state;
+    console.log(isLoading);
     return (
       <div className="shop">
-        {/* <Nav/> */}
         <Category
           selectCategory={this.selectCategory}
-          categoryValue={categoryValue}
+          category={category}
+          subCategory={subCategory}
         />
-        <ItemList items={items} />
-        {/* <Footer/> */}
+        {items.length > 0 ? (
+          <ItemList
+            items={items}
+            moreLoadItems={this.moreLoadItems}
+            isLast={isLast}
+          />
+        ) : (
+          <EmptyList isLoading={isLoading} />
+        )}
         <div className="footer"></div>
       </div>
     );

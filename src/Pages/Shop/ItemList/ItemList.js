@@ -4,22 +4,27 @@ import './ItemList.scss';
 
 class ItemList extends React.Component {
   render() {
-    const { items } = this.props;
+    const { items, moreLoadItems, isLast } = this.props;
     return (
       <div className="item-list">
         <ul>
           {items.map(item => (
             <Item
               key={item.id}
+              id={item.id}
               price={item.price}
               koreanName={item.korean_name}
               englishName={item.english_name}
-              description={item.description}
-              imgUrl={item.img_url}
+              image={item.image}
             />
           ))}
         </ul>
-        <button>LOAD MORE</button>
+        <button
+          onClick={moreLoadItems}
+          className={isLast ? 'no-more' : 'load-more'}
+        >
+          {isLast ? 'NO MORE' : 'LOAD MORE'}
+        </button>
       </div>
     );
   }
