@@ -1,10 +1,16 @@
 import React from 'react';
+// import DaumPostcode from 'react-daum-postcode';
 import Card from '../../Components/Payment/Card';
 import './Payment.scss';
+
 class Payment extends React.Component {
   state = {};
 
   componentDidMount = () => {};
+
+  handleComplete = data => {
+    console.log(data);
+  };
 
   render() {
     return (
