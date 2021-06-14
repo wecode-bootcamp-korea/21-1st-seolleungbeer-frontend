@@ -12,7 +12,7 @@ class Goods extends React.Component {
         <div className="goods-img">
           {goods.image?.map(image => {
             return (
-              image.image_type === '메인' && (
+              image.image_type === 'main' && (
                 <img
                   key={image.image_type + image.image_url}
                   src={image.image_url}
