@@ -1,0 +1,23 @@
+@import '../../Style/common.scss';
+
+.payment {
+  @include flex(center, center, column);
+  width: 100%;
+  background-color: #f3f3f3;
+
+  h1 {
+    margin-bottom: 50px;
+  }
+
+  .payment-body {
+    @include flex(center, center);
+    width: 100%;
+
+    .payment-left {
+      max-width: 500px;
+    }
+    .payment-right {
+      max-width: 400px;
+    }
+  }
+}

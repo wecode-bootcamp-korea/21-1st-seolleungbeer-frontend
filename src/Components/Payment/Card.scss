@@ -1,0 +1,105 @@
+@import '../../Style/common.scss';
+
+.card {
+  margin: 20px;
+  padding: 25px;
+  background-color: white;
+
+  .title {
+    margin-bottom: 20px;
+  }
+
+  .goods-info {
+    @include flex(flex-start, flex-start);
+    padding-bottom: 10px;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+
+    .goods-left {
+      margin-right: 15px;
+    }
+
+    .goods-right {
+      @include flex(flex-start, flex-start, column);
+      font-size: 14px;
+
+      div {
+        margin-top: 5px;
+        width: 100%;
+      }
+
+      .goods-amount {
+        font-size: 12px;
+        color: #ddd;
+      }
+    }
+  }
+
+  .order-info {
+    div {
+      @include flex(center, center);
+      margin-top: 5px;
+    }
+
+    input {
+      width: 100%;
+      margin-right: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      cursor: text;
+    }
+  }
+
+  .delivery-info {
+    @include flex(center, flex-start, column);
+    font-size: 15px;
+
+    div {
+      @include flex(flex-start, center);
+      width: 100%;
+      margin-bottom: 5px;
+    }
+
+    label {
+      @include flex(flex-start, flex-start);
+      width: 100%;
+      input {
+        max-width: 20px;
+      }
+      span {
+        width: 100%;
+      }
+    }
+
+    p {
+      margin-top: 20px;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      margin-right: 10px;
+      margin-bottom: 5px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      cursor: text;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      margin-right: 10px;
+      margin-bottom: 5px;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    select {
+      width: 100%;
+      margin-right: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      cursor: pointer;
+    }
+  }
+}

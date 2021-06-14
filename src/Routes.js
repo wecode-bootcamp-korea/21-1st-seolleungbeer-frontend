@@ -4,6 +4,7 @@ import SignUp from './Pages/SignUp/SignUp';
 import Login from './Pages/Login/Login';
 import Nav from './Components/Nav/Nav';
 import Main from './Pages/Main/Main';
+import Payment from './Pages/Payment/Payment';
 import './Style/reset.scss';
 import './Style/common.scss';
 
@@ -11,11 +12,12 @@ class Routes extends React.Component {
   render() {
     return (
       <Router>
-        <Nav />
+        {/* <Nav /> */}
         <Switch>
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/" component={Main} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/payment" component={Payment} />
         </Switch>
       </Router>
     );
