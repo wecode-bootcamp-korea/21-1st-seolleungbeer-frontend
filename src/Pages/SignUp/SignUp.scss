@@ -2,7 +2,7 @@
 
 .signup {
   @include flex(flex-start, center, column);
-  margin: 100px auto;
+  margin: 200px auto 100px auto;
   min-width: 400px;
   max-width: 480px;
   border: 1px solid #dfdfdf;
@@ -92,6 +92,12 @@
       border: 1px solid #dfdfdf;
     }
 
+    input[type='number']::-webkit-outer-spin-button,
+    input[type='number']::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
     .email {
       width: 100%;
 
@@ -159,15 +165,18 @@
       width: 100%;
       margin-top: 20px;
 
-      input {
-        display: inline-block;
-        width: 80%;
+      .mobile-input-container {
+        @include flex(center, center);
         margin-top: 10px;
-      }
 
-      button {
-        display: inline-block;
-        width: 20%;
+        input {
+          width: 80%;
+        }
+
+        button {
+          width: 20%;
+          margin: 0;
+        }
       }
     }
 
