@@ -36,8 +36,8 @@ class Detail extends React.Component {
     const { id } = this.props.match.params;
     const resource = `/products/${id}`;
 
-    // fetch('/Data/detail.json')
-    fetch(API.detail + resource)
+    fetch('/Data/detail.json')
+      // fetch(API.detail + resource)
       .then(res => res.json())
       .then(data => {
         if (!data.MESSAGE) {
