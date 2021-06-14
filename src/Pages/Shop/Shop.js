@@ -27,7 +27,10 @@ class Shop extends React.Component {
   componentDidUpdate(_, prevState) {
     const { category, subCategory } = this.state;
 
-    if (prevState.category !== category) {
+    if (
+      prevState.category !== category ||
+      prevState.subCategory !== subCategory
+    ) {
       this.setState(
         {
           items: [],
@@ -39,23 +42,22 @@ class Shop extends React.Component {
           this.fetchItems(this.state.offset, category, subCategory);
         }
       );
-      return;
     }
 
-    if (prevState.subCategory !== subCategory) {
-      this.setState(
-        {
-          items: [],
-          offset: 0,
-          isLast: false,
-          isLoading: true,
-        },
-        () => {
-          this.fetchItems(this.state.offset, category, subCategory);
-        }
-      );
-      return;
-    }
+    // if (prevState.subCategory !== subCategory) {
+    //   this.setState(
+    //     {
+    //       items: [],
+    //       offset: 0,
+    //       isLast: false,
+    //       isLoading: true,
+    //     },
+    //     () => {
+    //       this.fetchItems(this.state.offset, category, subCategory);
+    //     }
+    //   );
+    //   return;
+    // }
   }
 
   fetchItems = async (offset = 0, category = '', subCategory = '') => {
@@ -83,6 +85,13 @@ class Shop extends React.Component {
         });
       }
 
+      if (message === 'Empty Page') {
+        this.setState({
+          items: [],
+          isLoading: false,
+        });
+      }
+
       this.setState({
         items: [...this.state.items, ...items],
         isLoading: false,
@@ -90,6 +99,7 @@ class Shop extends React.Component {
     } catch (err) {
       console.error(err);
       this.setState({
+        items: [],
         isLoading: false,
       });
     }
@@ -114,7 +124,7 @@ class Shop extends React.Component {
 
   render() {
     const { category, subCategory, items, isLast, isLoading } = this.state;
-    console.log(isLoading);
+
     return (
       <div className="shop">
         <Category

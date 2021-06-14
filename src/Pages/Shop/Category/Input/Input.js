@@ -13,7 +13,7 @@ class Input extends React.Component {
   render() {
     const { value, category, subCategory, name } = this.props;
     return (
-      <div className={value}>
+      <div className="category-input-container">
         <input
           className="category-input"
           type="radio"
