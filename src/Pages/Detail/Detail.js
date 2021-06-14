@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import API from '../../config';
 import Goods from './DetailSections/Goods';
 import Categories from './DetailSections/Categories';
 import Popup from '../../Components/ShoppingModal/Popup';
@@ -34,10 +35,9 @@ class Detail extends React.Component {
   componentDidMount = () => {
     const { id } = this.props.match.params;
     const resource = `/products/${id}`;
-    const url = 'http://10.58.6.199:8000';
 
     // fetch('/Data/detail.json')
-    fetch(url + resource)
+    fetch(API.detail + resource)
       .then(res => res.json())
       .then(data => {
         if (!data.MESSAGE) {
