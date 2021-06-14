@@ -160,7 +160,14 @@
       margin-top: 20px;
 
       input {
+        display: inline-block;
+        width: 80%;
         margin-top: 10px;
+      }
+
+      button {
+        display: inline-block;
+        width: 20%;
       }
     }
 

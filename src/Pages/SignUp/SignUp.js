@@ -47,8 +47,9 @@ class SignUp extends React.Component {
     });
   };
 
-  handleClickEmailButton = () => {
-    this.requestCheckEmail();
+  handleClickEmailButton = e => {
+    console.log(e);
+    // this.requestCheckEmail();
   };
 
   handleSubmitForm = e => {
@@ -301,6 +302,9 @@ class SignUp extends React.Component {
                 value={mobile}
                 name="mobile"
               />
+              <button type="button" onClick={this.handleClickEmailButton}>
+                중복확인
+              </button>
             </div>
             {((!validator.mobile(mobile) && mobile.length !== 0) ||
               (isClickedSignUpButton && mobile.length === 0)) && (
