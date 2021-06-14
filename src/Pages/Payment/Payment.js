@@ -98,13 +98,13 @@ class Payment extends React.Component {
                 </div>
                 <div>
                   <div>
-                    <input type="text" placeholder="우편번호" />
+                    <input type="text" placeholder="우편번호" disabled="true" />
                     <button onClick={this.execDaumPostcode}>주소찾기</button>
                   </div>
                   <div></div>
                 </div>
                 <div>
-                  <input type="text" placeholder="주소" />
+                  <input type="text" placeholder="주소" disabled="true" />
                 </div>
                 <div>
                   <input type="text" placeholder="상세주소" />
