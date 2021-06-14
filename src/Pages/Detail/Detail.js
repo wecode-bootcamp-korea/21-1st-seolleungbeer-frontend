@@ -10,7 +10,7 @@ class Detail extends React.Component {
   state = {
     goods: {},
     isModalOpen: false,
-    isLogin: true,
+    isLogin: false,
     content: {},
   };
 
@@ -33,14 +33,18 @@ class Detail extends React.Component {
 
   componentDidMount = () => {
     const { id } = this.props.match.params;
-    const url = `http://10.58.2.90:8000/products/${id}`;
+    const resource = `/products/${id}`;
+    const url = 'http://10.58.6.199:8000';
 
-    fetch('/Data/detail.json')
-      // fetch(url)
+    // fetch('/Data/detail.json')
+    fetch(url + resource)
       .then(res => res.json())
       .then(data => {
-        console.log(data);
-        this.setState({ goods: data.result });
+        if (!data.MESSAGE) {
+          this.setState({ goods: data.result });
+          return;
+        }
+        this.props.history.push('/shop');
       });
   };
 
