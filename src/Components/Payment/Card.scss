@@ -3,15 +3,21 @@
 .card {
   margin: 20px;
   padding: 25px;
+  width: 100%;
   background-color: white;
 
+  input {
+    cursor: pointer;
+  }
+
   .title {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
 
   .goods-info {
     @include flex(flex-start, flex-start);
-    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 15px;
     width: 100%;
     border-bottom: 1px solid #ddd;
 
@@ -92,6 +98,8 @@
       margin-bottom: 5px;
       padding: 10px;
       cursor: pointer;
+      color: white;
+      background-color: $green;
     }
 
     select {
@@ -99,6 +107,50 @@
       margin-right: 10px;
       padding: 10px;
       border: 1px solid #ddd;
+      cursor: pointer;
+    }
+  }
+
+  .price-info {
+    @include flex(center, center, column);
+    width: 100%;
+    font-size: 14px;
+
+    div {
+      width: 100%;
+    }
+
+    .price {
+      @include flex(space-between, flex-start, column);
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 20px;
+
+      div {
+        @include flex(space-between, flex-start, row);
+        margin-bottom: 10px;
+      }
+    }
+
+    .tot-info {
+      @include flex(space-between, flex-start, row);
+
+      span > strong {
+        color: $green;
+      }
+    }
+  }
+
+  .pay {
+    @include flex(space-evenly, flex-start);
+  }
+
+  .paygo {
+    button {
+      width: 100%;
+      margin-top: 30px;
+      padding: 15px;
+      color: white;
+      background-color: $green;
       cursor: pointer;
     }
   }

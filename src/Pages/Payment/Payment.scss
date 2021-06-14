@@ -2,22 +2,29 @@
 
 .payment {
   @include flex(center, center, column);
+  position: relative;
+  top: 140px;
   width: 100%;
   background-color: #f3f3f3;
 
   h1 {
-    margin-bottom: 50px;
+    margin: 50px 0;
   }
 
   .payment-body {
-    @include flex(center, center);
+    @include flex(center, flex-start);
     width: 100%;
+    margin-bottom: 50px;
 
     .payment-left {
       max-width: 500px;
+      width: 60%;
+      margin-right: 20px;
     }
     .payment-right {
+      position: sticky;
       max-width: 400px;
+      width: 40%;
     }
   }
 }
