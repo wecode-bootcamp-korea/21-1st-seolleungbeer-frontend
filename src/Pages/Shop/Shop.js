@@ -24,30 +24,25 @@ class Shop extends React.Component {
     this.fetchItems();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log(prevProps.location.search, this.props.location.search);
+  componentDidUpdate(_, prevState) {
+    const { category, subCategory } = this.state;
 
-    if (prevProps.location.search !== this.props.location.search) {
-      console.log(1);
+    if (
+      prevState.category !== category ||
+      prevState.subCategory !== subCategory
+    ) {
+      this.setState(
+        {
+          items: [],
+          offset: 0,
+          isLast: false,
+          isLoading: true,
+        },
+        () => {
+          this.fetchItems(this.state.offset, category, subCategory);
+        }
+      );
     }
-    // const { category, subCategory } = this.state;
-
-    // if (
-    //   prevState.category !== category ||
-    //   prevState.subCategory !== subCategory
-    // ) {
-    //   this.setState(
-    //     {
-    //       items: [],
-    //       offset: 0,
-    //       isLast: false,
-    //       isLoading: true,
-    //     },
-    //     () => {
-    //       this.fetchItems(this.state.offset, category, subCategory);
-    //     }
-    //   );
-    // }
   }
 
   fetchItems = async (offset = 0, category = '', subCategory = '') => {
@@ -97,50 +92,24 @@ class Shop extends React.Component {
   };
 
   selectCategory = (category, subCategory = '') => {
-    // this.setState({
-    //   category,
-    //   subCategory,
-    // });
     this.setState({
       category,
       subCategory,
     });
-    this.props.history.push(
-      `?category=${
-        category === 'all' ? '' : category
-      }&subcategory=${subCategory}&offset=${
-        this.state.offset * this.state.limit
-      }&limit=${this.state.limit}`
-    );
-    // console.log(this.props);
   };
 
   moreLoadItems = () => {
     const { category, subCategory } = this.state;
-    // this.setState(
-    //   {
-    //     offset: this.state.offset + 1,
-    //   },
-    //   () => this.fetchItems(this.state.offset, category, subCategory)
-    // );
     this.setState(
       {
         offset: this.state.offset + 1,
       },
-      () =>
-        this.props.history.push(
-          `?category=${
-            category === 'all' ? '' : category
-          }&subcategory=${subCategory}&offset=${
-            this.state.offset * this.state.limit
-          }&limit=${this.state.limit}`
-        )
+      () => this.fetchItems(this.state.offset, category, subCategory)
     );
   };
 
   render() {
     const { category, subCategory, items, isLast, isLoading } = this.state;
-    // console.log(this.state);
     return (
       <div className="shop">
         <Category
