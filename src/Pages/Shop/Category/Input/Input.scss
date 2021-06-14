@@ -1,7 +1,8 @@
 @import '../../../../Style/common.scss';
 
-category-input-container {
+.category-input-container {
   @include flex(center, center);
+  width: 150px;
 
   .category-input {
     display: none;

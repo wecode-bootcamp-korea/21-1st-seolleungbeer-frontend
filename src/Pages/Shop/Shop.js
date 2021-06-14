@@ -24,27 +24,18 @@ class Shop extends React.Component {
     this.fetchItems();
   }
 
-  componentDidUpdate(_, prevState) {
-    const { category, subCategory } = this.state;
+  componentDidUpdate(prevProps, prevState) {
+    console.log(prevProps.location.search, this.props.location.search);
 
-    if (
-      prevState.category !== category ||
-      prevState.subCategory !== subCategory
-    ) {
-      this.setState(
-        {
-          items: [],
-          offset: 0,
-          isLast: false,
-          isLoading: true,
-        },
-        () => {
-          this.fetchItems(this.state.offset, category, subCategory);
-        }
-      );
+    if (prevProps.location.search !== this.props.location.search) {
+      console.log(1);
     }
+    // const { category, subCategory } = this.state;
 
-    // if (prevState.subCategory !== subCategory) {
+    // if (
+    //   prevState.category !== category ||
+    //   prevState.subCategory !== subCategory
+    // ) {
     //   this.setState(
     //     {
     //       items: [],
@@ -56,7 +47,6 @@ class Shop extends React.Component {
     //       this.fetchItems(this.state.offset, category, subCategory);
     //     }
     //   );
-    //   return;
     // }
   }
 
@@ -65,7 +55,7 @@ class Shop extends React.Component {
 
     try {
       const res = await fetch(
-        `http://121.134.103.58:8000/products?category=${
+        `${API.shop}/products?category=${
           category === 'all' ? '' : category
         }&subcategory=${subCategory}&offset=${
           offset * this.state.limit
@@ -85,11 +75,12 @@ class Shop extends React.Component {
         });
       }
 
-      if (message === 'Empty Page') {
+      if (message === 'Product Does Not Exist') {
         this.setState({
           items: [],
           isLoading: false,
         });
+        return;
       }
 
       this.setState({
@@ -106,25 +97,50 @@ class Shop extends React.Component {
   };
 
   selectCategory = (category, subCategory = '') => {
+    // this.setState({
+    //   category,
+    //   subCategory,
+    // });
     this.setState({
       category,
       subCategory,
     });
+    this.props.history.push(
+      `?category=${
+        category === 'all' ? '' : category
+      }&subcategory=${subCategory}&offset=${
+        this.state.offset * this.state.limit
+      }&limit=${this.state.limit}`
+    );
+    // console.log(this.props);
   };
 
   moreLoadItems = () => {
     const { category, subCategory } = this.state;
+    // this.setState(
+    //   {
+    //     offset: this.state.offset + 1,
+    //   },
+    //   () => this.fetchItems(this.state.offset, category, subCategory)
+    // );
     this.setState(
       {
         offset: this.state.offset + 1,
       },
-      () => this.fetchItems(this.state.offset, category, subCategory)
+      () =>
+        this.props.history.push(
+          `?category=${
+            category === 'all' ? '' : category
+          }&subcategory=${subCategory}&offset=${
+            this.state.offset * this.state.limit
+          }&limit=${this.state.limit}`
+        )
     );
   };
 
   render() {
     const { category, subCategory, items, isLast, isLoading } = this.state;
-
+    // console.log(this.state);
     return (
       <div className="shop">
         <Category

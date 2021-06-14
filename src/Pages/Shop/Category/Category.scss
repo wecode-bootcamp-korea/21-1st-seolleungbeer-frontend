@@ -2,7 +2,7 @@
 
 .category {
   @include flex(space-around, center);
-  width: 500px;
+  width: 600px;
   position: relative;
   height: 40px;
   margin: 60px auto;
@@ -10,16 +10,10 @@
 
   div {
     @include flex(center, center);
-    // width: 150px;
-  }
-
-  .all {
-    width: 150px;
   }
 
   .liquor-container {
     @include flex(center, center);
-    width: 150px;
 
     .liquor {
       @include flex(_, center);
@@ -36,13 +30,5 @@
       border: 1px solid #dfdfdf;
       border-top: none;
     }
-  }
-
-  .food {
-    width: 150px;
-  }
-
-  .merchandise {
-    width: 150px;
   }
 }

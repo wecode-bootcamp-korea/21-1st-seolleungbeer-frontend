@@ -95,7 +95,7 @@ class SignUp extends React.Component {
     // profile_image.append('file', profileImage);
 
     try {
-      const res = await fetch(`${API}/users/signup`, {
+      const res = await fetch(`${API.signup}/users/signup`, {
         method: 'POST',
         body: JSON.stringify({
           email,

@@ -1,6 +1,7 @@
 @import '../../../Style/common.scss';
 
 .empty-list {
+  @include flex(center, center);
   position: relative;
   width: 95%;
   max-width: 1000px;
@@ -8,6 +9,7 @@
   border: 1px solid #dfdfdf;
 
   span {
+    color: #595959;
     font-size: 16px;
   }
 }

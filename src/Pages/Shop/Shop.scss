@@ -1,7 +1,7 @@
 @import '../../Style/common.scss';
 
 .shop {
-  @include flex(_, _, column);
+  @include flex(_, center, column);
   width: 100%;
 
   .footer {
