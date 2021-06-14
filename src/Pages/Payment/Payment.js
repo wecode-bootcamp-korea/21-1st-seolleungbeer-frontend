@@ -1,20 +1,26 @@
 import React from 'react';
-// import DaumPostcode from 'react-daum-postcode';
+import DaumPostcode from 'react-daum-postcode';
 import Card from '../../Components/Payment/Card';
 import './Payment.scss';
 
 class Payment extends React.Component {
-  state = {};
+  state = {
+    isModalOpen: true,
+  };
 
   componentDidMount = () => {};
 
   handleComplete = data => {
-    console.log(data);
+    console.log(data.zonecode);
+    console.log(data.address);
+    console.log(data.bname, data.buildingName);
   };
 
   render() {
+    const { isModalOpen } = this.state;
     return (
       <div className="payment">
+        {isModalOpen && <DaumPostcode onComplete={this.handleComplete} />}
         <div>
           <h1>결제하기</h1>
         </div>
@@ -98,13 +104,13 @@ class Payment extends React.Component {
                 </div>
                 <div>
                   <div>
-                    <input type="text" placeholder="우편번호" disabled="true" />
+                    <input type="text" placeholder="우편번호" disabled={true} />
                     <button onClick={this.execDaumPostcode}>주소찾기</button>
                   </div>
                   <div></div>
                 </div>
                 <div>
-                  <input type="text" placeholder="주소" disabled="true" />
+                  <input type="text" placeholder="주소" disabled={true} />
                 </div>
                 <div>
                   <input type="text" placeholder="상세주소" />
