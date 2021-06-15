@@ -1,38 +1,28 @@
 import React from 'react';
-import './Basket.scss';
 import ItemList from './ItemList/ItemList';
+import API from '../../config';
+import './Basket.scss';
 
 const sum = items => {
-  const sumArr = items
-    .reduce((acc, item) => acc + parseInt(item.payment_charge), 0)
-    .toString()
-    .split('');
+  const sum = items.reduce(
+    (acc, item) => acc + parseInt(item.payment_charge),
+    0
+  );
 
-  const result = [];
-  let count = 0;
-  for (let i = sumArr.length - 1; i >= 0; i--) {
-    if (count === 3) {
-      result.unshift(',');
-      count = 0;
-    }
-    result.unshift(sumArr[i]);
-
-    count++;
-  }
-
-  return result.join('');
+  return sum;
 };
 
-const format = price => {
+const formatter = price => {
+  const priceArr = price.toString().split('');
   const result = [];
+
   let count = 0;
-  for (let i = price.length - 1; i >= 0; i--) {
+  for (let i = priceArr.length - 1; i >= 0; i--) {
     if (count === 3) {
       result.unshift(',');
       count = 0;
     }
-    result.unshift(price[i]);
-
+    result.unshift(priceArr[i]);
     count++;
   }
 
@@ -46,6 +36,7 @@ class Basket extends React.Component {
     this.state = {
       items: [],
       checkedItems: [],
+      isCheckedAllItems: false,
     };
   }
 
@@ -53,14 +44,15 @@ class Basket extends React.Component {
     this.fetchBasketItems();
   }
 
+  // /Data/basket.json
   fetchBasketItems = async () => {
     try {
-      const res = await fetch('/Data/basket.json', {
+      const res = await fetch(`${API}/order/cart`, {
         method: 'GET',
       });
       const items = await res.json();
 
-      // console.log(items);
+      console.log(items);
       this.setState({
         items,
       });
@@ -101,6 +93,16 @@ class Basket extends React.Component {
     }
   };
 
+  handleChangeCheckBox = e => {
+    this.setState(
+      {
+        isCheckedAllItems: !this.state.isCheckedAllItems,
+      },
+      this.checkAllItems
+    );
+    // this.checkAllItems();
+  };
+
   handleClickDeleteButton = () => {
     const filteredItems = this.state.items;
     const checkedItems = this.state.checkedItems;
@@ -120,6 +122,21 @@ class Basket extends React.Component {
     });
 
     // this.requestDeleteItems(checkedItems)
+  };
+
+  checkAllItems = () => {
+    const { items, isCheckedAllItems } = this.state;
+    const checkedItems = items.map(item => item.cart_id);
+
+    if (isCheckedAllItems) {
+      this.setState({
+        checkedItems,
+      });
+    } else {
+      this.setState({
+        checkedItems: [],
+      });
+    }
   };
 
   checkItems = (isChecked, id) => {
@@ -144,8 +161,8 @@ class Basket extends React.Component {
   };
 
   render() {
-    const { items, checkedItems } = this.state;
-    console.log(items, checkedItems);
+    const { items, checkedItems, isCheckedAllItems } = this.state;
+    console.log(checkedItems);
     return (
       <div className="basket">
         <div className="title">
@@ -155,7 +172,7 @@ class Basket extends React.Component {
         <div className="cart">
           <div className="cart-header">
             <div className="checkbox">
-              <input type="checkbox" />
+              <input type="checkbox" onChange={this.handleChangeCheckBox} />
             </div>
             <div>
               <span>item</span>
@@ -180,6 +197,7 @@ class Basket extends React.Component {
             items={items}
             deleteItem={this.deleteItem}
             checkItems={this.checkItems}
+            isCheckedAllItems={isCheckedAllItems}
           />
           <div className="cart-result">
             <div className="cart-result-preview">
@@ -188,7 +206,7 @@ class Basket extends React.Component {
                   <span>상품가격</span>
                 </div>
                 <div>
-                  <span>{sum(items)}원</span>
+                  <span>{formatter(sum(items))}원</span>
                 </div>
               </div>
               <div>
@@ -212,9 +230,7 @@ class Basket extends React.Component {
                   <span>결제금액</span>
                 </div>
                 <div>
-                  <span>
-                    {parseInt(sum(items).split(',').join('')) + 3000}원
-                  </span>
+                  <span>{formatter(parseInt(sum(items)) + 3000)}원</span>
                 </div>
               </div>
             </div>

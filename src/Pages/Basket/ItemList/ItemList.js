@@ -17,11 +17,12 @@ class ItemList extends React.Component {
               id={item.cart_id}
               deliveryCharge={item.delivery_charge}
               deliveryMethod={this.delivery_method}
-              imgUrl={item.img_url}
+              image={item.product_image}
               name={item.korean_name}
               price={item.payment_charge}
               deleteItem={this.props.deleteItem}
               checkItems={this.props.checkItems}
+              isCheckedAllItems={this.props.isCheckedAllItems}
             />
           ))}
         </ul>

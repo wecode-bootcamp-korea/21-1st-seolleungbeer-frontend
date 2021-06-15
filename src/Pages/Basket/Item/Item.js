@@ -10,36 +10,43 @@ class Item extends React.Component {
     };
   }
 
+  componentDidUpdate = prevProps => {
+    if (prevProps.isCheckedAllItems !== this.props.isCheckedAllItems) {
+      this.setState({
+        isChecked: this.props.isCheckedAllItems,
+      });
+    }
+  };
+
   handleClickButton = e => {
-    // console.log(e.target.name, this.props.id);
     if (e.target.name === 'delete') {
       this.props.deleteItem(this.props.id);
     }
   };
 
-  handleChangeInput = e => {
+  handleChangeInput = () => {
     this.setState(
       {
         isChecked: !this.state.isChecked,
       },
-      () => this.props.checkItems(this.state.isChecked, e.target.name)
+      () => this.props.checkItems(this.state.isChecked, this.props.id)
     );
-    // this.props.checkItems(this.state.isChecked, e.target.name);
-    console.log(e.target.name);
   };
 
   render() {
-    console.log(this.state.isChecked);
-    const { id, deliveryCharge, deliveryMethod, imgUrl, name, price } =
-      this.props;
+    const { deliveryCharge, deliveryMethod, image, name, price } = this.props;
     return (
       <li className="item">
         <div className="checkbox-container">
-          <input type="checkbox" name={id} onChange={this.handleChangeInput} />
+          <input
+            type="checkbox"
+            onChange={this.handleChangeInput}
+            checked={this.state.isChecked ? true : false}
+          />
         </div>
         <div className="item-description">
           <div>
-            <img alt="" src={imgUrl} />
+            <img alt="" src={image ? image : '/images/cat.jpg'} />
           </div>
           <span>{name}</span>
         </div>
