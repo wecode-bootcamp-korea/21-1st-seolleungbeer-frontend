@@ -128,15 +128,17 @@ class SignUp extends React.Component {
   };
 
   requestCheckDuplication = async checkValue => {
+    console.log(`${API}/users/${checkValue}-check`);
     try {
       const res = await fetch(`${API}/users/${checkValue}-check`, {
         method: 'POST',
         body: JSON.stringify({
-          checkValue: this.state[checkValue],
+          [checkValue]: this.state[checkValue],
         }),
       });
 
       const result = await res.json();
+      console.log(result);
 
       if (checkValue === 'email') {
         if (result.message === 'SUCCESS') {
