@@ -6,27 +6,34 @@ import './Payment.scss';
 
 class Payment extends React.Component {
   state = {
-    email: '',
-    mobile: '',
-    orders: [
+    order_user_name: '사람이름이다',
+    order_email: 'this@mail.com',
+    order_mobile: '0001110001',
+    delivery_user_name: '사람이름이다',
+    delivery_mobile: '0001110001',
+    order_number: '',
+    order_item: [
       {
-        img: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
-        name: 'AAAAAA',
+        image_url: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
+        korean_name: 'AAAAAA',
+        product_id: 12,
         id: 156,
         amount: 12,
         price: 4000,
       },
       {
-        img: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
-        name: 'BBBBBB',
+        image_url: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
+        korean_name: 'BBBBBB',
+        product_id: 12,
         id: 16,
         amount: 8,
         price: 40000,
       },
       {
-        img: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
-        name: 'CCCCCCC',
-        id: 16,
+        image_url: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
+        korean_name: 'CCCCCCC',
+        product_id: 12,
+        id: 17,
         amount: 19,
         price: 10000,
       },
@@ -39,12 +46,13 @@ class Payment extends React.Component {
       { value: 'card', checked: true, label: '신용카드' },
       { value: 'kakao', checked: false, label: '카카오페이' },
     ],
+    isSame: false,
+    isAgree: false,
     isModalOpen: false,
-    agree_check: false,
   };
 
   componentDidMount = () => {
-    const orders = this.props.location.state;
+    const { order_number, order_item } = this.props.location.state;
   };
 
   handleModal = () => {
@@ -84,12 +92,29 @@ class Payment extends React.Component {
   };
 
   handleCheckBox = e => {
-    const { name, checked } = e.target;
-    this.setState({ [name]: checked });
+    const { name: checkBoxName, checked } = e.target;
+
+    if (checkBoxName === 'isSame') {
+    }
+
+    if (checkBoxName === 'isAgree') {
+      if (checked) {
+        this.setState({ [checkBoxName]: checked });
+      }
+
+      return;
+      if (checked) {
+      }
+
+      this.setState({ [checkBoxName]: checked });
+      return;
+    }
   };
 
   submitPayment = () => {
-    const { agree_check, email, mobile } = this.state;
+    const { isAgree, email, mobile } = this.state;
+
+    console.log(this.state);
 
     // const obj ={
     //   order_number: '주문번호(장바구니의 주문번호)',
@@ -106,36 +131,35 @@ class Payment extends React.Component {
       return;
     }
 
-    if (!agree_check) {
+    if (!isAgree) {
       alert('구매조건 확인 및 결제진행에 동의하여 주시기 바랍니다.');
       return;
     }
   };
 
   render() {
-    const {
-      orders,
-      isModalOpen,
-      zonecode,
-      address,
-      address_detail,
-      delivery_memo,
-      payment_information,
-      agree_check,
-    } = this.state;
+    const { isModalOpen, payment_information, isAgree, isSame } = this.state;
 
-    const orderSumAmount = orders.reduce((acc, order) =>
+    const { order_number, order_item } = this.state;
+
+    const { zonecode, address, address_detail, delivery_memo } = this.state;
+
+    const { order_user_name, order_email, order_mobile } = this.state;
+
+    const { delivery_user_name, delivery_mobile } = this.state;
+
+    const orderSumAmount = order_item.reduce((acc, order) =>
       typeof acc === 'object' ? acc.amount + order.amount : acc + order.amount
     );
 
-    const orderSumPrice = orders.reduce((acc, order) =>
+    const orderSumPrice = order_item.reduce((acc, order) =>
       typeof acc === 'object'
         ? acc.amount * acc.price + order.amount * order.price
         : acc + order.amount * order.price
     );
 
     const deliveryCharge = Math.max(
-      ...orders.map(order =>
+      ...order_item.map(order =>
         order.delivery_charge ? order.delivery_charge : 0
       )
     );
@@ -155,18 +179,18 @@ class Payment extends React.Component {
         <div className="payment-body">
           <div className="payment-left">
             <Card title={'주문 상품 정보'}>
-              {orders?.map(order => (
-                <div className="goods-info">
+              {order_item?.map(order => (
+                <div className="goods-info" key={order.id}>
                   <div className="goods-left">
                     <img
-                      src={order.img}
-                      alt={order.name}
+                      src={order.image_url}
+                      alt={order.korean_name}
                       width="90px"
                       height="90px"
                     />
                   </div>
                   <div className="goods-right">
-                    <div>{order.name}</div>
+                    <div>{order.korean_name}</div>
                     <div className="goods-amount">{order.amount}개</div>
                     <div>
                       <strong>
@@ -180,11 +204,29 @@ class Payment extends React.Component {
             <Card title={'주문자 정보'}>
               <div className="order-info">
                 <div>
-                  <input type="text" name="" placeholder="이름" />
-                  <input type="text" name="" placeholder="연락처" />
+                  <input
+                    type="text"
+                    name="order_user_name"
+                    placeholder="이름"
+                    value={order_user_name}
+                    onChange={this.handleInput}
+                  />
+                  <input
+                    type="text"
+                    name="order_mobile"
+                    placeholder="연락처"
+                    value={order_mobile}
+                    onChange={this.handleInput}
+                  />
                 </div>
                 <div>
-                  <input type="email" name="email" placeholder="이메일" />
+                  <input
+                    type="email"
+                    name="order_email"
+                    placeholder="이메일"
+                    value={order_email}
+                    onChange={this.handleInput}
+                  />
                 </div>
               </div>
             </Card>
@@ -192,13 +234,28 @@ class Payment extends React.Component {
               <div className="delivery-info">
                 <div>
                   <label>
-                    <input type="checkbox" />
+                    <input
+                      type="checkbox"
+                      name="isSame"
+                      checked={isSame}
+                      onChange={this.handleCheckBox}
+                    />
                     <span>주문자 정보와 동일</span>
                   </label>
                 </div>
                 <div>
-                  <input type="text" placeholder="수령인" />
-                  <input type="text" placeholder="연락처" />
+                  <input
+                    type="text"
+                    name="delivery_user_name"
+                    placeholder="수령인"
+                    value={delivery_user_name}
+                  />
+                  <input
+                    type="text"
+                    name="delivery_mobile"
+                    placeholder="연락처"
+                    value={delivery_mobile}
+                  />
                 </div>
                 <div>
                   <div>
@@ -234,7 +291,7 @@ class Payment extends React.Component {
                 </div>
                 <div>
                   <select
-                    name="delivery_message"
+                    name="delivery_memo"
                     value={delivery_memo}
                     onChange={this.handleInput}
                   >
@@ -299,8 +356,8 @@ class Payment extends React.Component {
                 <label>
                   <input
                     type="checkbox"
-                    name="agree_check"
-                    checked={agree_check}
+                    name="isAgree"
+                    checked={isAgree}
                     onChange={this.handleCheckBox}
                   />
                   <span>구매조건 확인 및 결제진행에 동의</span>
