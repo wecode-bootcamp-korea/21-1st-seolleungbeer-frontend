@@ -136,7 +136,11 @@ class Payment extends React.Component {
 
     return (
       <div className="payment">
-        {isModalOpen && <DaumPostcode onComplete={this.handleComplete} />}
+        {/* {isModalOpen && (
+          <Popup handelModal={this.handelModal} isUsed={true}>
+            <DaumPostcode onComplete={this.handleComplete} />
+          </Popup>
+        )} */}
         <div>
           <h1>결제하기</h1>
         </div>
