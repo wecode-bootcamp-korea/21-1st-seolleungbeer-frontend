@@ -23,6 +23,22 @@ const sum = items => {
   return result.join('');
 };
 
+const format = price => {
+  const result = [];
+  let count = 0;
+  for (let i = price.length - 1; i >= 0; i--) {
+    if (count === 3) {
+      result.unshift(',');
+      count = 0;
+    }
+    result.unshift(price[i]);
+
+    count++;
+  }
+
+  return result.join('');
+};
+
 class Basket extends React.Component {
   constructor() {
     super();
