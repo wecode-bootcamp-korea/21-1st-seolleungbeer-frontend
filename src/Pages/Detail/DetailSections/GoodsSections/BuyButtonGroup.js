@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './GoodsSections.scss';
 
 class BuyButtonGroup extends React.Component {

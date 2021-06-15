@@ -13,6 +13,7 @@
 
     .goods-heart {
       @include flex(center, center);
+      display: none;
 
       a {
         cursor: pointer;

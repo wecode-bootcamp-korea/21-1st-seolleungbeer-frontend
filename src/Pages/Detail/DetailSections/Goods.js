@@ -3,6 +3,7 @@ import GoodsName from './GoodsSections/GoodsName';
 import GoodsAmount from './GoodsSections/GoodsAmount';
 import BuyButtonGroup from './GoodsSections/BuyButtonGroup';
 import './DetailSection.scss';
+
 class Goods extends React.Component {
   state = {
     amount: 1,
@@ -46,7 +47,7 @@ class Goods extends React.Component {
                 <img
                   key={image.image_type + image.image_url}
                   src={image.image_url}
-                  alt={image.image_url}
+                  alt="goods"
                 />
               )
             );

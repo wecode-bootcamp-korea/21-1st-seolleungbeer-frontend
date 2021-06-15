@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './GoodsSections.scss';
 
 class GoodsAmount extends React.Component {
@@ -28,7 +27,7 @@ class GoodsAmount extends React.Component {
                 type="text"
                 name="amount"
                 value={amount}
-                onChange={e => handleEvent(e)}
+                onChange={handleEvent}
                 onBlur={validationAmount}
               />
               <button onClick={() => amountControl(1)}>+</button>

@@ -19,12 +19,12 @@ class Categories extends React.Component {
       <div className="categories">
         <div className="categories-title">
           <div className="categorie-list seleted">
-            <button name="detailRef" onClick={e => this.focusPage(e)}>
+            <button name="detailRef" onClick={this.focusPage}>
               상세정보
             </button>
           </div>
           <div className="categorie-list">
-            <button name="reviewRef" onClick={e => this.focusPage(e)}>
+            <button name="reviewRef" onClick={this.focusPage}>
               구매평
             </button>
           </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import './GoodsSections.scss';
 
 class GoodsName extends React.Component {
@@ -12,7 +11,7 @@ class GoodsName extends React.Component {
       <div className="goods-name">
         <div className="goods-heart-wrapper">
           <div>{goods.english_name}</div>
-          <div className="goods-heart" style={{ display: 'none' }}>
+          <div className="goods-heart">
             <Link to="">
               <span>
                 <i className="far fa-heart"></i>

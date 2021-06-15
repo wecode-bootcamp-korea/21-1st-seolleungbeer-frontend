@@ -15,36 +15,46 @@ class Detail extends React.Component {
     content: {},
   };
 
-  handleModal = (e, amount) => {
-    const { name } = e.target;
+  handleModal = async (e, amount) => {
+    const { name: buttonName } = e.target;
     const { isLogin, goods } = this.state;
-    const { id, korean_name, price } = goods;
+    const { product_id, korean_name, price } = goods;
 
-    const order = { id, korean_name, amount, price };
+    const orders = { product_id, korean_name, amount, price };
 
-    if (!isLogin) {
-      this.addOrder(order);
-      if (name === 'buy') {
-        this.props.history.push('/payment');
-        return;
+    if (buttonName === 'buy' || buttonName === 'cart') {
+      if (isLogin) {
+        const { message, order_number, id } = await this.addOrder(orders);
+
+        if (message === 'SUCCESS') {
+          orders.order_number = order_number;
+          orders.id = id;
+
+          if (buttonName === 'buy') {
+            this.props.history.push({
+              pathname: '/payment',
+              state: { orders },
+            });
+            return;
+          }
+
+          this.setState({ isModalOpen: true });
+          return;
+        } else {
+          this.setState({ isModalOpen: true });
+          return;
+        }
       }
-      this.setState({ isModalOpen: true });
-      return;
+    } else {
+      this.setState({ isModalOpen: false });
     }
-
-    if (name === 'buy' || name === 'cart') {
-      this.setState({ isModalOpen: true });
-      return;
-    }
-
-    this.setState({ isModalOpen: false });
   };
 
   addOrder = data => {
     const token = localStorage.getItem('access_token');
     const resource = `/orders/cart`;
 
-    fetch(API.detail + resource, {
+    return fetch(API.detail + resource, {
       headers: {
         Authorization: token,
       },
@@ -52,21 +62,21 @@ class Detail extends React.Component {
       body: JSON.stringify(data),
     })
       .then(res => res.json())
-      .then(data => {
-        console.log(data);
-      });
+      .then(data => data);
   };
 
   componentDidMount = () => {
-    const { id } = this.props.match.params;
-    const resource = `/products/${id}`;
+    const { product_id } = this.props.match.params;
+    const resource = `/products/${product_id}`;
 
     // fetch('/Data/detail.json')
     fetch(API.detail + resource)
       .then(res => res.json())
       .then(data => {
+        console.log(data);
+
         if (!data.MESSAGE) {
-          this.setState({ goods: { id, ...data.result } });
+          this.setState({ goods: { product_id, ...data.result } });
           return;
         }
         this.props.history.push('/shop');
