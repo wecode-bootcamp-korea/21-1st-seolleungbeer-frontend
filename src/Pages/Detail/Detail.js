@@ -46,7 +46,7 @@ class Detail extends React.Component {
 
     fetch(API.detail + resource, {
       headers: {
-        Authentication: token,
+        Authorization: token,
       },
       method: 'POST',
       body: JSON.stringify(data),
