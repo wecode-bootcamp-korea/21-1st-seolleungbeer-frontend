@@ -20,10 +20,9 @@ class Detail extends React.Component {
     const { isLogin, goods } = this.state;
     const { product_id, korean_name, price } = goods;
 
-    const orders = { product_id, korean_name, amount, price };
-
     if (buttonName === 'buy' || buttonName === 'cart') {
       if (isLogin) {
+        const orders = { product_id, korean_name, amount, price };
         const { message, order_number, id } = await this.addOrder(orders);
 
         if (message === 'SUCCESS') {
@@ -40,10 +39,10 @@ class Detail extends React.Component {
 
           this.setState({ isModalOpen: true });
           return;
-        } else {
-          this.setState({ isModalOpen: true });
-          return;
         }
+      } else {
+        this.setState({ isModalOpen: true });
+        return;
       }
     } else {
       this.setState({ isModalOpen: false });
@@ -73,8 +72,6 @@ class Detail extends React.Component {
     fetch(API.detail + resource)
       .then(res => res.json())
       .then(data => {
-        console.log(data);
-
         if (!data.MESSAGE) {
           this.setState({ goods: { product_id, ...data.result } });
           return;
