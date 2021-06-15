@@ -19,20 +19,25 @@ class Detail extends React.Component {
     const { name: buttonName } = e.target;
     const { isLogin, goods } = this.state;
     const { product_id, korean_name, price } = goods;
+    const image_url = goods.image.filter(
+      image => image.image_type === 'main'
+    )[0]?.image_url;
 
     if (buttonName === 'buy' || buttonName === 'cart') {
       if (isLogin) {
-        const orders = { product_id, korean_name, amount, price };
-        const { message, order_number, id } = await this.addOrder(orders);
+        const item = { product_id, korean_name, amount, price, image_url };
+
+        const { message, order_number, id } = await this.addOrder(item);
 
         if (message === 'SUCCESS') {
-          orders.order_number = order_number;
-          orders.id = id;
+          item.id = id;
+
+          const order_item = [item];
 
           if (buttonName === 'buy') {
             this.props.history.push({
               pathname: '/payment',
-              state: { orders },
+              state: { order_item, order_number },
             });
             return;
           }
