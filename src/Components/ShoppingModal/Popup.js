@@ -11,7 +11,7 @@ export default class BasketPopup extends React.Component {
   };
 
   render() {
-    const { handelModal, isUsed } = this.props;
+    const { handleModal, isUsed } = this.props;
 
     return (
       <div className="popup">
@@ -19,8 +19,8 @@ export default class BasketPopup extends React.Component {
           <div className="child">
             {this.props.children}
             {isUsed && (
-              <button className="cancel" onClick={handelModal}>
-                <i class="fas fa-times"></i>
+              <button className="cancel" onClick={handleModal}>
+                <i className="fas fa-times"></i>
               </button>
             )}
           </div>

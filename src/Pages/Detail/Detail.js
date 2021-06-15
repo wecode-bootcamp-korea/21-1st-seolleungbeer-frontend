@@ -11,16 +11,24 @@ class Detail extends React.Component {
   state = {
     goods: {},
     isModalOpen: false,
-    isLogin: false,
+    isLogin: true,
     content: {},
   };
 
-  handelModal = e => {
+  handleModal = (e, amount) => {
     const { name } = e.target;
-    const { isLogin } = this.state;
+    const { isLogin, goods } = this.state;
+    const { id, korean_name, price } = goods;
 
-    if (isLogin && name === 'buy') {
-      this.props.history.push('/payment');
+    const order = { id, korean_name, amount, price };
+
+    if (isLogin) {
+      this.addOrder(order);
+      if (name === 'buy') {
+        this.props.history.push('/payment');
+        return;
+      }
+      this.setState({ isModalOpen: true });
       return;
     }
 
@@ -41,10 +49,23 @@ class Detail extends React.Component {
       .then(res => res.json())
       .then(data => {
         if (!data.MESSAGE) {
-          this.setState({ goods: data.result });
+          this.setState({ goods: { id, ...data.result } });
           return;
         }
         this.props.history.push('/shop');
+      });
+  };
+
+  addOrder = body => {
+    const resource = `/orders/cart`;
+
+    fetch(API.detail + resource, {
+      method: 'POST',
+      body,
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
       });
   };
 
@@ -54,26 +75,26 @@ class Detail extends React.Component {
     return (
       <div className="detail">
         {isModalOpen && (
-          <Popup handelModal={this.handelModal} isUsed={isLogin ? false : true}>
+          <Popup handleModal={this.handleModal} isUsed={isLogin ? false : true}>
             {isLogin ? (
               <div className="promp-popup">
-                <div class="container">
+                <div className="container">
                   <p>선택하신 상품을 장바구니에 담았습니다.</p>
                 </div>
-                <div class="button-list">
-                  <button onClick={e => this.handelModal(e)}>계속쇼핑</button>
+                <div className="button-list">
+                  <button onClick={e => this.handleModal(e)}>계속쇼핑</button>
                   <button onClick={() => this.props.history.push('/cart')}>
                     장바구니
                   </button>
                 </div>
               </div>
             ) : (
-              <Login handelModal={this.handelModal} />
+              <Login handleModal={this.handleModal} />
             )}
           </Popup>
         )}
         <div className="detail-wrapper">
-          <Goods goods={goods} handelModal={this.handelModal} />
+          <Goods goods={goods} handleModal={this.handleModal} />
           <Categories goods={goods} />
         </div>
       </div>

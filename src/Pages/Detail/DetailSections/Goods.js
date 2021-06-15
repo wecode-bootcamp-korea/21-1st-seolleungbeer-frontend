@@ -4,8 +4,38 @@ import GoodsAmount from './GoodsSections/GoodsAmount';
 import BuyButtonGroup from './GoodsSections/BuyButtonGroup';
 import './DetailSection.scss';
 class Goods extends React.Component {
+  state = {
+    amount: 1,
+  };
+
+  handleEvent = e => {
+    const { name, value } = e.target;
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  amountControl = count => {
+    const { amount } = this.state;
+
+    const counting = count + amount <= 0 ? 1 : count + amount;
+
+    this.setState({
+      amount: counting,
+    });
+  };
+
+  validationAmount = () => {
+    const { amount } = this.state;
+
+    if (Number(amount) > 0) return;
+
+    this.setState({ amount: 1 });
+  };
+
   render() {
-    const { goods, handelModal } = this.props;
+    const { goods, handleModal } = this.props;
+    const { amount } = this.state;
 
     return (
       <div className="goods">
@@ -24,8 +54,14 @@ class Goods extends React.Component {
         </div>
         <div className="goods-form">
           <GoodsName goods={goods} />
-          <GoodsAmount goods={goods} />
-          <BuyButtonGroup handelModal={handelModal} />
+          <GoodsAmount
+            goods={goods}
+            amount={amount}
+            handleEvent={this.handleEvent}
+            amountControl={this.amountControl}
+            validationAmount={this.validationAmount}
+          />
+          <BuyButtonGroup amount={amount} handleModal={handleModal} />
         </div>
       </div>
     );

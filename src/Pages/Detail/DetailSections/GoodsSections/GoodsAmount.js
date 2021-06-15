@@ -3,39 +3,10 @@ import React from 'react';
 import './GoodsSections.scss';
 
 class GoodsAmount extends React.Component {
-  state = {
-    amount: 1,
-  };
-
-  handleEvent = e => {
-    const { name, value } = e.target;
-
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  amountControl = count => {
-    const { amount } = this.state;
-
-    const counting = count + amount <= 0 ? 1 : count + amount;
-
-    this.setState({
-      amount: counting,
-    });
-  };
-
-  validationAmount = () => {
-    const { amount } = this.state;
-
-    if (Number(amount) > 0) return;
-
-    this.setState({ amount: 1 });
-  };
-
   render() {
-    const { goods } = this.props;
-    const { amount } = this.state;
+    const { goods, amount, handleEvent, amountControl, validationAmount } =
+      this.props;
+
     const price = (Number(goods.price) * amount).toLocaleString();
 
     return (
@@ -52,15 +23,15 @@ class GoodsAmount extends React.Component {
           <div className="payment-title">수량</div>
           <div className="payment-count">
             <div>
-              <button onClick={() => this.amountControl(-1)}>-</button>
+              <button onClick={() => amountControl(-1)}>-</button>
               <input
                 type="text"
                 name="amount"
                 value={amount}
-                onChange={e => this.handleEvent(e)}
-                onBlur={this.validationAmount}
+                onChange={e => handleEvent(e)}
+                onBlur={validationAmount}
               />
-              <button onClick={() => this.amountControl(1)}>+</button>
+              <button onClick={() => amountControl(1)}>+</button>
             </div>
             <div>₩{price}원</div>
           </div>
