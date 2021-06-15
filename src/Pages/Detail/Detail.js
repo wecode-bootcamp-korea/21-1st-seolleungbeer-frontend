@@ -11,7 +11,7 @@ class Detail extends React.Component {
   state = {
     goods: {},
     isModalOpen: false,
-    isLogin: true,
+    isLogin: false,
     content: {},
   };
 
@@ -22,7 +22,7 @@ class Detail extends React.Component {
 
     const order = { id, korean_name, amount, price };
 
-    if (isLogin) {
+    if (!isLogin) {
       this.addOrder(order);
       if (name === 'buy') {
         this.props.history.push('/payment');
@@ -38,6 +38,23 @@ class Detail extends React.Component {
     }
 
     this.setState({ isModalOpen: false });
+  };
+
+  addOrder = data => {
+    const token = localStorage.getItem('access_token');
+    const resource = `/orders/cart`;
+
+    fetch(API.detail + resource, {
+      headers: {
+        Authentication: token,
+      },
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+      });
   };
 
   componentDidMount = () => {
@@ -56,17 +73,16 @@ class Detail extends React.Component {
       });
   };
 
-  addOrder = body => {
-    const resource = `/orders/cart`;
+  componentDidUpdate = () => {
+    const { isLogin } = this.state;
+    const token = localStorage.getItem('access_token');
 
-    fetch(API.detail + resource, {
-      method: 'POST',
-      body,
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-      });
+    if (token && !isLogin) {
+      this.setState({ isLogin: true });
+    }
+    if (!token && isLogin) {
+      this.setState({ isLogin: false });
+    }
   };
 
   render() {
