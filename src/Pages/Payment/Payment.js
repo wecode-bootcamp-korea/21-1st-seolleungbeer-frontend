@@ -12,34 +12,34 @@ class Payment extends React.Component {
       {
         img: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
         name: 'AAAAAA',
+        id: 156,
         amount: 12,
         price: 4000,
-        delivery_charge: 3000,
       },
       {
         img: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
         name: 'BBBBBB',
+        id: 16,
         amount: 8,
         price: 40000,
-        delivery_charge: 30000,
       },
       {
         img: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
         name: 'CCCCCCC',
+        id: 16,
         amount: 19,
         price: 10000,
-        delivery_charge: 5000,
       },
     ],
-    isModalOpen: false,
     zonecode: '',
     address: '',
     address_detail: '',
-    delivery_message: '',
-    payment: [
+    delivery_memo: '',
+    payment_information: [
       { value: 'card', checked: true, label: '신용카드' },
       { value: 'kakao', checked: false, label: '카카오페이' },
     ],
+    isModalOpen: false,
     agree_check: false,
   };
 
@@ -91,6 +91,14 @@ class Payment extends React.Component {
   submitPayment = () => {
     const { agree_check, email, mobile } = this.state;
 
+    // const obj ={
+    //   order_number: '주문번호(장바구니의 주문번호)',
+    //   order_item: [아이템.id:수량, 아이템id:수량, 아이템.id:수량, ...],
+    //   delivery_memo: '배송메모',
+    //   payment_information: '결제방법',
+    //   payment_charge: 최종결제금액,
+    //   }
+
     if (!validator.email(email)) {
       return;
     }
@@ -111,8 +119,8 @@ class Payment extends React.Component {
       zonecode,
       address,
       address_detail,
-      delivery_message,
-      payment,
+      delivery_memo,
+      payment_information,
       agree_check,
     } = this.state;
 
@@ -127,7 +135,9 @@ class Payment extends React.Component {
     );
 
     const deliveryCharge = Math.max(
-      ...orders.map(order => order.delivery_charge)
+      ...orders.map(order =>
+        order.delivery_charge ? order.delivery_charge : 0
+      )
     );
 
     const totalCost = orderSumPrice + deliveryCharge;
@@ -225,7 +235,7 @@ class Payment extends React.Component {
                 <div>
                   <select
                     name="delivery_message"
-                    value={delivery_message}
+                    value={delivery_memo}
                     onChange={this.handleInput}
                   >
                     <option value="">배송메모를 선택해 주세요.</option>
@@ -253,7 +263,11 @@ class Payment extends React.Component {
                   </div>
                   <div>
                     <span>배송비</span>
-                    <span>{deliveryCharge.toLocaleString()}</span>
+                    <span>
+                      {deliveryCharge === 0
+                        ? '무료'
+                        : deliveryCharge.toLocaleString()}
+                    </span>
                   </div>
                 </div>
                 <div className="tot-info">
@@ -266,7 +280,7 @@ class Payment extends React.Component {
             </Card>
             <Card title={'결제방법'}>
               <div className="pay">
-                {payment.map(pay => (
+                {payment_information.map(pay => (
                   <label key={pay.checked}>
                     <input
                       type="radio"
