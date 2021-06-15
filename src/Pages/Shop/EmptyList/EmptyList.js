@@ -6,11 +6,7 @@ class EmptyList extends React.Component {
     return (
       <div className="empty-list">
         <div>
-          {this.props.isLoading ? (
-            <span>로딩중...</span>
-          ) : (
-            <span>상품이 존재하지 않습니다.</span>
-          )}
+          <span>상품이 존재하지 않습니다.</span>
         </div>
       </div>
     );

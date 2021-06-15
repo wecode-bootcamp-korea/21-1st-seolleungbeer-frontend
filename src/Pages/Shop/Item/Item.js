@@ -13,7 +13,7 @@ class Item extends React.Component {
           <div className="image-container">
             <img
               alt={koreanName}
-              src={image === null ? '/images/defaultImage.jpg' : image}
+              src={image ? image : '/images/defaultImage.jpg'}
             />
           </div>
           <div className="content">

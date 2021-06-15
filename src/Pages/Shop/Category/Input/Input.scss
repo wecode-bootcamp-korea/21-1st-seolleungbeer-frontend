@@ -21,14 +21,14 @@
     color: #595959;
     font-size: 15px;
   }
-}
 
-.checked {
-  border: none;
-  background-color: $green;
-  opacity: 0.9;
-}
+  .checked {
+    border: none;
+    background-color: $green;
+    opacity: 0.9;
+  }
 
-.non-checked {
-  background-color: none;
+  .non-checked {
+    background-color: none;
+  }
 }

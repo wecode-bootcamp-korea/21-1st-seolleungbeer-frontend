@@ -4,31 +4,20 @@ import Input from './Input/Input';
 
 class Category extends React.Component {
   render() {
-    const { category, subCategory } = this.props;
+    const { category, subCategory, selectCategory } = this.props;
     const renderSubCategory = () => {
+      const inputProps = {
+        category,
+        subCategory,
+        selectCategory,
+        name: 'subCategory',
+      };
+
       return (
         <div className="category-liquor">
-          <Input
-            category={category}
-            subCategory={subCategory}
-            value="cocktail"
-            selectCategory={this.props.selectCategory}
-            name="subCategory"
-          />
-          <Input
-            category={category}
-            subCategory={subCategory}
-            value="beer"
-            selectCategory={this.props.selectCategory}
-            name="subCategory"
-          />
-          <Input
-            category={category}
-            subCategory={subCategory}
-            value="wine"
-            selectCategory={this.props.selectCategory}
-            name="subCategory"
-          />
+          <Input {...inputProps} value="cocktail" />
+          <Input {...inputProps} value="beer" />
+          <Input {...inputProps} value="wine" />
         </div>
       );
     };

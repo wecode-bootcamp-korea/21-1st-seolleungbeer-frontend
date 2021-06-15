@@ -3,6 +3,7 @@ import API from '../../config';
 import Category from './Category/Category';
 import EmptyList from './EmptyList/EmptyList';
 import ItemList from './ItemList/ItemList';
+import LoadingList from './LoadingList/LoadingList';
 import './Shop.scss';
 
 class Shop extends React.Component {
@@ -48,13 +49,6 @@ class Shop extends React.Component {
   fetchItems = async (offset = 0, category = '', subCategory = '') => {
     if (this.state.isLast) return;
 
-    console.log(
-      `${API.shop}/products?category=${
-        category === 'all' ? '' : category
-      }&subcategory=${subCategory}&offset=${offset * this.state.limit}&limit=${
-        this.state.limit
-      }`
-    );
     try {
       const res = await fetch(
         `${API.shop}/products?category=${
@@ -70,9 +64,10 @@ class Shop extends React.Component {
       const result = await res.json();
       const items = result.content;
       const message = result.message;
+      console.log(result);
 
       //더 불러올 아이템이 없는 경우
-      if (message === 1) {
+      if (message) {
         this.setState({
           isLast: true,
         });
@@ -126,16 +121,14 @@ class Shop extends React.Component {
           category={category}
           subCategory={subCategory}
         />
-        {items.length > 0 ? (
+        {items.length > 0 && (
           <ItemList
             items={items}
             moreLoadItems={this.moreLoadItems}
             isLast={isLast}
           />
-        ) : (
-          <EmptyList isLoading={isLoading} />
         )}
-        <div className="footer"></div>
+        {items.length <= 0 && isLoading ? <LoadingList /> : <EmptyList />}
       </div>
     );
   }
