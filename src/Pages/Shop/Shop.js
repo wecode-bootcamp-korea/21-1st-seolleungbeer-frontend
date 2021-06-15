@@ -48,6 +48,13 @@ class Shop extends React.Component {
   fetchItems = async (offset = 0, category = '', subCategory = '') => {
     if (this.state.isLast) return;
 
+    console.log(
+      `${API.shop}/products?category=${
+        category === 'all' ? '' : category
+      }&subcategory=${subCategory}&offset=${offset * this.state.limit}&limit=${
+        this.state.limit
+      }`
+    );
     try {
       const res = await fetch(
         `${API.shop}/products?category=${
