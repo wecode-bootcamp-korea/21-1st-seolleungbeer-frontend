@@ -44,9 +44,7 @@ class Payment extends React.Component {
   };
 
   componentDidMount = () => {
-    console.log(this.props);
-    console.log(this.props.match);
-    console.log(this.props.location);
+    const orders = this.props.location.state;
   };
 
   handleModal = () => {
