@@ -64,13 +64,15 @@ class Shop extends React.Component {
       const items = result.content;
       const message = result.message;
 
-      if (message === 'Last Page') {
+      //더 불러올 아이템이 없는 경우
+      if (message === 1) {
         this.setState({
           isLast: true,
         });
       }
 
-      if (message === 'Product Does Not Exist') {
+      //제품이 없는 경우
+      if (message === []) {
         this.setState({
           items: [],
           isLoading: false,
