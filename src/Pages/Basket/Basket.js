@@ -47,15 +47,23 @@ class Basket extends React.Component {
   // /Data/basket.json
   fetchBasketItems = async () => {
     try {
-      const res = await fetch(`${API}/order/cart`, {
+      const res = await fetch(`${API}/orders/cart`, {
         method: 'GET',
+        headers: {
+          Authorization: `${localStorage.getItem('accessToken')}`,
+        },
       });
+
+      console.log(localStorage.getItem('accessToken'));
       const items = await res.json();
 
       console.log(items);
-      this.setState({
-        items,
-      });
+
+      if (items.message === 'SUCCESS') {
+        this.setState({
+          items: items.result,
+        });
+      }
     } catch (err) {
       console.error(err);
     }
@@ -154,6 +162,7 @@ class Basket extends React.Component {
   };
 
   deleteItem = id => {
+    console.log(id);
     this.setState({
       items: this.state.items.filter(item => item.cart_id !== id),
     });
@@ -214,7 +223,7 @@ class Basket extends React.Component {
                   <span>배송비</span>
                 </div>
                 <div>
-                  <span>3,000원</span>
+                  <span>0원</span>
                 </div>
               </div>
             </div>
@@ -230,7 +239,7 @@ class Basket extends React.Component {
                   <span>결제금액</span>
                 </div>
                 <div>
-                  <span>{formatter(parseInt(sum(items)) + 3000)}원</span>
+                  <span>{formatter(parseInt(sum(items)))}원</span>
                 </div>
               </div>
             </div>
