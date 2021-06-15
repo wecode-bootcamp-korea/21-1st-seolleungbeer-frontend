@@ -6,7 +6,7 @@ class Item extends React.Component {
     super();
 
     this.state = {
-      isChecked: false,
+      isChecked: true,
     };
   }
 
@@ -20,7 +20,9 @@ class Item extends React.Component {
 
   handleClickButton = e => {
     if (e.target.name === 'delete') {
-      this.props.deleteItem(this.props.id);
+      this.props.deleteItem([this.props.id]);
+    } else {
+      this.props.openQuantityForm();
     }
   };
 
@@ -55,18 +57,16 @@ class Item extends React.Component {
         </div>
         <div className="quantity">
           <span>1개</span>
-          <button name="change" onClick={this.handleClickButton}>
-            변경
-          </button>
+          <button onClick={this.handleClickButton}>변경</button>
         </div>
         <div className="transportation">
           <span>{deliveryMethod}</span>
         </div>
         <div className="shipping-fee">
-          <span>{deliveryCharge}원</span>
+          <span>{parseInt(deliveryCharge).toLocaleString()}원</span>
         </div>
         <div className="price">
-          <span>{price}원</span>
+          <span>{parseInt(price).toLocaleString()}원</span>
         </div>
         <div className="control-buttons">
           <button name="order" onClick={this.handleClickButton}>

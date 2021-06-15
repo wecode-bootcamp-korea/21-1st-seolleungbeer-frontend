@@ -2,31 +2,14 @@ import React from 'react';
 import ItemList from './ItemList/ItemList';
 import API from '../../config';
 import './Basket.scss';
+import QuantityForm from './QuantityForm/QuantityForm';
 
 const sum = items => {
   const sum = items.reduce(
     (acc, item) => acc + parseInt(item.payment_charge),
     0
   );
-
   return sum;
-};
-
-const formatter = price => {
-  const priceArr = price.toString().split('');
-  const result = [];
-
-  let count = 0;
-  for (let i = priceArr.length - 1; i >= 0; i--) {
-    if (count === 3) {
-      result.unshift(',');
-      count = 0;
-    }
-    result.unshift(priceArr[i]);
-    count++;
-  }
-
-  return result.join('');
 };
 
 class Basket extends React.Component {
@@ -36,7 +19,8 @@ class Basket extends React.Component {
     this.state = {
       items: [],
       checkedItems: [],
-      isCheckedAllItems: false,
+      isCheckedAllItems: true,
+      isClickedCountButton: false,
     };
   }
 
@@ -44,26 +28,29 @@ class Basket extends React.Component {
     this.fetchBasketItems();
   }
 
+  // ${API}/orders/cart
   // /Data/basket.json
   fetchBasketItems = async () => {
     try {
-      const res = await fetch(`${API}/orders/cart`, {
+      const res = await fetch(`/Data/basket.json`, {
         method: 'GET',
-        headers: {
-          Authorization: `${localStorage.getItem('accessToken')}`,
-        },
+        // headers: {
+        //   Authorization: `${localStorage.getItem('accessToken')}`,
+        // },
       });
 
-      console.log(localStorage.getItem('accessToken'));
       const items = await res.json();
 
-      console.log(items);
+      this.setState({
+        items,
+        checkedItems: items.map(item => item.cart_id),
+      });
 
-      if (items.message === 'SUCCESS') {
-        this.setState({
-          items: items.result,
-        });
-      }
+      // if (items.message === 'SUCCESS') {
+      //   this.setState({
+      //     items: items.result,
+      //   });
+      // }
     } catch (err) {
       console.error(err);
     }
@@ -74,7 +61,7 @@ class Basket extends React.Component {
       const res = await fetch('#', {
         method: '',
         body: {
-          id,
+          cart_id: id,
         },
       });
       const result = await res.json();
@@ -85,21 +72,21 @@ class Basket extends React.Component {
     }
   };
 
-  requestDeleteItems = async checkedItems => {
-    try {
-      const res = await fetch('#', {
-        method: '',
-        body: {
-          checkedItems,
-        },
-      });
-      const result = await res.json();
+  // requestDeleteItems = async checkedItems => {
+  //   try {
+  //     const res = await fetch('#', {
+  //       method: '',
+  //       body: {
+  //         checkedItems,
+  //       },
+  //     });
+  //     const result = await res.json();
 
-      console.log(result);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  //     console.log(result);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   handleChangeCheckBox = e => {
     this.setState(
@@ -117,7 +104,10 @@ class Basket extends React.Component {
 
     for (let i = 0; i < filteredItems.length; i++) {
       for (let j = 0; j < checkedItems.length; j++) {
-        if (filteredItems[i].cart_id === parseInt(checkedItems[j])) {
+        if (
+          filteredItems[i] &&
+          filteredItems[i].cart_id === parseInt(checkedItems[j])
+        ) {
           filteredItems.splice(i, 1);
           i--;
         }
@@ -161,19 +151,34 @@ class Basket extends React.Component {
     }
   };
 
-  deleteItem = id => {
-    console.log(id);
+  deleteItem = itemId => {
+    const [id] = itemId;
     this.setState({
       items: this.state.items.filter(item => item.cart_id !== id),
+      checkedItems: this.state.checkedItems.filter(
+        checkedItem => checkedItem !== id
+      ),
     });
     // this.requestDeleteItem(id)
   };
 
+  openQuantityForm = () => {
+    this.setState({
+      isClickedCountButton: !this.state.isClickedCountButton,
+    });
+  };
+
+  // modifyQuantity = () => {
+
+  // }
+
   render() {
-    const { items, checkedItems, isCheckedAllItems } = this.state;
-    console.log(checkedItems);
+    const { items, checkedItems, isCheckedAllItems, isClickedCountButton } =
+      this.state;
+    console.log(isClickedCountButton);
     return (
       <div className="basket">
+        {isClickedCountButton && <QuantityForm />}
         <div className="title">
           <h1>CART</h1>
           <span>당신의 선릉은 어떤가요?</span>
@@ -181,7 +186,11 @@ class Basket extends React.Component {
         <div className="cart">
           <div className="cart-header">
             <div className="checkbox">
-              <input type="checkbox" onChange={this.handleChangeCheckBox} />
+              <input
+                type="checkbox"
+                onChange={this.handleChangeCheckBox}
+                checked={isCheckedAllItems}
+              />
             </div>
             <div>
               <span>item</span>
@@ -206,6 +215,7 @@ class Basket extends React.Component {
             items={items}
             deleteItem={this.deleteItem}
             checkItems={this.checkItems}
+            openQuantityForm={this.openQuantityForm}
             isCheckedAllItems={isCheckedAllItems}
           />
           <div className="cart-result">
@@ -215,7 +225,7 @@ class Basket extends React.Component {
                   <span>상품가격</span>
                 </div>
                 <div>
-                  <span>{formatter(sum(items))}원</span>
+                  <span>{sum(items).toLocaleString()}원</span>
                 </div>
               </div>
               <div>
@@ -223,7 +233,11 @@ class Basket extends React.Component {
                   <span>배송비</span>
                 </div>
                 <div>
-                  <span>0원</span>
+                  {localStorage.getItem('accessToken') ? (
+                    <span>0원</span>
+                  ) : (
+                    <span>2,500원</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -239,7 +253,7 @@ class Basket extends React.Component {
                   <span>결제금액</span>
                 </div>
                 <div>
-                  <span>{formatter(parseInt(sum(items)))}원</span>
+                  <span>{sum(items).toLocaleString()}원</span>
                 </div>
               </div>
             </div>

@@ -23,6 +23,7 @@ class ItemList extends React.Component {
               deleteItem={this.props.deleteItem}
               checkItems={this.props.checkItems}
               isCheckedAllItems={this.props.isCheckedAllItems}
+              openQuantityForm={this.props.openQuantityForm}
             />
           ))}
         </ul>
