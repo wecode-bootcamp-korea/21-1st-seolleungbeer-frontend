@@ -144,17 +144,23 @@
       height: 30px;
       margin-top: 20px;
 
-      button {
+      a {
         width: 100px;
         height: 100%;
-        margin: 5px;
+        text-decoration: none;
         background: none;
-        font-size: 11px;
-        font-weight: 400;
-        transition: 0.2s;
+
+        button {
+          width: 100%;
+          height: 100%;
+          background: none;
+          font-size: 11px;
+          font-weight: 400;
+          transition: 0.2s;
+        }
       }
 
-      :nth-child(1) {
+      .continue {
         border: 1px solid #dfdfdf;
         color: #535659;
 
@@ -164,7 +170,7 @@
         }
       }
 
-      :nth-child(2) {
+      .order {
         background: $green;
         color: white;
 

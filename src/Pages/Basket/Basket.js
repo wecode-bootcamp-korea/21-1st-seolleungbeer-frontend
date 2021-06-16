@@ -1,12 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import ItemList from './ItemList/ItemList';
 import API from '../../config';
-import './Basket.scss';
 import QuantityForm from './QuantityForm/QuantityForm';
+import './Basket.scss';
 
 const sum = items => {
   const sum = items.reduce(
-    (acc, item) => acc + parseInt(item.payment_charge),
+    (acc, item) => acc + parseInt(item.payment_charge * item.amount),
     0
   );
   return sum;
@@ -19,6 +20,7 @@ class Basket extends React.Component {
     this.state = {
       items: [],
       checkedItems: [],
+      quantityFormId: '',
       isCheckedAllItems: true,
       isClickedCountButton: false,
     };
@@ -32,61 +34,58 @@ class Basket extends React.Component {
   // /Data/basket.json
   fetchBasketItems = async () => {
     try {
-      const res = await fetch(`/Data/basket.json`, {
+      const res = await fetch(`${API}/orders/cart`, {
         method: 'GET',
-        // headers: {
-        //   Authorization: `${localStorage.getItem('accessToken')}`,
-        // },
+        headers: {
+          Authorization: `${localStorage.getItem('accessToken')}`,
+        },
       });
 
       const items = await res.json();
 
-      this.setState({
-        items,
-        checkedItems: items.map(item => item.cart_id),
-      });
+      // this.setState({
+      //   items,
+      //   checkedItems: items.map(item => item.cart_id),
+      // });
 
-      // if (items.message === 'SUCCESS') {
-      //   this.setState({
-      //     items: items.result,
-      //   });
-      // }
+      if (items.message === 'SUCCESS') {
+        this.setState({
+          items: items.result,
+          checkedItems: items.result.map(item => item.cart_id),
+        });
+      }
     } catch (err) {
       console.error(err);
     }
   };
 
   requestDeleteItem = async id => {
+    if (id.length <= 0) {
+      console.error('아이템을 선택하세요');
+      return;
+    }
+
     try {
-      const res = await fetch('#', {
-        method: '',
-        body: {
-          cart_id: id,
+      const res = await fetch(`${API}/orders/cart`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `${localStorage.getItem('accessToken')}`,
         },
+        body: JSON.stringify({
+          cart_item_id: id,
+        }),
       });
       const result = await res.json();
 
-      console.log(result);
+      if (result.message === 'DELETE_SUCCESS') {
+        this.deleteItems(id);
+      } else {
+        console.error('메시지가 올바르지 않습니다');
+      }
     } catch (err) {
       console.error(err);
     }
   };
-
-  // requestDeleteItems = async checkedItems => {
-  //   try {
-  //     const res = await fetch('#', {
-  //       method: '',
-  //       body: {
-  //         checkedItems,
-  //       },
-  //     });
-  //     const result = await res.json();
-
-  //     console.log(result);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
 
   handleChangeCheckBox = e => {
     this.setState(
@@ -95,31 +94,11 @@ class Basket extends React.Component {
       },
       this.checkAllItems
     );
-    // this.checkAllItems();
   };
 
   handleClickDeleteButton = () => {
-    const filteredItems = this.state.items;
     const checkedItems = this.state.checkedItems;
-
-    for (let i = 0; i < filteredItems.length; i++) {
-      for (let j = 0; j < checkedItems.length; j++) {
-        if (
-          filteredItems[i] &&
-          filteredItems[i].cart_id === parseInt(checkedItems[j])
-        ) {
-          filteredItems.splice(i, 1);
-          i--;
-        }
-      }
-    }
-
-    this.setState({
-      items: filteredItems,
-      checkedItems: [],
-    });
-
-    // this.requestDeleteItems(checkedItems)
+    this.requestDeleteItem(checkedItems);
   };
 
   checkAllItems = () => {
@@ -151,34 +130,120 @@ class Basket extends React.Component {
     }
   };
 
-  deleteItem = itemId => {
-    const [id] = itemId;
+  deleteItems = id => {
+    const filteredItems = this.state.items;
+    const checkedItems = this.state.checkedItems;
+
+    if (id.length === 1) {
+      const [itemId] = id;
+      this.setState({
+        items: this.state.items.filter(item => item.cart_id !== itemId),
+        checkedItems: checkedItems.filter(
+          checkedItem => checkedItem !== itemId
+        ),
+      });
+      return;
+    }
+
+    for (let i = 0; i < filteredItems.length; i++) {
+      for (let j = 0; j < checkedItems.length; j++) {
+        if (
+          filteredItems[i] &&
+          filteredItems[i].cart_id === parseInt(checkedItems[j])
+        ) {
+          filteredItems.splice(i, 1);
+          i--;
+        }
+      }
+    }
+
     this.setState({
-      items: this.state.items.filter(item => item.cart_id !== id),
-      checkedItems: this.state.checkedItems.filter(
-        checkedItem => checkedItem !== id
-      ),
+      items: filteredItems,
+      checkedItems: [],
     });
-    // this.requestDeleteItem(id)
   };
 
-  openQuantityForm = () => {
+  openQuantityForm = id => {
     this.setState({
       isClickedCountButton: !this.state.isClickedCountButton,
+      quantityFormId: id,
     });
   };
 
-  // modifyQuantity = () => {
+  requestModifyQuantity = async (id, amount) => {
+    console.log(id, amount);
+    try {
+      //   const res = await fetch('http://10.58.1.215:8000/orders/cart', {
+      //     method: 'PATCH',
+      //     headers: {
+      //       // Authorization: `${localStorage.getItem('accessToken')}`,
+      //       Authorization:
+      //         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1fQ.m9NNCruvdjZaxXrQnciYLBZOPU9GHpKlTjhBFzTMWo0',
+      //     },
+      //     body: JSON.stringify({
+      //       product_id: 165,
+      //       amount,
+      //     }),
+      //   });
 
-  // }
+      //   const result = await res.json();
+      //   // console.log(result);
+
+      //   if (result.message === 'CHANGE SUCCESS') {
+      //     this.modifyQuantity(id, price, amount);
+      //   } else {
+      //     console.error('수량 변경 실패');
+      //   }
+
+      this.modifyQuantity(id, amount);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  modifyQuantity = (id, amount) => {
+    const modifiedItems = this.state.items.map(item => {
+      if (item.cart_id === id) {
+        // item.payment_charge = price + '.00';
+        item.amount = amount;
+      }
+
+      return item;
+    });
+
+    this.setState({
+      items: modifiedItems,
+    });
+  };
 
   render() {
-    const { items, checkedItems, isCheckedAllItems, isClickedCountButton } =
-      this.state;
-    console.log(isClickedCountButton);
+    const {
+      items,
+      checkedItems,
+      isCheckedAllItems,
+      isClickedCountButton,
+      quantityFormId,
+    } = this.state;
+
+    const state = items.filter(item => {
+      for (const checkedItem of checkedItems) {
+        if (item.cart_id === checkedItem) {
+          return item;
+        }
+      }
+    });
+
+    // console.log(state);
+
     return (
       <div className="basket">
-        {isClickedCountButton && <QuantityForm />}
+        {isClickedCountButton && (
+          <QuantityForm
+            item={items.filter(item => item.cart_id === quantityFormId)}
+            openQuantityForm={this.openQuantityForm}
+            requestModifyQuantity={this.requestModifyQuantity}
+          />
+        )}
         <div className="title">
           <h1>CART</h1>
           <span>당신의 선릉은 어떤가요?</span>
@@ -213,7 +278,7 @@ class Basket extends React.Component {
           </div>
           <ItemList
             items={items}
-            deleteItem={this.deleteItem}
+            requestDeleteItem={this.requestDeleteItem}
             checkItems={this.checkItems}
             openQuantityForm={this.openQuantityForm}
             isCheckedAllItems={isCheckedAllItems}
@@ -233,7 +298,7 @@ class Basket extends React.Component {
                   <span>배송비</span>
                 </div>
                 <div>
-                  {localStorage.getItem('accessToken') ? (
+                  {localStorage.getItem('access_token') ? (
                     <span>0원</span>
                   ) : (
                     <span>2,500원</span>
@@ -253,14 +318,24 @@ class Basket extends React.Component {
                   <span>결제금액</span>
                 </div>
                 <div>
-                  <span>{sum(items).toLocaleString()}원</span>
+                  <span>
+                    {/* 체크된 것만 가격계산 */}
+                    {localStorage.getItem('access_token')
+                      ? sum(items).toLocaleString()
+                      : (sum(items) + 2500).toLocaleString()}
+                    원
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div className="cart-result-button">
-            <button>계속 쇼핑하기</button>
-            <button>주문하기</button>
+            <Link to="/shop">
+              <button className="continue">계속 쇼핑하기</button>
+            </Link>
+            <Link to={{ pathname: '/signup', state }}>
+              <button className="order">주문하기</button>
+            </Link>
           </div>
         </div>
       </div>

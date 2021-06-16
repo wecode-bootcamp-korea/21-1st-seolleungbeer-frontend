@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Item.scss';
 
 class Item extends React.Component {
@@ -20,9 +21,9 @@ class Item extends React.Component {
 
   handleClickButton = e => {
     if (e.target.name === 'delete') {
-      this.props.deleteItem([this.props.id]);
+      this.props.requestDeleteItem([this.props.id]);
     } else {
-      this.props.openQuantityForm();
+      this.props.openQuantityForm(this.props.id);
     }
   };
 
@@ -36,7 +37,35 @@ class Item extends React.Component {
   };
 
   render() {
-    const { deliveryCharge, deliveryMethod, image, name, price } = this.props;
+    const {
+      deliveryCharge,
+      deliveryMethod,
+      image,
+      name,
+      price,
+      amount,
+      orderId,
+    } = this.props;
+
+    // console.log(this.props.item);
+
+    // const state = [
+
+    // ]
+
+    // const state = [
+    //   {
+    //     image_url: image,
+    //     korean_name: name,
+    //     product_id: 3,
+    //     order_item_id: orderId,
+    //     amount,
+    //     price: parseInt(price) / amount + '.00',
+    //   },
+    // ];
+
+    // console.log(state[0].price);
+
     return (
       <li className="item">
         <div className="checkbox-container">
@@ -56,7 +85,7 @@ class Item extends React.Component {
           <i className="far fa-heart"></i>
         </div>
         <div className="quantity">
-          <span>1개</span>
+          <span>{amount}개</span>
           <button onClick={this.handleClickButton}>변경</button>
         </div>
         <div className="transportation">
@@ -66,12 +95,12 @@ class Item extends React.Component {
           <span>{parseInt(deliveryCharge).toLocaleString()}원</span>
         </div>
         <div className="price">
-          <span>{parseInt(price).toLocaleString()}원</span>
+          <span>{(parseInt(price) * amount).toLocaleString()}원</span>
         </div>
         <div className="control-buttons">
-          <button name="order" onClick={this.handleClickButton}>
-            주문
-          </button>
+          <Link to={{ pathname: '/signup', state: this.props.item }}>
+            <button name="order">주문</button>
+          </Link>
           <button name="delete" onClick={this.handleClickButton}>
             삭제
           </button>

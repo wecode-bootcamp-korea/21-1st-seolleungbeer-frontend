@@ -59,18 +59,22 @@
     }
 
     .count-container {
+      @include flex();
       position: relative;
       margin: 50px 0 0 30px;
       width: 100px;
 
-      span {
+      .quantity {
         position: absolute;
         top: -25px;
         font-weight: bold;
       }
 
-      input {
+      .amount-box {
+        @include flex(center, center);
         width: 40px;
+        height: 25px;
+        font-weight: bold;
       }
 
       button {
@@ -86,8 +90,10 @@
       color: #565656;
 
       .result-quantity {
+        margin: 0 5px;
         color: $green;
         font-weight: bold;
+        font-size: 16px;
       }
 
       .result-price {
