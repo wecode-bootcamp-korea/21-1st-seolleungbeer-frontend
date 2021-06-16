@@ -13,41 +13,7 @@ class Payment extends React.Component {
     order_mobile: '',
     delivery_user_name: '',
     delivery_mobile: '',
-    order_item: [
-      // {
-      //   image_url: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
-      //   korean_name: 'AAAAAA',
-      //   product_id: 12,
-      //   order_item_id: 156,
-      //   amount: 12,
-      //   price: 4000,
-      // },
-      // {
-      //   image_url: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
-      //   korean_name: 'BBBBBB',
-      //   product_id: 12,
-      //   order_item_id: 16,
-      //   amount: 8,
-      //   price: 40000,
-      // },
-      // {
-      //   image_url: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
-      //   korean_name: 'CCCCCCC',
-      //   product_id: 12,
-      //   order_item_id: 17,
-      //   amount: 19,
-      //   price: 10000,
-      // },
-      // {
-      //   amount: 6,
-      //   image_url:
-      //     'https://raw.githubusercontent.com/geekanne/wecodeA/main/seolleungbeer_product_image/1_비냐펜폴즈_1.png',
-      //   korean_name: '비냐 펜폴즈',
-      //   order_item_id: 84,
-      //   price: '300000.00',
-      //   product_id: '165',
-      // },
-    ],
+    order_item: [],
     zonecode: '',
     address: '',
     address_detail: '',
@@ -92,36 +58,46 @@ class Payment extends React.Component {
   };
 
   componentDidMount = () => {
+    const token = localStorage.getItem('access_token');
+    const resource = `/users/account`;
     const { order_item } = this.props.history.location.state;
 
-    if (order_item) {
-      const total_amount = order_item.reduce(
-        (acc, order) => acc + order.amount,
-        0
-      );
+    fetch(API.payment + resource, {
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.message) {
+          return;
+        }
+        const { email, mobile, name } = data;
 
-      const total_price = order_item.reduce(
-        (acc, order) => acc + order.amount * order.price,
-        0
-      );
+        if (order_item) {
+          const total_amount = order_item.reduce(
+            (acc, order) => acc + order.amount,
+            0
+          );
 
-      const delivery_charge = 0;
+          const total_price = order_item.reduce(
+            (acc, order) => acc + order.amount * order.price,
+            0
+          );
 
-      this.setState({ order_item, total_amount, total_price, delivery_charge });
+          const delivery_charge = 0;
 
-      // const token = localStorage.getItem('access_token');
-      // const resource = ``;
-
-      // fetch(API.payment + resource, {
-      //   headers: {
-      //     Authorization: token,
-      //   },
-      // })
-      //   .then(res => res.json())
-      //   .then(data => {
-      //     console.log(data);
-      //   });
-    }
+          this.setState({
+            order_item,
+            total_amount,
+            total_price,
+            delivery_charge,
+            order_user_name: name,
+            order_email: email,
+            order_mobile: mobile,
+          });
+        }
+      });
   };
 
   handleModal = () => {
@@ -134,7 +110,7 @@ class Payment extends React.Component {
     const value = this.state[key];
 
     if (checkList[key].type === 'name') {
-      if (value.length > 2) {
+      if (value.length > 1) {
         isValidator = true;
       }
     } else {
@@ -216,12 +192,15 @@ class Payment extends React.Component {
 
     Object.keys(checkList).map(key => this.validationCheck(key));
 
+    console.log(`validationCheckList`);
+
     for (let item in checkList) {
       if (checkList[item].validator === false) {
         alert(checkList[item].message);
         return true;
       }
     }
+    return false;
   };
 
   submitPayment = () => {
@@ -229,11 +208,11 @@ class Payment extends React.Component {
     const { order_item, delivery_memo, payment } = this.state;
     const payment_information = payment.filter(pay => pay.checked)[0].label;
 
-    const pay = {
+    const data = {
       order_item,
       delivery_memo,
       payment_information,
-      // '여기 현금',
+      payment_charge: total_price + delivery_charge,
     };
 
     if (this.validationCheckList()) {
@@ -245,7 +224,27 @@ class Payment extends React.Component {
       return;
     }
 
-    console.log(pay);
+    this.gotoServer(data);
+  };
+
+  gotoServer = data => {
+    const token = localStorage.getItem('access_token');
+    const resource = '/orders/payment';
+    fetch(API.payment + resource, {
+      headers: {
+        Authorization: token,
+      },
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.message === 'SUCCESS') {
+          alert('결제가 완료되었습니다');
+          this.props.history.push('/');
+        }
+      });
   };
 
   render() {
@@ -509,7 +508,7 @@ class Payment extends React.Component {
                   />
                   <span>구매조건 확인 및 결제진행에 동의</span>
                 </label>
-                <button onClick={() => this.submitPayment}>결제하기</button>
+                <button onClick={this.submitPayment}>결제하기</button>
               </div>
             </Card>
           </div>
