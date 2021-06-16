@@ -64,7 +64,6 @@ class Shop extends React.Component {
       const result = await res.json();
       const items = result.content;
       const lastPageMessage = result.is_last_page;
-      console.log(result);
 
       //더 불러올 아이템이 없는 경우
       if (lastPageMessage) {
