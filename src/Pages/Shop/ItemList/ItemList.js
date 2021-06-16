@@ -10,12 +10,12 @@ class ItemList extends React.Component {
         <ul>
           {items.map(item => (
             <Item
-              key={item.id}
-              id={item.id}
+              key={item.product_id}
+              productId={item.product_id}
               price={item.price}
               koreanName={item.korean_name}
               englishName={item.english_name}
-              image={item.image}
+              mainImage={item.main_image}
             />
           ))}
         </ul>

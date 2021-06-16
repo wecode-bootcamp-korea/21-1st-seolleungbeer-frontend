@@ -4,15 +4,15 @@ import './Item.scss';
 
 class Item extends React.Component {
   render() {
-    const { id, price, koreanName, englishName, image } = this.props;
+    const { productId, price, koreanName, englishName, mainImage } = this.props;
 
     return (
       <li className="item">
-        <Link to={`/shop/detail/${id}`}>
+        <Link to={`/shop/detail/${productId}`}>
           <div className="image-container">
             <img
               alt={koreanName}
-              src={image ? image : '/images/defaultImage.jpg'}
+              src={mainImage ? mainImage : '/images/defaultImage.jpg'}
             />
           </div>
           <div className="content">
