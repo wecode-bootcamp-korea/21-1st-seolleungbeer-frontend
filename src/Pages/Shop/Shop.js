@@ -63,18 +63,18 @@ class Shop extends React.Component {
 
       const result = await res.json();
       const items = result.content;
-      const message = result.message;
+      const lastPageMessage = result.is_last_page;
       console.log(result);
 
       //더 불러올 아이템이 없는 경우
-      if (message) {
+      if (lastPageMessage) {
         this.setState({
           isLast: true,
         });
       }
 
       //제품이 없는 경우
-      if (message === []) {
+      if (items === []) {
         this.setState({
           items: [],
           isLoading: false,
@@ -128,7 +128,8 @@ class Shop extends React.Component {
             isLast={isLast}
           />
         )}
-        {items.length <= 0 && isLoading ? <LoadingList /> : <EmptyList />}
+        {items.length <= 0 && isLoading && <LoadingList />}
+        {items.length <= 0 && !isLoading && <EmptyList />}
       </div>
     );
   }

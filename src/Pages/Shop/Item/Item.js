@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { priceFormat } from '../../../utils/priceFormat';
 import './Item.scss';
 
 class Item extends React.Component {
@@ -19,7 +18,7 @@ class Item extends React.Component {
           <div className="content">
             <span>{koreanName}</span>
             <span>{englishName}</span>
-            <span>₩ {priceFormat(price)}</span>
+            <span>₩ {parseInt(price).toLocaleString()}</span>
           </div>
         </Link>
       </li>
