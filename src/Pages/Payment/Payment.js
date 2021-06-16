@@ -1,5 +1,6 @@
 import React from 'react';
 import DaumPostcode from 'react-daum-postcode';
+import API from '../../config';
 import Card from '../../Components/Payment/Card';
 import Popup from '../../Components/ShoppingModal/Popup';
 import validator from '../../utils/validator';
@@ -79,12 +80,18 @@ class Payment extends React.Component {
   };
 
   componentDidMount = () => {
-    const token = localStorage.getItem('access_token');
-    // fetch('/', {
-    //   headers: { Authorization: token },
-    // }).then(res => res.json());
+    console.log(this.props.history.location.state);
 
-    // const { order_item } = this.props.location.state;
+    const token = localStorage.getItem('access_token');
+    const resource = ``;
+
+    fetch(API.payment + resource, {
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then(res => res.json())
+      .then(data => data);
   };
 
   handleModal = () => {
