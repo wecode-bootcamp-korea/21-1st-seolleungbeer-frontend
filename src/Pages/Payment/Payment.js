@@ -1,6 +1,7 @@
 import React from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import Card from '../../Components/Payment/Card';
+import Popup from '../../Components/ShoppingModal/Popup';
 import validator from '../../utils/validator';
 import './Payment.scss';
 
@@ -41,7 +42,7 @@ class Payment extends React.Component {
     address: '',
     address_detail: '',
     delivery_memo: '',
-    payment_information: [
+    payment: [
       { value: 'card', checked: true, label: '신용카드' },
       { value: 'kakao', checked: false, label: '카카오페이' },
     ],
@@ -193,14 +194,16 @@ class Payment extends React.Component {
 
   submitPayment = () => {
     const { isAgree, email, mobile } = this.state;
-    const { order_item, delivery_memo, payment_information } = this.state;
+    const { order_item, delivery_memo, payment } = this.state;
+    const payment_information = payment.filter(pay => pay.checked)[0].label;
 
-    console.log(this.state);
-
-    const pay = {};
+    const pay = {
+      order_item,
+      delivery_memo,
+      payment_information,
+    };
 
     // const obj ={
-    //   order_number: '주문번호(장바구니의 주문번호)',
     //   order_item: [아이템.id:수량, 아이템id:수량, 아이템.id:수량, ...],
     //   delivery_memo: '배송메모',
     //   payment_information: '결제방법',
@@ -221,8 +224,7 @@ class Payment extends React.Component {
   };
 
   render() {
-    const { isModalOpen, payment_information, isAgree, isSame, checkList } =
-      this.state;
+    const { isModalOpen, payment, isAgree, isSame, checkList } = this.state;
     const { order_item } = this.state;
     const { zonecode, address, address_detail, delivery_memo } = this.state;
     const { order_user_name, order_email, order_mobile } = this.state;
@@ -237,13 +239,15 @@ class Payment extends React.Component {
     );
     const totalCost = orderSumPrice + deliveryCharge;
 
+    const postStyle = { width: '400px', height: '500px', margin: '20px' };
+
     return (
       <div className="payment">
-        {/* {isModalOpen && (
-          <Popup handelModal={this.handelModal} isUsed={true}>
-            <DaumPostcode onComplete={this.handleComplete} />
+        {isModalOpen && (
+          <Popup handleModal={this.handleModal} isUsed={true}>
+            <DaumPostcode onComplete={this.handleComplete} style={postStyle} />
           </Popup>
-        )} */}
+        )}
         <div>
           <h1>결제하기</h1>
         </div>
@@ -251,7 +255,7 @@ class Payment extends React.Component {
           <div className="payment-left">
             <Card title={'주문 상품 정보'}>
               {order_item?.map(order => (
-                <div className="goods-info" key={order.id}>
+                <div className="card-goods-info" key={order.id}>
                   <div className="goods-left">
                     <img
                       src={order.image_url}
@@ -273,7 +277,7 @@ class Payment extends React.Component {
               ))}
             </Card>
             <Card title={'주문자 정보'}>
-              <div className="order-info">
+              <div className="card-order-info">
                 <div>
                   <input
                     type="text"
@@ -320,7 +324,7 @@ class Payment extends React.Component {
               </div>
             </Card>
             <Card title={'배송 정보'}>
-              <div className="delivery-info">
+              <div className="card-delivery-info">
                 <div>
                   <label>
                     <input
@@ -440,7 +444,7 @@ class Payment extends React.Component {
             </Card>
             <Card title={'결제방법'}>
               <div className="pay">
-                {payment_information.map(pay => (
+                {payment?.map(pay => (
                   <label key={pay.checked}>
                     <input
                       type="radio"

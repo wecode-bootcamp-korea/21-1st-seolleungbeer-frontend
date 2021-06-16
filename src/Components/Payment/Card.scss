@@ -14,7 +14,7 @@
     margin-bottom: 15px;
   }
 
-  .goods-info {
+  .card-goods-info {
     @include flex(flex-start, flex-start);
     padding-top: 10px;
     padding-bottom: 15px;
@@ -41,7 +41,7 @@
     }
   }
 
-  .order-info {
+  .card-order-info {
     div {
       @include flex(center, center);
       margin-top: 5px;
@@ -71,7 +71,7 @@
     }
   }
 
-  .delivery-info {
+  .card-delivery-info {
     @include flex(center, flex-start, column);
     font-size: 15px;
 
