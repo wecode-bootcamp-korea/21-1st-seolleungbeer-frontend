@@ -6,7 +6,7 @@ class UserLink extends React.Component {
     return (
       <div className="user-link">
         <Link to="/login">LOGIN</Link>
-        <Link to="/join">JOIN</Link>
+        <Link to="/signup">JOIN</Link>
         <Link to="">CART</Link>
       </div>
     );
