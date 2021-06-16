@@ -50,69 +50,75 @@ class Payment extends React.Component {
     isAgree: false,
     isModalOpen: false,
     checkList: {
-      order_user_name: { type: 'name', validator: true },
-      order_email: { type: 'email', validator: true },
-      order_mobile: { type: 'mobile', validator: true },
-      delivery_user_name: { type: 'name', validator: true },
-      delivery_mobile: { type: 'mobile', validator: true },
+      order_user_name: {
+        type: 'name',
+        validator: true,
+        message: '주문자 이름을 확인해주세요',
+      },
+      order_email: {
+        type: 'email',
+        validator: true,
+        message: '주문자 이메일을 확인해주세요',
+      },
+      order_mobile: {
+        type: 'mobile',
+        validator: true,
+        message: '주문자 연락처를 확인해주세요',
+      },
+      delivery_user_name: {
+        type: 'name',
+        validator: true,
+        message: '수령인 이름을 확인해주세요',
+      },
+      delivery_mobile: {
+        type: 'mobile',
+        validator: true,
+        message: '수령인 연락처를 확인해주세요',
+      },
     },
   };
 
   componentDidMount = () => {
-    const { order_item } = this.props.location.state;
+    const token = localStorage.getItem('access_token');
+    // fetch('/', {
+    //   headers: { Authorization: token },
+    // }).then(res => res.json());
+
+    // const { order_item } = this.props.location.state;
   };
 
   handleModal = () => {
     this.setState({ isModalOpen: !this.state.isModalOpen });
   };
 
+  validationCheck = key => {
+    const { checkList } = this.state;
+    let isValidator = false;
+    const value = this.state[key];
+
+    if (checkList[key].type === 'name') {
+      if (value.length > 2) {
+        isValidator = true;
+      }
+    } else {
+      isValidator = validator[checkList[key].type](value);
+    }
+
+    this.setState({
+      ...checkList[key],
+      ...(checkList[key].validator = isValidator),
+    });
+  };
+
   handleInput = e => {
     const { name, value } = e.target;
     const { checkList } = this.state;
 
-    if (Object.keys(checkList).includes(name)) {
-      console.log(name, checkList[name]);
-      let isValidator = false;
-
-      if (checkList[name].type === 'name') {
-        console.log(value.length);
-
-        if (value.length > 0) {
-          isValidator = true;
-        }
-      } else {
-        isValidator = validator[checkList[name].type](value);
+    this.setState({ [name]: value }, () => {
+      if (Object.keys(checkList).includes(name)) {
+        this.validationCheck(name);
       }
-
-      this.setState({
-        [name]: value,
-      });
-      return;
-    }
-
-    this.setState({
-      [name]: value,
     });
-  };
-
-  checkListVaildator = () => {
-    // if (Object.keys(checkList).includes(name)) {
-    //   console.log(name, checkList[name]);
-    //   let isValidator = false;
-    //   if (checkList[name].type === 'name') {
-    //     if (value.length > 0) {
-    //       isValidator = true;
-    //     }
-    //   } else {
-    //     isValidator = validator[checkList[name].type](value);
-    //   }
-    //   console.log(isValidator);
-    //   this.setState({
-    //     checkList: { ...checkList, validator: isValidator },
-    //     [name]: value,
-    //   });
-    //   return;
-    // }
   };
 
   handleComplete = data => {
@@ -168,6 +174,19 @@ class Payment extends React.Component {
     }
   };
 
+  validationCheckList = () => {
+    const { checkList } = this.state;
+
+    Object.keys(checkList).map(key => this.validationCheck(key));
+
+    for (let item in checkList) {
+      if (checkList[item].validator === false) {
+        alert(checkList[item].message);
+        return true;
+      }
+    }
+  };
+
   sumOrder = returnValue => {
     const { order_item } = this.state;
 
@@ -192,8 +211,8 @@ class Payment extends React.Component {
     return 0;
   };
 
-  submitPayment = () => {
-    const { isAgree, email, mobile } = this.state;
+  submitPayment = totalCost => {
+    const { isAgree } = this.state;
     const { order_item, delivery_memo, payment } = this.state;
     const payment_information = payment.filter(pay => pay.checked)[0].label;
 
@@ -201,19 +220,10 @@ class Payment extends React.Component {
       order_item,
       delivery_memo,
       payment_information,
+      totalCost,
     };
 
-    // const obj ={
-    //   order_item: [아이템.id:수량, 아이템id:수량, 아이템.id:수량, ...],
-    //   delivery_memo: '배송메모',
-    //   payment_information: '결제방법',
-    //   payment_charge: 최종결제금액,
-    //   }
-
-    if (!validator.email(email)) {
-      return;
-    }
-    if (!validator.mobile(mobile)) {
+    if (this.validationCheckList()) {
       return;
     }
 
@@ -221,6 +231,8 @@ class Payment extends React.Component {
       alert('구매조건 확인 및 결제진행에 동의하여 주시기 바랍니다.');
       return;
     }
+
+    console.log(pay);
   };
 
   render() {
@@ -295,14 +307,24 @@ class Payment extends React.Component {
                     placeholder="연락처"
                     value={order_mobile}
                     onChange={this.handleInput}
-                    className={checkList.order_mobile ? '' : 'warning'}
+                    className={
+                      checkList.order_mobile.validator ? '' : 'warning'
+                    }
                   />
                 </div>
                 <div>
-                  <span className={checkList.order_user_name ? '' : 'warning'}>
+                  <span
+                    className={
+                      checkList.order_user_name.validator ? '' : 'warning'
+                    }
+                  >
                     주문자 이름을 입력해주세요
                   </span>
-                  <span className={checkList.order_mobile ? '' : 'warning'}>
+                  <span
+                    className={
+                      checkList.order_mobile.validator ? '' : 'warning'
+                    }
+                  >
                     주문자 연락처를 입력해주세요
                   </span>
                 </div>
@@ -317,7 +339,9 @@ class Payment extends React.Component {
                   />
                 </div>
                 <div>
-                  <span className={checkList.order_email ? '' : 'warning'}>
+                  <span
+                    className={checkList.order_email.validator ? '' : 'warning'}
+                  >
                     주문자 이메일을 입력해주세요
                   </span>
                 </div>
@@ -343,7 +367,9 @@ class Payment extends React.Component {
                     placeholder="수령인"
                     value={delivery_user_name}
                     onChange={this.handleInput}
-                    className={checkList.delivery_user_name ? '' : 'warning'}
+                    className={
+                      checkList.delivery_user_name.validator ? '' : 'warning'
+                    }
                   />
                   <input
                     type="text"
@@ -351,16 +377,24 @@ class Payment extends React.Component {
                     placeholder="연락처"
                     value={delivery_mobile}
                     onChange={this.handleInput}
-                    className={checkList.delivery_mobile ? '' : 'warning'}
+                    className={
+                      checkList.delivery_mobile.validator ? '' : 'warning'
+                    }
                   />
                 </div>
                 <div>
                   <span
-                    className={checkList.delivery_user_name ? '' : 'warning'}
+                    className={
+                      checkList.delivery_user_name.validator ? '' : 'warning'
+                    }
                   >
                     수령인 이름을 입력해주세요
                   </span>
-                  <span className={checkList.delivery_mobile ? '' : 'warning'}>
+                  <span
+                    className={
+                      checkList.delivery_mobile.validator ? '' : 'warning'
+                    }
+                  >
                     수령인 연락처를 입력해주세요
                   </span>
                 </div>
@@ -469,7 +503,9 @@ class Payment extends React.Component {
                   />
                   <span>구매조건 확인 및 결제진행에 동의</span>
                 </label>
-                <button onClick={this.submitPayment}>결제하기</button>
+                <button onClick={() => this.submitPayment(totalCost)}>
+                  결제하기
+                </button>
               </div>
             </Card>
           </div>
