@@ -21,18 +21,19 @@ class Item extends React.Component {
 
   handleClickButton = e => {
     if (e.target.name === 'delete') {
-      this.props.requestDeleteItem([this.props.id]);
+      this.props.requestDeleteItem([this.props.orderItemId]);
     } else {
-      this.props.openQuantityForm(this.props.id);
+      this.props.openQuantityForm(this.props.orderItemId);
     }
   };
 
   handleChangeInput = () => {
+    const { isChecked } = this.state;
     this.setState(
       {
-        isChecked: !this.state.isChecked,
+        isChecked: !isChecked,
       },
-      () => this.props.checkItems(this.state.isChecked, this.props.id)
+      () => this.props.checkItems(isChecked, this.props.orderItemId)
     );
   };
 
@@ -40,31 +41,11 @@ class Item extends React.Component {
     const {
       deliveryCharge,
       deliveryMethod,
-      image,
-      name,
-      price,
+      mainImage,
+      koreanName,
+      paymentCharge,
       amount,
-      orderId,
     } = this.props;
-
-    // console.log(this.props.item);
-
-    // const state = [
-
-    // ]
-
-    // const state = [
-    //   {
-    //     image_url: image,
-    //     korean_name: name,
-    //     product_id: 3,
-    //     order_item_id: orderId,
-    //     amount,
-    //     price: parseInt(price) / amount + '.00',
-    //   },
-    // ];
-
-    // console.log(state[0].price);
 
     return (
       <li className="item">
@@ -77,9 +58,12 @@ class Item extends React.Component {
         </div>
         <div className="item-description">
           <div>
-            <img alt="" src={image ? image : '/images/cat.jpg'} />
+            <img
+              alt={koreanName}
+              src={mainImage ? mainImage : '/images/cat.jpg'}
+            />
           </div>
-          <span>{name}</span>
+          <span>{koreanName}</span>
         </div>
         <div className="wish">
           <i className="far fa-heart"></i>
@@ -95,10 +79,10 @@ class Item extends React.Component {
           <span>{parseInt(deliveryCharge).toLocaleString()}원</span>
         </div>
         <div className="price">
-          <span>{(parseInt(price) * amount).toLocaleString()}원</span>
+          <span>{(parseInt(paymentCharge) * amount).toLocaleString()}원</span>
         </div>
         <div className="control-buttons">
-          <Link to={{ pathname: '/signup', state: this.props.item }}>
+          <Link to={{ pathname: '/shop/payment', state: this.props.item }}>
             <button name="order">주문</button>
           </Link>
           <button name="delete" onClick={this.handleClickButton}>

@@ -11,20 +11,19 @@ class QuantityForm extends React.Component {
   }
 
   handleClickControlButton = e => {
-    const { cart_id, payment_charge } = this.props.item[0];
+    const { order_item_id } = this.props.item[0];
     if (e.target.name === 'cancle') {
-      this.props.openQuantityForm(cart_id);
+      this.props.openQuantityForm(order_item_id);
     } else {
-      // const totalPrice = payment_charge * this.state.amount;
-      const totalAmount = this.state.amount;
-
-      this.props.requestModifyQuantity(cart_id, totalAmount);
-      this.props.openQuantityForm(cart_id);
+      this.props.requestModifyQuantity(order_item_id, this.state.amount);
+      this.props.openQuantityForm(order_item_id);
     }
   };
 
   handleClickCountButton = e => {
-    if (e.target.name === 'minus' && this.state.amount > 0) {
+    if (e.target.name === 'minus') {
+      if (this.state.amount <= 0) return;
+
       this.setState(prev => prev.amount--);
     } else {
       this.setState(prev => prev.amount++);
@@ -32,15 +31,8 @@ class QuantityForm extends React.Component {
   };
 
   render() {
-    const {
-      delivery_charge,
-      delivery_method,
-      img_url,
-      korean_name,
-      payment_charge,
-      amount,
-    } = this.props.item[0];
-    console.log(this.state.amount);
+    const { main_image, korean_name, payment_charge } = this.props.item[0];
+
     return (
       <div className="quantity-form">
         <div className="quantity-form-content">
@@ -49,7 +41,10 @@ class QuantityForm extends React.Component {
           </div>
           <div className="item-container">
             <div className="image-container">
-              <img alt="" src="/images/cat.jpg" />
+              <img
+                alt={korean_name}
+                src={main_image ? main_image : '/images/cat.jpg'}
+              />
             </div>
             <div className="description">
               <span>{korean_name}</span>

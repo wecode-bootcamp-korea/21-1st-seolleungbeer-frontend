@@ -1,17 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ItemList from './ItemList/ItemList';
-import API from '../../config';
 import QuantityForm from './QuantityForm/QuantityForm';
+import API from '../../config';
+import sum from '../../utils/sum';
 import './Basket.scss';
-
-const sum = items => {
-  const sum = items.reduce(
-    (acc, item) => acc + parseInt(item.payment_charge * item.amount),
-    0
-  );
-  return sum;
-};
 
 class Basket extends React.Component {
   constructor() {
@@ -30,8 +23,6 @@ class Basket extends React.Component {
     this.fetchBasketItems();
   }
 
-  // ${API}/orders/cart
-  // /Data/basket.json
   fetchBasketItems = async () => {
     try {
       const res = await fetch(`${API}/orders/cart`, {
@@ -43,15 +34,10 @@ class Basket extends React.Component {
 
       const items = await res.json();
 
-      // this.setState({
-      //   items,
-      //   checkedItems: items.map(item => item.cart_id),
-      // });
-
       if (items.message === 'SUCCESS') {
         this.setState({
           items: items.result,
-          checkedItemsId: items.result.map(item => item.cart_id),
+          checkedItemsId: items.result.map(item => item.order_item_id),
         });
       }
     } catch (err) {
@@ -59,8 +45,8 @@ class Basket extends React.Component {
     }
   };
 
-  requestDeleteItem = async id => {
-    if (id.length <= 0) {
+  requestDeleteItem = async orderItemId => {
+    if (orderItemId.length <= 0) {
       console.error('아이템을 선택하세요');
       return;
     }
@@ -72,13 +58,13 @@ class Basket extends React.Component {
           Authorization: `${localStorage.getItem('access_token')}`,
         },
         body: JSON.stringify({
-          cart_item_id: id,
+          order_item_id: orderItemId,
         }),
       });
       const result = await res.json();
 
       if (result.message === 'DELETE_SUCCESS') {
-        this.deleteItems(id);
+        this.deleteItems(orderItemId);
       } else {
         console.error('메시지가 올바르지 않습니다');
       }
@@ -87,7 +73,7 @@ class Basket extends React.Component {
     }
   };
 
-  handleChangeCheckBox = e => {
+  handleChangeCheckBox = () => {
     this.setState(
       {
         isCheckedAllItems: !this.state.isCheckedAllItems,
@@ -102,7 +88,7 @@ class Basket extends React.Component {
 
   checkAllItems = () => {
     const { items, isCheckedAllItems } = this.state;
-    const checkedItemsId = items.map(item => item.cart_id);
+    const checkedItemsId = items.map(item => item.order_item_id);
 
     if (isCheckedAllItems) {
       this.setState({
@@ -115,28 +101,29 @@ class Basket extends React.Component {
     }
   };
 
-  checkItems = (isChecked, id) => {
+  checkItems = (isChecked, orderItemId) => {
+    const { checkedItemsId } = this.state;
     if (isChecked) {
       this.setState({
-        checkedItemsId: [...this.state.checkedItemsId, id],
+        checkedItemsId: [...checkedItemsId, orderItemId],
       });
     } else {
       this.setState({
-        checkedItemsId: this.state.checkedItemsId.filter(
-          checkedItemId => checkedItemId !== id
+        checkedItemsId: checkedItemsId.filter(
+          checkedItemId => checkedItemId !== orderItemId
         ),
       });
     }
   };
 
-  deleteItems = id => {
+  deleteItems = orderItemId => {
     const filteredItems = this.state.items;
     const checkedItemsId = this.state.checkedItemsId;
 
-    if (id.length === 1) {
-      const [itemId] = id;
+    if (orderItemId.length === 1) {
+      const [itemId] = orderItemId;
       this.setState({
-        items: this.state.items.filter(item => item.cart_id !== itemId),
+        items: this.state.items.filter(item => item.order_item_id !== itemId),
         checkedItemsId: checkedItemsId.filter(
           checkedItemId => checkedItemId !== itemId
         ),
@@ -148,7 +135,7 @@ class Basket extends React.Component {
       for (let j = 0; j < checkedItemsId.length; j++) {
         if (
           filteredItems[i] &&
-          filteredItems[i].cart_id === parseInt(checkedItemsId[j])
+          filteredItems[i].order_item_id === parseInt(checkedItemsId[j])
         ) {
           filteredItems.splice(i, 1);
           i--;
@@ -162,51 +149,43 @@ class Basket extends React.Component {
     });
   };
 
-  openQuantityForm = id => {
+  openQuantityForm = orderItemId => {
     this.setState({
       isClickedCountButton: !this.state.isClickedCountButton,
-      quantityFormId: id,
+      quantityFormId: orderItemId,
     });
   };
 
-  requestModifyQuantity = async (id, amount) => {
-    console.log(id, amount);
+  requestModifyQuantity = async (orderItemId, amount) => {
     try {
-      //   const res = await fetch('http://10.58.1.215:8000/orders/cart', {
-      //     method: 'PATCH',
-      //     headers: {
-      //       // Authorization: `${localStorage.getItem('accessToken')}`,
-      //       Authorization:
-      //         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1fQ.m9NNCruvdjZaxXrQnciYLBZOPU9GHpKlTjhBFzTMWo0',
-      //     },
-      //     body: JSON.stringify({
-      //       product_id: 165,
-      //       amount,
-      //     }),
-      //   });
+      const res = await fetch('http://10.58.1.215:8000/orders/cart', {
+        method: 'PATCH',
+        headers: {
+          Authorization: `${localStorage.getItem('accessToken')}`,
+        },
+        body: JSON.stringify({
+          product_id: orderItemId,
+          amount,
+        }),
+      });
 
-      //   const result = await res.json();
-      //   // console.log(result);
+      const result = await res.json();
 
-      //   if (result.message === 'CHANGE SUCCESS') {
-      //     this.modifyQuantity(id, price, amount);
-      //   } else {
-      //     console.error('수량 변경 실패');
-      //   }
-
-      this.modifyQuantity(id, amount);
+      if (result.message === 'CHANGE SUCCESS') {
+        this.modifyQuantity(orderItemId, amount);
+      } else {
+        console.error('수량 변경 실패');
+      }
     } catch (err) {
       console.error(err);
     }
   };
 
-  modifyQuantity = (id, amount) => {
+  modifyQuantity = (orderItemId, amount) => {
     const modifiedItems = this.state.items.map(item => {
-      if (item.cart_id === id) {
-        // item.payment_charge = price + '.00';
+      if (item.order_item_id === orderItemId) {
         item.amount = amount;
       }
-
       return item;
     });
 
@@ -224,21 +203,19 @@ class Basket extends React.Component {
       quantityFormId,
     } = this.state;
 
-    const state = items.filter(item => {
+    const checkedItems = items.filter(item => {
       for (const checkedItemId of checkedItemsId) {
-        if (item.cart_id === checkedItemId) {
+        if (item.order_item_id === checkedItemId) {
           return item;
         }
       }
     });
-    console.log(items);
-    console.log(checkedItemsId);
 
     return (
       <div className="basket">
         {isClickedCountButton && (
           <QuantityForm
-            item={items.filter(item => item.cart_id === quantityFormId)}
+            item={items.filter(item => item.order_item_id === quantityFormId)}
             openQuantityForm={this.openQuantityForm}
             requestModifyQuantity={this.requestModifyQuantity}
           />
@@ -318,10 +295,9 @@ class Basket extends React.Component {
                 </div>
                 <div>
                   <span>
-                    {/* 체크된 것만 가격계산 */}
                     {localStorage.getItem('access_token')
-                      ? sum(items).toLocaleString()
-                      : (sum(items) + 2500).toLocaleString()}
+                      ? sum(checkedItems).toLocaleString()
+                      : (sum(checkedItems) + 2500).toLocaleString()}
                     원
                   </span>
                 </div>
@@ -332,7 +308,7 @@ class Basket extends React.Component {
             <Link to="/shop">
               <button className="continue">계속 쇼핑하기</button>
             </Link>
-            <Link to={{ pathname: '/signup', state }}>
+            <Link to={{ pathname: '/shop/payment', state: checkedItems }}>
               <button className="order">주문하기</button>
             </Link>
           </div>
