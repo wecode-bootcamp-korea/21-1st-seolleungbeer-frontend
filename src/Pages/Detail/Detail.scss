@@ -1,0 +1,18 @@
+@import '../../Style/common.scss';
+
+.detail {
+  @include flex(center, center);
+  position: relative;
+  top: 200px;
+
+  .detail-wrapper {
+    @include flex(center, center, column);
+    padding: 5px;
+    max-width: 1200px;
+  }
+
+  *::selection {
+    color: white;
+    background-color: $green;
+  }
+}

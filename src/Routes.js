@@ -4,6 +4,7 @@ import SignUp from './Pages/SignUp/SignUp';
 import Login from './Pages/Login/Login';
 import Nav from './Components/Nav/Nav';
 import Main from './Pages/Main/Main';
+import Detail from './Pages/Detail/Detail';
 import './Style/reset.scss';
 import './Style/common.scss';
 
@@ -16,6 +17,7 @@ class Routes extends React.Component {
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/" component={Main} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/shop/detail/:product_id" component={Detail} />
         </Switch>
       </Router>
     );
