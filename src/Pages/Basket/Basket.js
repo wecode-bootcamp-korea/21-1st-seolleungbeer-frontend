@@ -19,7 +19,7 @@ class Basket extends React.Component {
 
     this.state = {
       items: [],
-      checkedItems: [],
+      checkedItemsId: [],
       quantityFormId: '',
       isCheckedAllItems: true,
       isClickedCountButton: false,
@@ -37,7 +37,7 @@ class Basket extends React.Component {
       const res = await fetch(`${API}/orders/cart`, {
         method: 'GET',
         headers: {
-          Authorization: `${localStorage.getItem('accessToken')}`,
+          Authorization: `${localStorage.getItem('access_token')}`,
         },
       });
 
@@ -51,7 +51,7 @@ class Basket extends React.Component {
       if (items.message === 'SUCCESS') {
         this.setState({
           items: items.result,
-          checkedItems: items.result.map(item => item.cart_id),
+          checkedItemsId: items.result.map(item => item.cart_id),
         });
       }
     } catch (err) {
@@ -69,7 +69,7 @@ class Basket extends React.Component {
       const res = await fetch(`${API}/orders/cart`, {
         method: 'PUT',
         headers: {
-          Authorization: `${localStorage.getItem('accessToken')}`,
+          Authorization: `${localStorage.getItem('access_token')}`,
         },
         body: JSON.stringify({
           cart_item_id: id,
@@ -97,21 +97,20 @@ class Basket extends React.Component {
   };
 
   handleClickDeleteButton = () => {
-    const checkedItems = this.state.checkedItems;
-    this.requestDeleteItem(checkedItems);
+    this.requestDeleteItem(this.state.checkedItemsId);
   };
 
   checkAllItems = () => {
     const { items, isCheckedAllItems } = this.state;
-    const checkedItems = items.map(item => item.cart_id);
+    const checkedItemsId = items.map(item => item.cart_id);
 
     if (isCheckedAllItems) {
       this.setState({
-        checkedItems,
+        checkedItemsId,
       });
     } else {
       this.setState({
-        checkedItems: [],
+        checkedItemsId: [],
       });
     }
   };
@@ -119,12 +118,12 @@ class Basket extends React.Component {
   checkItems = (isChecked, id) => {
     if (isChecked) {
       this.setState({
-        checkedItems: [...this.state.checkedItems, id],
+        checkedItemsId: [...this.state.checkedItemsId, id],
       });
     } else {
       this.setState({
-        checkedItems: this.state.checkedItems.filter(
-          checkedItem => checkedItem !== id
+        checkedItemsId: this.state.checkedItemsId.filter(
+          checkedItemId => checkedItemId !== id
         ),
       });
     }
@@ -132,24 +131,24 @@ class Basket extends React.Component {
 
   deleteItems = id => {
     const filteredItems = this.state.items;
-    const checkedItems = this.state.checkedItems;
+    const checkedItemsId = this.state.checkedItemsId;
 
     if (id.length === 1) {
       const [itemId] = id;
       this.setState({
         items: this.state.items.filter(item => item.cart_id !== itemId),
-        checkedItems: checkedItems.filter(
-          checkedItem => checkedItem !== itemId
+        checkedItemsId: checkedItemsId.filter(
+          checkedItemId => checkedItemId !== itemId
         ),
       });
       return;
     }
 
     for (let i = 0; i < filteredItems.length; i++) {
-      for (let j = 0; j < checkedItems.length; j++) {
+      for (let j = 0; j < checkedItemsId.length; j++) {
         if (
           filteredItems[i] &&
-          filteredItems[i].cart_id === parseInt(checkedItems[j])
+          filteredItems[i].cart_id === parseInt(checkedItemsId[j])
         ) {
           filteredItems.splice(i, 1);
           i--;
@@ -159,7 +158,7 @@ class Basket extends React.Component {
 
     this.setState({
       items: filteredItems,
-      checkedItems: [],
+      checkedItemsId: [],
     });
   };
 
@@ -219,21 +218,21 @@ class Basket extends React.Component {
   render() {
     const {
       items,
-      checkedItems,
+      checkedItemsId,
       isCheckedAllItems,
       isClickedCountButton,
       quantityFormId,
     } = this.state;
 
     const state = items.filter(item => {
-      for (const checkedItem of checkedItems) {
-        if (item.cart_id === checkedItem) {
+      for (const checkedItemId of checkedItemsId) {
+        if (item.cart_id === checkedItemId) {
           return item;
         }
       }
     });
-
-    // console.log(state);
+    console.log(items);
+    console.log(checkedItemsId);
 
     return (
       <div className="basket">

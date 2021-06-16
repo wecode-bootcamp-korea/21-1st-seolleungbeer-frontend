@@ -53,7 +53,7 @@ class Login extends React.Component {
 
       const result = await res.json();
 
-      localStorage.setItem('accessToken', `${result.token}`);
+      localStorage.setItem('access_token', `${result.token}`);
 
       console.log(result);
     } catch (err) {
