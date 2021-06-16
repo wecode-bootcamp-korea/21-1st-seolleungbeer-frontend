@@ -1,0 +1,57 @@
+@import '../../../Style/common.scss';
+
+.goods {
+  @include flex(center, flex-start);
+  width: 100%;
+  margin-bottom: 30px;
+
+  .goods-img {
+    width: 100%;
+    max-width: 600px;
+    margin-right: 30px;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .goods-form {
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+.categories {
+  position: static;
+  width: 100%;
+
+  .categories-title {
+    @include flex(space-between, center);
+    position: sticky;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    background-color: white;
+
+    .categorie-list {
+      margin-top: 10px;
+      width: 100%;
+      height: 30px;
+      border-bottom: 1.5px solid lightgray;
+      background-color: white;
+
+      &.seleted {
+        border-bottom: 1.5px solid $green;
+      }
+    }
+
+    a,
+    button {
+      display: inline-block;
+      width: 100%;
+      color: #3d464b;
+      background-color: white;
+      cursor: pointer;
+    }
+  }
+}
