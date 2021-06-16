@@ -94,8 +94,6 @@ class SignUp extends React.Component {
 
   requestSignUp = async () => {
     const { email, password, name, sex, mobile } = this.state;
-    // const profile_image = new FormData();
-    // profile_image.append('file', profileImage);
 
     try {
       const res = await fetch(`${API}/users/signup`, {
@@ -115,20 +113,12 @@ class SignUp extends React.Component {
         this.goToLoginPage();
         return;
       }
-
-      // if (result.message === 'MOBILE_EXIST') {
-      //   this.setState({
-      //     existsMobile: true,
-      //   });
-      //   return;
-      // }
     } catch (err) {
       console.error(err);
     }
   };
 
   requestCheckDuplication = async checkValue => {
-    console.log(`${API}/users/${checkValue}-check`);
     try {
       const res = await fetch(`${API}/users/${checkValue}-check`, {
         method: 'POST',
@@ -138,7 +128,6 @@ class SignUp extends React.Component {
       });
 
       const result = await res.json();
-      console.log(result);
 
       if (checkValue === 'email') {
         if (result.message === 'SUCCESS') {
