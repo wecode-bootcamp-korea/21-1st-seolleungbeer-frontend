@@ -1,5 +1,5 @@
 import React from 'react';
-import validator from '../../utils/validator';
+// import validator from '../../utils/validator';
 import API from '../../config';
 import './Login.scss';
 
@@ -9,6 +9,7 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
+      isCorrected: true,
     };
   }
 
@@ -23,11 +24,7 @@ class Login extends React.Component {
   handleSubmitForm = e => {
     e.preventDefault();
 
-    const { email, password } = this.state;
-    if (!validator.email(email) || !validator.password(password)) return;
-
     this.requestLogin();
-    // this.goToMainPage();
   };
 
   handleChangeInput = e => {
@@ -53,14 +50,24 @@ class Login extends React.Component {
 
       const result = await res.json();
 
-      console.log(result);
+      if (result.token) {
+        localStorage.setItem('access_token', result.token);
+        this.goToMainPage();
+      } else {
+        this.setState({
+          isCorrected: false,
+        });
+      }
     } catch (err) {
       console.error(err);
+      this.setState({
+        isCorrected: false,
+      });
     }
   }
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, isCorrected } = this.state;
     return (
       <div className="login">
         <h2>LOGIN</h2>
@@ -72,19 +79,14 @@ class Login extends React.Component {
             value={email}
             name="email"
           />
-          {!validator.email(email) && email.length !== 0 && (
-            <span>이메일이 올바르지 않습니다.</span>
-          )}
           <input
             type="password"
             placeholder="비밀번호"
             onChange={this.handleChangeInput}
-            value={this.state.password}
+            value={password}
             name="password"
           />
-          {!validator.password(password) && password.length !== 0 && (
-            <span>비밀번호가 올바르지 않습니다.</span>
-          )}
+          {!isCorrected && <span>이메일과 비밀번호를 확인해주세요.</span>}
           <button className="login-button">로그인</button>
         </form>
         <button
