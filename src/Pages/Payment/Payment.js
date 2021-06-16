@@ -8,41 +8,53 @@ import './Payment.scss';
 
 class Payment extends React.Component {
   state = {
-    order_user_name: '사람이름이다',
-    order_email: 'this@mail.com',
-    order_mobile: '0001110001',
+    order_user_name: '',
+    order_email: '',
+    order_mobile: '',
     delivery_user_name: '',
     delivery_mobile: '',
     order_item: [
-      {
-        image_url: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
-        korean_name: 'AAAAAA',
-        product_id: 12,
-        id: 156,
-        amount: 12,
-        price: 4000,
-      },
-      {
-        image_url: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
-        korean_name: 'BBBBBB',
-        product_id: 12,
-        id: 16,
-        amount: 8,
-        price: 40000,
-      },
-      {
-        image_url: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
-        korean_name: 'CCCCCCC',
-        product_id: 12,
-        id: 17,
-        amount: 19,
-        price: 10000,
-      },
+      // {
+      //   image_url: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
+      //   korean_name: 'AAAAAA',
+      //   product_id: 12,
+      //   order_item_id: 156,
+      //   amount: 12,
+      //   price: 4000,
+      // },
+      // {
+      //   image_url: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
+      //   korean_name: 'BBBBBB',
+      //   product_id: 12,
+      //   order_item_id: 16,
+      //   amount: 8,
+      //   price: 40000,
+      // },
+      // {
+      //   image_url: 'https://cdn.imweb.me/thumbnail/20201223/8c3eb7bdf85e3.jpg',
+      //   korean_name: 'CCCCCCC',
+      //   product_id: 12,
+      //   order_item_id: 17,
+      //   amount: 19,
+      //   price: 10000,
+      // },
+      // {
+      //   amount: 6,
+      //   image_url:
+      //     'https://raw.githubusercontent.com/geekanne/wecodeA/main/seolleungbeer_product_image/1_비냐펜폴즈_1.png',
+      //   korean_name: '비냐 펜폴즈',
+      //   order_item_id: 84,
+      //   price: '300000.00',
+      //   product_id: '165',
+      // },
     ],
     zonecode: '',
     address: '',
     address_detail: '',
     delivery_memo: '',
+    total_price: 0,
+    total_amount: 0,
+    delivery_charge: 0,
     payment: [
       { value: 'card', checked: true, label: '신용카드' },
       { value: 'kakao', checked: false, label: '카카오페이' },
@@ -80,18 +92,36 @@ class Payment extends React.Component {
   };
 
   componentDidMount = () => {
-    console.log(this.props.history.location.state);
+    const { order_item } = this.props.history.location.state;
 
-    const token = localStorage.getItem('access_token');
-    const resource = ``;
+    if (order_item) {
+      const total_amount = order_item.reduce(
+        (acc, order) => acc + order.amount,
+        0
+      );
 
-    fetch(API.payment + resource, {
-      headers: {
-        Authorization: token,
-      },
-    })
-      .then(res => res.json())
-      .then(data => data);
+      const total_price = order_item.reduce(
+        (acc, order) => acc + order.amount * order.price,
+        0
+      );
+
+      const delivery_charge = 0;
+
+      this.setState({ order_item, total_amount, total_price, delivery_charge });
+
+      // const token = localStorage.getItem('access_token');
+      // const resource = ``;
+
+      // fetch(API.payment + resource, {
+      //   headers: {
+      //     Authorization: token,
+      //   },
+      // })
+      //   .then(res => res.json())
+      //   .then(data => {
+      //     console.log(data);
+      //   });
+    }
   };
 
   handleModal = () => {
@@ -194,32 +224,8 @@ class Payment extends React.Component {
     }
   };
 
-  sumOrder = returnValue => {
-    const { order_item } = this.state;
-
-    if (returnValue === 'amount') {
-      return order_item.reduce((acc, order) =>
-        typeof acc === 'object' ? acc.amount + order.amount : acc + order.amount
-      );
-    }
-    if (returnValue === 'price') {
-      return order_item.reduce((acc, order) =>
-        typeof acc === 'object'
-          ? acc.amount * acc.price + order.amount * order.price
-          : acc + order.amount * order.price
-      );
-    }
-    if (returnValue === 'amount') {
-      return order_item.reduce((acc, order) =>
-        typeof acc === 'object' ? acc.amount + order.amount : acc + order.amount
-      );
-    }
-
-    return 0;
-  };
-
-  submitPayment = totalCost => {
-    const { isAgree } = this.state;
+  submitPayment = () => {
+    const { isAgree, total_price, delivery_charge } = this.state;
     const { order_item, delivery_memo, payment } = this.state;
     const payment_information = payment.filter(pay => pay.checked)[0].label;
 
@@ -227,7 +233,7 @@ class Payment extends React.Component {
       order_item,
       delivery_memo,
       payment_information,
-      totalCost,
+      // '여기 현금',
     };
 
     if (this.validationCheckList()) {
@@ -244,19 +250,10 @@ class Payment extends React.Component {
 
   render() {
     const { isModalOpen, payment, isAgree, isSame, checkList } = this.state;
-    const { order_item } = this.state;
+    const { order_item, total_amount, total_price } = this.state;
     const { zonecode, address, address_detail, delivery_memo } = this.state;
     const { order_user_name, order_email, order_mobile } = this.state;
-    const { delivery_user_name, delivery_mobile } = this.state;
-
-    const orderSumAmount = this.sumOrder('amount');
-    const orderSumPrice = this.sumOrder('price');
-    const deliveryCharge = Math.max(
-      ...order_item.map(order =>
-        order.delivery_charge ? order.delivery_charge : 0
-      )
-    );
-    const totalCost = orderSumPrice + deliveryCharge;
+    const { delivery_user_name, delivery_mobile, delivery_charge } = this.state;
 
     const postStyle = { width: '400px', height: '500px', margin: '20px' };
 
@@ -274,7 +271,7 @@ class Payment extends React.Component {
           <div className="payment-left">
             <Card title={'주문 상품 정보'}>
               {order_item?.map(order => (
-                <div className="card-goods-info" key={order.id}>
+                <div className="card-goods-info" key={order.order_item_id}>
                   <div className="goods-left">
                     <img
                       src={order.image_url}
@@ -285,7 +282,7 @@ class Payment extends React.Component {
                   </div>
                   <div className="goods-right">
                     <div>{order.korean_name}</div>
-                    <div className="goods-amount">{order.amount}개</div>
+                    <div className="card-goods-amount">{order.amount}개</div>
                     <div>
                       <strong>
                         ₩{(order.price * order.amount).toLocaleString()}원
@@ -464,21 +461,23 @@ class Payment extends React.Component {
                 <div className="price">
                   <div>
                     <span>상품가격</span>
-                    <span>{orderSumPrice.toLocaleString()}원</span>
+                    <span>{total_price.toLocaleString()}원</span>
                   </div>
                   <div>
                     <span>배송비</span>
                     <span>
-                      {deliveryCharge === 0
+                      {delivery_charge === 0
                         ? '무료'
-                        : deliveryCharge.toLocaleString()}
+                        : delivery_charge.toLocaleString()}
                     </span>
                   </div>
                 </div>
                 <div className="tot-info">
-                  <strong>총 결제금액({orderSumAmount}개)</strong>
+                  <strong>총 결제금액({total_amount}개)</strong>
                   <span>
-                    <strong>{totalCost.toLocaleString()} 원</strong>
+                    <strong>
+                      {(total_price + delivery_charge).toLocaleString()} 원
+                    </strong>
                   </span>
                 </div>
               </div>
@@ -510,9 +509,7 @@ class Payment extends React.Component {
                   />
                   <span>구매조건 확인 및 결제진행에 동의</span>
                 </label>
-                <button onClick={() => this.submitPayment(totalCost)}>
-                  결제하기
-                </button>
+                <button onClick={() => this.submitPayment}>결제하기</button>
               </div>
             </Card>
           </div>
