@@ -2,22 +2,22 @@ import MovingPoint from './MovingPoint';
 
 // const movingPoints = [];
 
-export default class Beer {
+export default class BeerFoam {
   constructor(canvasContainer) {
     this.movingPoints = [];
     this.canvasContainer = canvasContainer;
 
     // console.log(this.canvas);
-
     for (let i = 0; i <= 5; i++) {
       this.movingPoints.push(
         new MovingPoint(
           this.canvasContainer.clientWidth * i * 0.2,
-          this.canvasContainer.clientHeight * 0.8,
-          i * 0.5
+          this.canvasContainer.clientHeight * 0.72,
+          i * 0.35
         )
       );
     }
+    console.log(this.movingPoints);
   }
 
   draw(canvas, ctx) {
@@ -46,16 +46,18 @@ export default class Beer {
     ctx.lineTo(this.movingPoints[0].x, canvas.height);
     // console.log(ctx);
 
-    const beerColor = ctx.createLinearGradient(0, 0, canvas.width, 0);
-    beerColor.addColorStop(0, '#FFB400');
-    beerColor.addColorStop(0.2, '#FFF400');
-    beerColor.addColorStop(0.4, '#FFF56E');
-    beerColor.addColorStop(0.5, '#FAFAAA');
-    beerColor.addColorStop(0.6, '#FAF58C');
-    beerColor.addColorStop(0.8, '#FFF064');
-    beerColor.addColorStop(1, '#FFB400');
-    // ctx.globalCompositeOperation = 'saturation';
-    ctx.fillStyle = beerColor;
+    const beerFoamColor = ctx.createLinearGradient(0, 0, canvas.width, 0);
+
+    beerFoamColor.addColorStop(0, '#DCDCDC');
+    // beerFoamColor.addColorStop(0.2, '#F5F5F5');
+    // beerFoamColor.addColorStop(0.4, '#F8F8FF');
+    beerFoamColor.addColorStop(0.5, '#F5F5F5');
+    // beerFoamColor.addColorStop(0.6, '#F8F8FF');
+    // beerFoamColor.addColorStop(0.8, '#F5F5F5');
+    beerFoamColor.addColorStop(1, '#DCDCDC');
+
+    ctx.globalAlpha = 0.85;
+    ctx.fillStyle = beerFoamColor;
     ctx.fill();
     ctx.closePath();
   }

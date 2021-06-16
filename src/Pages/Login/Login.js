@@ -79,6 +79,7 @@ class Login extends React.Component {
     return (
       <>
         <LoginAnimation isAnimated={isAnimated} />
+        <div className="glass"></div>
         <div className="login">
           <h2>LOGIN</h2>
           <form onSubmit={this.handleSubmitForm}>
@@ -90,9 +91,9 @@ class Login extends React.Component {
               value={email}
               name="email"
             />
-            {!validator.email(email) && email.length !== 0 && (
+            {/* {!validator.email(email) && email.length !== 0 && (
               <span>이메일이 올바르지 않습니다.</span>
-            )}
+            )} */}
             <input
               type="password"
               placeholder="비밀번호"
@@ -101,9 +102,9 @@ class Login extends React.Component {
               value={this.state.password}
               name="password"
             />
-            {!validator.password(password) && password.length !== 0 && (
+            {/* {!validator.password(password) && password.length !== 0 && (
               <span>비밀번호가 올바르지 않습니다.</span>
-            )}
+            )} */}
             <button className="login-button">로그인</button>
           </form>
           <button
