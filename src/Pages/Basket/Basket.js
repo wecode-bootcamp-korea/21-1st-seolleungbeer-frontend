@@ -53,7 +53,6 @@ class Basket extends React.Component {
   };
 
   requestDeleteItem = async orderItemId => {
-    console.log(orderItemId);
     if (orderItemId.length <= 0) {
       console.error('아이템을 선택하세요');
       return;
@@ -82,7 +81,8 @@ class Basket extends React.Component {
   };
 
   handleChangeCheckBox = () => {
-    this.checkAllItems();
+    const isAllChecked = this.state.items.every(item => item.isChecked);
+    this.checkAllItems(isAllChecked);
   };
 
   handleClickDeleteButton = () => {
@@ -93,22 +93,12 @@ class Basket extends React.Component {
     this.requestDeleteItem(checkedItemsId);
   };
 
-  checkAllItems = () => {
-    const allChecked = this.state.items.every(item => item.isChecked);
-
-    if (allChecked) {
-      this.setState({
-        items: this.state.items.map(item => {
-          return { ...item, isChecked: false };
-        }),
-      });
-    } else {
-      this.setState({
-        items: this.state.items.map(item => {
-          return { ...item, isChecked: true };
-        }),
-      });
-    }
+  checkAllItems = isAllChecked => {
+    this.setState({
+      items: this.state.items.map(item => {
+        return { ...item, isChecked: !isAllChecked };
+      }),
+    });
   };
 
   checkItems = orderItemId => {
@@ -161,7 +151,7 @@ class Basket extends React.Component {
       if (result.message === 'CHANGE SUCCESS') {
         this.modifyQuantity(orderItemId, amount);
       } else {
-        console.error('수량 변경 실패');
+        throw new Error('수량 변경 실패');
       }
     } catch (err) {
       console.error(err);
@@ -184,6 +174,8 @@ class Basket extends React.Component {
   render() {
     const { items, isClickedCountButton, quantityFormId } = this.state;
     const checkedItems = items.filter(item => item.isChecked);
+
+    console.log(items);
 
     return (
       <div className="basket">

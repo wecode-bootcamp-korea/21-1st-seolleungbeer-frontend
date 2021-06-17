@@ -1,7 +1,7 @@
 import React from 'react';
 import API from '../../config';
-import { setToken } from '../../utils/token';
 import LoginAnimation from './LoginAnimation/LoginAnimation';
+import { setToken } from '../../utils/token';
 import './Login.scss';
 
 class Login extends React.Component {
