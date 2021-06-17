@@ -1,4 +1,5 @@
 import React from 'react';
+import DEFAULT_IMG from '../../../defaultImage';
 import './QuantityForm.scss';
 
 class QuantityForm extends React.Component {
@@ -11,15 +12,11 @@ class QuantityForm extends React.Component {
   }
 
   handleClickControlButton = e => {
-    const { order_item_id, product_id } = this.props.item[0];
+    const { order_item_id } = this.props.item[0];
     if (e.target.name === 'cancle') {
       this.props.openQuantityForm(order_item_id);
     } else {
-      this.props.requestModifyQuantity(
-        order_item_id,
-        product_id,
-        this.state.amount
-      );
+      this.props.requestModifyQuantity(order_item_id, this.state.amount);
       this.props.openQuantityForm(order_item_id);
     }
   };
@@ -45,10 +42,7 @@ class QuantityForm extends React.Component {
           </div>
           <div className="item-container">
             <div className="image-container">
-              <img
-                alt={korean_name}
-                src={main_image ? main_image : '/images/cat.jpg'}
-              />
+              <img alt={korean_name} src={main_image || DEFAULT_IMG} />
             </div>
             <div className="description">
               <span>{korean_name}</span>

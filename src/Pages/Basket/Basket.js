@@ -20,9 +20,7 @@ class Basket extends React.Component {
 
     this.state = {
       items: [],
-      checkedItemsId: [],
       quantityFormId: '',
-      isCheckedAllItems: true,
       isClickedCountButton: false,
     };
   }
@@ -33,7 +31,7 @@ class Basket extends React.Component {
 
   fetchBasketItems = async () => {
     try {
-      const res = await fetch(`${API}/orders/cart`, {
+      const res = await fetch(`${API.login}/orders/cart`, {
         method: 'GET',
         headers: {
           Authorization: getToken(),
@@ -44,8 +42,9 @@ class Basket extends React.Component {
 
       if (items.message === 'SUCCESS') {
         this.setState({
-          items: items.result,
-          checkedItemsId: items.result.map(item => item.order_item_id),
+          items: items.result.map(item => {
+            return { ...item, isChecked: true };
+          }),
         });
       }
     } catch (err) {
@@ -54,13 +53,14 @@ class Basket extends React.Component {
   };
 
   requestDeleteItem = async orderItemId => {
+    console.log(orderItemId);
     if (orderItemId.length <= 0) {
       console.error('아이템을 선택하세요');
       return;
     }
 
     try {
-      const res = await fetch(`${API}/orders/cart`, {
+      const res = await fetch(`${API.login}/orders/cart`, {
         method: 'PUT',
         headers: {
           Authorization: getToken(),
@@ -82,78 +82,57 @@ class Basket extends React.Component {
   };
 
   handleChangeCheckBox = () => {
-    this.setState(
-      {
-        isCheckedAllItems: !this.state.isCheckedAllItems,
-      },
-      this.checkAllItems
-    );
+    this.checkAllItems();
   };
 
   handleClickDeleteButton = () => {
-    this.requestDeleteItem(this.state.checkedItemsId);
+    const checkedItemsId = this.state.items
+      .map(item => item.isChecked && item.order_item_id)
+      .filter(item => item);
+
+    this.requestDeleteItem(checkedItemsId);
   };
 
   checkAllItems = () => {
-    const { items, isCheckedAllItems } = this.state;
-    const checkedItemsId = items.map(item => item.order_item_id);
+    const allChecked = this.state.items.every(item => item.isChecked);
 
-    if (isCheckedAllItems) {
+    if (allChecked) {
       this.setState({
-        checkedItemsId,
+        items: this.state.items.map(item => {
+          return { ...item, isChecked: false };
+        }),
       });
     } else {
       this.setState({
-        checkedItemsId: [],
+        items: this.state.items.map(item => {
+          return { ...item, isChecked: true };
+        }),
       });
     }
   };
 
-  checkItems = (isChecked, orderItemId) => {
-    const { checkedItemsId } = this.state;
-    if (isChecked) {
-      this.setState({
-        checkedItemsId: [...checkedItemsId, orderItemId],
-      });
-    } else {
-      this.setState({
-        checkedItemsId: checkedItemsId.filter(
-          checkedItemId => checkedItemId !== orderItemId
-        ),
-      });
-    }
+  checkItems = orderItemId => {
+    this.setState({
+      items: this.state.items.map(item => {
+        if (item.order_item_id === orderItemId) {
+          return { ...item, isChecked: !item.isChecked };
+        }
+        return item;
+      }),
+    });
   };
 
   deleteItems = orderItemId => {
-    const filteredItems = this.state.items;
-    const checkedItemsId = this.state.checkedItemsId;
-
     if (orderItemId.length === 1) {
       const [itemId] = orderItemId;
       this.setState({
         items: this.state.items.filter(item => item.order_item_id !== itemId),
-        checkedItemsId: checkedItemsId.filter(
-          checkedItemId => checkedItemId !== itemId
-        ),
       });
       return;
     }
 
-    for (let i = 0; i < filteredItems.length; i++) {
-      for (let j = 0; j < checkedItemsId.length; j++) {
-        if (
-          filteredItems[i] &&
-          filteredItems[i].order_item_id === parseInt(checkedItemsId[j])
-        ) {
-          filteredItems.splice(i, 1);
-          i--;
-        }
-      }
-    }
-
     this.setState({
-      items: filteredItems,
-      checkedItemsId: [],
+      items: this.state.items.filter(item => !item.isChecked),
     });
   };
 
@@ -164,15 +143,15 @@ class Basket extends React.Component {
     });
   };
 
-  requestModifyQuantity = async (orderItemId, productId, amount) => {
+  requestModifyQuantity = async (orderItemId, amount) => {
     try {
-      const res = await fetch(`${API}/orders/cart`, {
+      const res = await fetch(`${API.basket}/orders/cart`, {
         method: 'PATCH',
         headers: {
           Authorization: getToken(),
         },
         body: JSON.stringify({
-          product_id: productId,
+          order_item_id: orderItemId,
           amount,
         }),
       });
@@ -203,21 +182,8 @@ class Basket extends React.Component {
   };
 
   render() {
-    const {
-      items,
-      checkedItemsId,
-      isCheckedAllItems,
-      isClickedCountButton,
-      quantityFormId,
-    } = this.state;
-
-    const checkedItems = items.filter(item => {
-      for (const checkedItemId of checkedItemsId) {
-        if (item.order_item_id === checkedItemId) {
-          return item;
-        }
-      }
-    });
+    const { items, isClickedCountButton, quantityFormId } = this.state;
+    const checkedItems = items.filter(item => item.isChecked);
 
     return (
       <div className="basket">
@@ -238,7 +204,7 @@ class Basket extends React.Component {
               <input
                 type="checkbox"
                 onChange={this.handleChangeCheckBox}
-                checked={isCheckedAllItems}
+                checked={items.every(item => item.isChecked)}
               />
             </div>
             <div>
@@ -265,7 +231,7 @@ class Basket extends React.Component {
             requestDeleteItem={this.requestDeleteItem}
             checkItems={this.checkItems}
             openQuantityForm={this.openQuantityForm}
-            isCheckedAllItems={isCheckedAllItems}
+            // isCheckedAllItems={isCheckedAllItems}
           />
           <div className="cart-result">
             <div className="cart-result-preview">
@@ -316,7 +282,7 @@ class Basket extends React.Component {
             <Link to="/shop">
               <button className="continue">계속 쇼핑하기</button>
             </Link>
-            <Link to={{ pathname: '/shop/payment', state: checkedItems }}>
+            <Link to={{ pathname: '/signup', state: checkedItems }}>
               <button className="order">주문하기</button>
             </Link>
           </div>

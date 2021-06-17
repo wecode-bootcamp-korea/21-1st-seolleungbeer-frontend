@@ -1,41 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getToken } from '../../../utils/token';
 import DEFAULT_IMG from '../../../defaultImage';
 import './Item.scss';
 
 class Item extends React.Component {
   constructor() {
     super();
-
-    this.state = {
-      isChecked: true,
-    };
   }
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.isCheckedAllItems !== this.props.isCheckedAllItems) {
-      this.setState({
-        isChecked: this.props.isCheckedAllItems,
-      });
-    }
-  };
-
   handleClickButton = e => {
+    const { orderItemId } = this.props;
+
     if (e.target.name === 'delete') {
-      this.props.requestDeleteItem([this.props.orderItemId]);
+      this.props.requestDeleteItem([orderItemId]);
     } else {
-      this.props.openQuantityForm(this.props.orderItemId);
+      this.props.openQuantityForm(orderItemId);
     }
   };
 
   handleChangeInput = () => {
-    const { isChecked } = this.state;
-    this.setState(
-      {
-        isChecked: !isChecked,
-      },
-      () => this.props.checkItems(isChecked, this.props.orderItemId)
-    );
+    this.props.checkItems(this.props.orderItemId);
   };
 
   render() {
@@ -46,6 +31,7 @@ class Item extends React.Component {
       koreanName,
       paymentCharge,
       amount,
+      isChecked,
     } = this.props;
 
     return (
@@ -54,7 +40,7 @@ class Item extends React.Component {
           <input
             type="checkbox"
             onChange={this.handleChangeInput}
-            checked={this.state.isChecked}
+            checked={isChecked}
           />
         </div>
         <div className="item-description">
@@ -74,7 +60,11 @@ class Item extends React.Component {
           <span>{deliveryMethod}</span>
         </div>
         <div className="shipping-fee">
-          <span>{parseInt(deliveryCharge).toLocaleString()}원</span>
+          {getToken() ? (
+            <span>0원</span>
+          ) : (
+            <span>{parseInt(deliveryCharge).toLocaleString()}원</span>
+          )}
         </div>
         <div className="price">
           <span>{(parseInt(paymentCharge) * amount).toLocaleString()}원</span>

@@ -18,9 +18,9 @@ class ItemList extends React.Component {
               koreanName={item.korean_name}
               amount={item.amount}
               paymentCharge={item.payment_charge}
+              isChecked={item.isChecked}
               requestDeleteItem={this.props.requestDeleteItem}
               checkItems={this.props.checkItems}
-              isCheckedAllItems={this.props.isCheckedAllItems}
               openQuantityForm={this.props.openQuantityForm}
             />
           ))}
