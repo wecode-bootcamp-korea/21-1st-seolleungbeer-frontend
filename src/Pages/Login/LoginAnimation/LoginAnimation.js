@@ -27,7 +27,7 @@ function LoginAnimation({ isAnimated }) {
       );
     }
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 30; i++) {
       bubbles[i] = new Bubble(
         canvasContainerRef.current.clientWidth * Math.random(),
         canvasContainerRef.current.clientHeight
@@ -37,7 +37,7 @@ function LoginAnimation({ isAnimated }) {
 
     setTimeout(() => {
       cancelAnimationFrame(rafId);
-    }, 300);
+    }, 100);
   }, []);
 
   const animate = () => {

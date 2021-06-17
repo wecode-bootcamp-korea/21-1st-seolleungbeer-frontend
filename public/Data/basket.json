@@ -1,0 +1,38 @@
+[
+  {
+    "cart_id": 1,
+    "amount": 1,
+    "korean_name": "부드러운 맥주 거품 크림",
+    "delivery_charge": "2500.00",
+    "payment_charge": "12000.00",
+    "delivery_method": "택배",
+    "img_url": "/images/cat.jpg"
+  },
+  {
+    "cart_id": 2,
+    "amount": 1,
+    "korean_name": "맛없는 맥주 크림",
+    "delivery_charge": "2500.00",
+    "payment_charge": "14000.00",
+    "delivery_method": "택배",
+    "img_url": "/images/cat.jpg"
+  },
+  {
+    "cart_id": 3,
+    "amount": 1,
+    "korean_name": "안녕 맥주 잘가 크림",
+    "delivery_charge": "2500.00",
+    "payment_charge": "52000.00",
+    "delivery_method": "택배",
+    "img_url": "/images/cat.jpg"
+  },
+  {
+    "cart_id": 4,
+    "amount": 1,
+    "korean_name": "개 거품 귀찮아 크림",
+    "delivery_charge": "2500.00",
+    "payment_charge": "82000.00",
+    "delivery_method": "택배",
+    "img_url": "/images/cat.jpg"
+  }
+]
