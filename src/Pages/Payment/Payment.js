@@ -243,6 +243,8 @@ class Payment extends React.Component {
         if (data.message === 'SUCCESS') {
           alert('결제가 완료되었습니다');
           this.props.history.push('/');
+        } else {
+          alert('결제를 실패했습니다.');
         }
       });
   };
