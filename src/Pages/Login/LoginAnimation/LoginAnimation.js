@@ -20,9 +20,7 @@ function LoginAnimation({ isAnimated }) {
         canvasContainerRef.current,
         canvasRef.current.getContext('2d')
       );
-    }
 
-    for (let i = 0; i < 1; i++) {
       beerFoam[i] = new BeerFoam(
         canvasContainerRef.current,
         canvasRef.current.getContext('2d')
@@ -36,6 +34,10 @@ function LoginAnimation({ isAnimated }) {
       );
     }
     rafId = requestAnimationFrame(animate);
+
+    setTimeout(() => {
+      cancelAnimationFrame(rafId);
+    }, 100);
   }, []);
 
   const animate = () => {
@@ -47,17 +49,13 @@ function LoginAnimation({ isAnimated }) {
     canvas.height = canvasContainer.clientHeight;
 
     beerFoam[0].draw(canvas, ctx);
-
-    for (let i = 0; i < beer.length; i++) {
-      beer[i].draw(canvas, ctx);
-    }
+    beer[0].draw(canvas, ctx);
 
     for (let i = 0; i < bubbles.length; i++) {
       bubbles[i].draw(canvas, ctx);
     }
 
     count++;
-    console.log(count);
 
     rafId = requestAnimationFrame(animate);
 

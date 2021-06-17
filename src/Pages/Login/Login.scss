@@ -3,9 +3,9 @@
 .login {
   @include flex(_, center, column);
   position: absolute;
-  top: 50%;
+  top: 200px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   width: 450px;
   height: 650px;
   border: 1px solid #dfdfdf;

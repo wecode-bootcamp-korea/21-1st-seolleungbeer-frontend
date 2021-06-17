@@ -21,7 +21,6 @@ class Login extends React.Component {
     this.setState({
       isAnimated: !this.state.isAnimated,
     });
-    console.log('keyPress');
   };
 
   goToMainPage = () => {
