@@ -1,6 +1,6 @@
 import React from 'react';
-// import validator from '../../utils/validator';
 import API from '../../config';
+import setToken from '../../utils/setToken';
 import './Login.scss';
 
 class Login extends React.Component {
@@ -51,7 +51,7 @@ class Login extends React.Component {
       const result = await res.json();
 
       if (result.token) {
-        localStorage.setItem('access_token', result.token);
+        setToken(result.token);
         this.goToMainPage();
       } else {
         this.setState({
