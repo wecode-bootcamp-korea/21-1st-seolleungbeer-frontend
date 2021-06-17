@@ -78,7 +78,6 @@ class Login extends React.Component {
 
   render() {
     const { email, password, isAnimated, isCorrected } = this.state;
-    console.log(isAnimated);
 
     return (
       <>
