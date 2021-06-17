@@ -25,7 +25,13 @@ class Detail extends React.Component {
 
     if (buttonName === 'buy' || buttonName === 'cart') {
       if (isLogin) {
-        const item = { product_id, korean_name, amount, price, image_url };
+        const item = {
+          product_id,
+          korean_name,
+          amount,
+          payment_charge: price,
+          image_url,
+        };
 
         const { message, order_item_id } = await this.addOrder(item);
 
