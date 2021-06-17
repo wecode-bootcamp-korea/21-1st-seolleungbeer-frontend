@@ -80,9 +80,9 @@ class Login extends React.Component {
     const { email, password, isAnimated, isCorrected } = this.state;
 
     return (
-      <>
+      <div className="login">
         <LoginAnimation isAnimated={isAnimated} />
-        <div className="login">
+        <div className="login-form">
           <div className="glass"></div>
           <h2>LOGIN</h2>
           <form onSubmit={this.handleSubmitForm}>
@@ -110,7 +110,7 @@ class Login extends React.Component {
             회원가입
           </button>
         </div>
-      </>
+      </div>
     );
   }
 }
