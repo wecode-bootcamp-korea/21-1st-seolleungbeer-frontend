@@ -3,8 +3,16 @@ import { Link } from 'react-router-dom';
 import ItemList from './ItemList/ItemList';
 import QuantityForm from './QuantityForm/QuantityForm';
 import API from '../../config';
-import sum from '../../utils/sum';
+import { getToken } from '../../utils/token';
 import './Basket.scss';
+
+const sum = items => {
+  const sum = items.reduce(
+    (acc, item) => acc + parseInt(item.payment_charge * item.amount),
+    0
+  );
+  return sum;
+};
 
 class Basket extends React.Component {
   constructor() {
@@ -28,7 +36,7 @@ class Basket extends React.Component {
       const res = await fetch(`${API}/orders/cart`, {
         method: 'GET',
         headers: {
-          Authorization: `${localStorage.getItem('access_token')}`,
+          Authorization: getToken(),
         },
       });
 
@@ -55,7 +63,7 @@ class Basket extends React.Component {
       const res = await fetch(`${API}/orders/cart`, {
         method: 'PUT',
         headers: {
-          Authorization: `${localStorage.getItem('access_token')}`,
+          Authorization: getToken(),
         },
         body: JSON.stringify({
           order_item_id: orderItemId,
@@ -66,7 +74,7 @@ class Basket extends React.Component {
       if (result.message === 'DELETE_SUCCESS') {
         this.deleteItems(orderItemId);
       } else {
-        console.error('메시지가 올바르지 않습니다');
+        throw new Error('메시지가 올바르지 않습니다');
       }
     } catch (err) {
       console.error(err);
@@ -158,10 +166,10 @@ class Basket extends React.Component {
 
   requestModifyQuantity = async (orderItemId, amount) => {
     try {
-      const res = await fetch('http://10.58.1.215:8000/orders/cart', {
+      const res = await fetch(`${API}/orders/cart`, {
         method: 'PATCH',
         headers: {
-          Authorization: `${localStorage.getItem('accessToken')}`,
+          Authorization: getToken(),
         },
         body: JSON.stringify({
           product_id: orderItemId,
@@ -295,7 +303,7 @@ class Basket extends React.Component {
                 </div>
                 <div>
                   <span>
-                    {localStorage.getItem('access_token')
+                    {getToken()
                       ? sum(checkedItems).toLocaleString()
                       : (sum(checkedItems) + 2500).toLocaleString()}
                     원

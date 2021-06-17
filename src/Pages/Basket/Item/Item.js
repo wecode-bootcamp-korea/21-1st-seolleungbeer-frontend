@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import DEFAULT_IMG from '../../../defaultImage';
 import './Item.scss';
 
 class Item extends React.Component {
@@ -48,20 +49,17 @@ class Item extends React.Component {
     } = this.props;
 
     return (
-      <li className="item">
+      <li className="basket-item">
         <div className="checkbox-container">
           <input
             type="checkbox"
             onChange={this.handleChangeInput}
-            checked={this.state.isChecked ? true : false}
+            checked={this.state.isChecked}
           />
         </div>
         <div className="item-description">
           <div>
-            <img
-              alt={koreanName}
-              src={mainImage ? mainImage : '/images/cat.jpg'}
-            />
+            <img alt={koreanName} src={mainImage || DEFAULT_IMG} />
           </div>
           <span>{koreanName}</span>
         </div>

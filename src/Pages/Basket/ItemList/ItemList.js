@@ -3,10 +3,6 @@ import Item from '../Item/Item';
 import './ItemList.scss';
 
 class ItemList extends React.Component {
-  constructor() {
-    super();
-  }
-
   render() {
     return (
       <div className="itemList">

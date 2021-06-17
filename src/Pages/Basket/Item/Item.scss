@@ -1,6 +1,6 @@
 @import '../../../Style/common.scss';
 
-.item {
+.basket-item {
   @include flex(_, center);
   width: 100%;
   height: 100px;
