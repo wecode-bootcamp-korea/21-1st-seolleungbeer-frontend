@@ -11,11 +11,15 @@ class QuantityForm extends React.Component {
   }
 
   handleClickControlButton = e => {
-    const { order_item_id } = this.props.item[0];
+    const { order_item_id, product_id } = this.props.item[0];
     if (e.target.name === 'cancle') {
       this.props.openQuantityForm(order_item_id);
     } else {
-      this.props.requestModifyQuantity(order_item_id, this.state.amount);
+      this.props.requestModifyQuantity(
+        order_item_id,
+        product_id,
+        this.state.amount
+      );
       this.props.openQuantityForm(order_item_id);
     }
   };

@@ -164,7 +164,7 @@ class Basket extends React.Component {
     });
   };
 
-  requestModifyQuantity = async (orderItemId, amount) => {
+  requestModifyQuantity = async (orderItemId, productId, amount) => {
     try {
       const res = await fetch(`${API}/orders/cart`, {
         method: 'PATCH',
@@ -172,7 +172,7 @@ class Basket extends React.Component {
           Authorization: getToken(),
         },
         body: JSON.stringify({
-          product_id: orderItemId,
+          product_id: productId,
           amount,
         }),
       });
