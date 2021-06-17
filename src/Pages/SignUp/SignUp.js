@@ -16,9 +16,10 @@ class SignUp extends React.Component {
       sex: '',
       mobile: '',
       previewImage: '',
-      existsMobile: false,
       isCheckedEmail: false,
       isClickedEmailButton: false,
+      isCheckedMobile: false,
+      isClickedMobileButton: false,
       isClickedSignUpButton: false,
     };
   }
@@ -47,8 +48,8 @@ class SignUp extends React.Component {
     });
   };
 
-  handleClickEmailButton = () => {
-    this.requestCheckEmail();
+  handleClickButton = e => {
+    this.requestCheckDuplication(e.target.name);
   };
 
   handleSubmitForm = e => {
@@ -72,6 +73,7 @@ class SignUp extends React.Component {
       sex,
       mobile,
       isClickedEmailButton,
+      isClickedMobileButton,
     } = this.state;
 
     if (
@@ -81,7 +83,8 @@ class SignUp extends React.Component {
       !name ||
       !sex ||
       !validator.mobile(mobile) ||
-      !isClickedEmailButton
+      !isClickedEmailButton ||
+      !isClickedMobileButton
     ) {
       return;
     }
@@ -91,8 +94,6 @@ class SignUp extends React.Component {
 
   requestSignUp = async () => {
     const { email, password, name, sex, mobile } = this.state;
-    // const profile_image = new FormData();
-    // profile_image.append('file', profileImage);
 
     try {
       const res = await fetch(`${API.signup}/users/signup`, {
@@ -112,40 +113,48 @@ class SignUp extends React.Component {
         this.goToLoginPage();
         return;
       }
-
-      if (result.message === 'MOBILE_EXIST') {
-        this.setState({
-          existsMobile: true,
-        });
-        return;
-      }
     } catch (err) {
       console.error(err);
     }
   };
 
-  requestCheckEmail = async () => {
-    const { email } = this.state;
-
+  requestCheckDuplication = async checkValue => {
     try {
-      const res = await fetch(`${API}/users/email-check`, {
+      const res = await fetch(`${API}/users/${checkValue}-check`, {
         method: 'POST',
         body: JSON.stringify({
-          email,
+          [checkValue]: this.state[checkValue],
         }),
       });
 
       const result = await res.json();
 
-      if (result.message === 'SUCCESS') {
-        this.setState({
-          isCheckedEmail: true,
-          isClickedEmailButton: true,
-        });
-      } else {
-        this.setState({
-          isClickedEmailButton: true,
-        });
+      if (checkValue === 'email') {
+        if (result.message === 'SUCCESS') {
+          this.setState({
+            isCheckedEmail: true,
+            isClickedEmailButton: true,
+          });
+        } else {
+          this.setState({
+            isClickedEmailButton: true,
+          });
+        }
+        return;
+      }
+
+      if (checkValue === 'mobile') {
+        if (result.message === 'SUCCESS') {
+          this.setState({
+            isCheckedMobile: true,
+            isClickedMobileButton: true,
+          });
+        } else {
+          this.setState({
+            isClickedMobileButton: true,
+          });
+        }
+        return;
       }
     } catch (err) {
       console.error(err);
@@ -165,9 +174,10 @@ class SignUp extends React.Component {
       sex,
       mobile,
       previewImage,
-      existsMobile,
       isCheckedEmail,
       isClickedEmailButton,
+      isCheckedMobile,
+      isClickedMobileButton,
       isClickedSignUpButton,
     } = this.state;
 
@@ -200,7 +210,11 @@ class SignUp extends React.Component {
                 value={email}
                 name="email"
               />
-              <button type="button" onClick={this.handleClickEmailButton}>
+              <button
+                type="button"
+                name="email"
+                onClick={this.handleClickButton}
+              >
                 중복확인
               </button>
             </div>
@@ -294,19 +308,30 @@ class SignUp extends React.Component {
           <div className="mobile">
             <div>
               <p>연락처</p>
-              <input
-                type="number"
-                placeholder="핸드폰 번호: 숫자만 입력하세요"
-                onChange={this.handleChangeInput}
-                value={mobile}
-                name="mobile"
-              />
+              <div className="mobile-input-container">
+                <input
+                  type="number"
+                  placeholder="핸드폰 번호: 숫자만 입력하세요"
+                  onChange={this.handleChangeInput}
+                  value={mobile}
+                  name="mobile"
+                />
+                <button
+                  type="button"
+                  name="mobile"
+                  onClick={this.handleClickButton}
+                >
+                  중복확인
+                </button>
+              </div>
             </div>
-            {((!validator.mobile(mobile) && mobile.length !== 0) ||
-              (isClickedSignUpButton && mobile.length === 0)) && (
+            {!validator.mobile(mobile) && mobile.length !== 0 && (
               <span>핸드폰 번호가 올바르지 않습니다</span>
             )}
-            {isClickedSignUpButton && existsMobile && (
+            {!isClickedMobileButton && isClickedSignUpButton && (
+              <span>핸드폰 번호 중복확인을 해주세요</span>
+            )}
+            {!isCheckedMobile && isClickedMobileButton && (
               <span>동일한 핸드폰 번호가 존재합니다</span>
             )}
           </div>
