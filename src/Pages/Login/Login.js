@@ -50,7 +50,7 @@ class Login extends React.Component {
   async requestLogin() {
     const { email, password } = this.state;
     try {
-      const res = await fetch(`${API.login}/users/login`, {
+      const res = await fetch(`${API}/users/login`, {
         method: 'POST',
         body: JSON.stringify({
           email,
