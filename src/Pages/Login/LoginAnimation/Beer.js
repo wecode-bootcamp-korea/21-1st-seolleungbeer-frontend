@@ -1,13 +1,8 @@
 import MovingPoint from './MovingPoint';
-
-// const movingPoints = [];
-
 export default class Beer {
   constructor(canvasContainer) {
     this.movingPoints = [];
     this.canvasContainer = canvasContainer;
-
-    // console.log(this.canvas);
 
     for (let i = 0; i <= 5; i++) {
       this.movingPoints.push(
@@ -21,7 +16,6 @@ export default class Beer {
   }
 
   draw(canvas, ctx) {
-    // console.log(this.ctx);
     ctx.beginPath();
 
     let prevX = this.movingPoints[0].x;
@@ -44,7 +38,6 @@ export default class Beer {
     ctx.lineTo(prevX, prevY);
     ctx.lineTo(canvas.width, canvas.height);
     ctx.lineTo(this.movingPoints[0].x, canvas.height);
-    // console.log(ctx);
 
     const beerColor = ctx.createLinearGradient(0, 0, canvas.width, 0);
     beerColor.addColorStop(0, '#FFB400');
@@ -54,7 +47,7 @@ export default class Beer {
     beerColor.addColorStop(0.6, '#FAF58C');
     beerColor.addColorStop(0.8, '#FFF064');
     beerColor.addColorStop(1, '#FFB400');
-    // ctx.globalCompositeOperation = 'saturation';
+
     ctx.fillStyle = beerColor;
     ctx.fill();
     ctx.closePath();

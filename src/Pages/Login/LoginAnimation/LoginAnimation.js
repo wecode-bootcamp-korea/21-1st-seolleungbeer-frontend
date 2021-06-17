@@ -1,13 +1,9 @@
 import React, { useRef, useEffect } from 'react';
-
-import './LoginAnimation.scss';
-import MovingPoint from './MovingPoint';
 import Beer from './Beer';
 import BeerFoam from './BeerFoam';
 import Bubble from './Bubble';
+import './LoginAnimation.scss';
 
-// const circleArr = [];
-// const movingPoints = [];
 const beer = [];
 const beerFoam = [];
 const bubbles = [];
@@ -19,16 +15,7 @@ function LoginAnimation({ isAnimated }) {
   let count = 0;
 
   useEffect(() => {
-    // for (let i = 0; i <= 5; i++) {
-    //   movingPoints.push(
-    //     new MovingPoint(
-    //       canvasContainerRef.current.clientWidth * i * 0.2,
-    //       canvasContainerRef.current.clientHeight * 0.8,
-    //       i * 0.5
-    //     )
-    //   );
-    // }
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 1; i++) {
       beer[i] = new Beer(
         canvasContainerRef.current,
         canvasRef.current.getContext('2d')
@@ -48,8 +35,7 @@ function LoginAnimation({ isAnimated }) {
         canvasContainerRef.current.clientHeight
       );
     }
-    animate();
-    // console.log(movingPoints);
+    rafId = requestAnimationFrame(animate);
   }, []);
 
   const animate = () => {
@@ -59,10 +45,6 @@ function LoginAnimation({ isAnimated }) {
 
     canvas.width = canvasContainer.clientWidth;
     canvas.height = canvasContainer.clientHeight;
-
-    // console.log(canvas);
-
-    // console.log(beer);
 
     beerFoam[0].draw(canvas, ctx);
 
@@ -74,12 +56,19 @@ function LoginAnimation({ isAnimated }) {
       bubbles[i].draw(canvas, ctx);
     }
 
-    requestAnimationFrame(animate);
+    count++;
+    console.log(count);
+
+    rafId = requestAnimationFrame(animate);
+
+    if (count >= 70) {
+      cancelAnimationFrame(rafId);
+    }
   };
 
-  // if (isAnimated) {
-  //   animate();
-  // }
+  if (isAnimated) {
+    animate();
+  }
 
   return (
     <div className="canvas-container" ref={canvasContainerRef}>

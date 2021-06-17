@@ -1,15 +1,5 @@
 @import '../../Style/common.scss';
 
-.glass {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 450px;
-  height: 650px;
-  background: rgba(0, 0, 0, 0.025);
-}
-
 .login {
   @include flex(_, center, column);
   position: absolute;
@@ -19,7 +9,14 @@
   width: 450px;
   height: 650px;
   border: 1px solid #dfdfdf;
-  // backdrop-filter: blur(3px);
+
+  .glass {
+    position: absolute;
+    bottom: 90px;
+    width: 450px;
+    height: 120px;
+    backdrop-filter: blur(4px);
+  }
 
   h2 {
     margin-top: 20%;

@@ -1,13 +1,9 @@
 import MovingPoint from './MovingPoint';
-
-// const movingPoints = [];
-
 export default class BeerFoam {
   constructor(canvasContainer) {
     this.movingPoints = [];
     this.canvasContainer = canvasContainer;
 
-    // console.log(this.canvas);
     for (let i = 0; i <= 5; i++) {
       this.movingPoints.push(
         new MovingPoint(
@@ -17,11 +13,9 @@ export default class BeerFoam {
         )
       );
     }
-    console.log(this.movingPoints);
   }
 
   draw(canvas, ctx) {
-    // console.log(this.ctx);
     ctx.beginPath();
 
     let prevX = this.movingPoints[0].x;
@@ -44,19 +38,13 @@ export default class BeerFoam {
     ctx.lineTo(prevX, prevY);
     ctx.lineTo(canvas.width, canvas.height);
     ctx.lineTo(this.movingPoints[0].x, canvas.height);
-    // console.log(ctx);
 
     const beerFoamColor = ctx.createLinearGradient(0, 0, canvas.width, 0);
 
     beerFoamColor.addColorStop(0, '#DCDCDC');
-    // beerFoamColor.addColorStop(0.2, '#F5F5F5');
-    // beerFoamColor.addColorStop(0.4, '#F8F8FF');
     beerFoamColor.addColorStop(0.5, '#F5F5F5');
-    // beerFoamColor.addColorStop(0.6, '#F8F8FF');
-    // beerFoamColor.addColorStop(0.8, '#F5F5F5');
     beerFoamColor.addColorStop(1, '#DCDCDC');
 
-    ctx.globalAlpha = 0.85;
     ctx.fillStyle = beerFoamColor;
     ctx.fill();
     ctx.closePath();

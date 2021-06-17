@@ -73,14 +73,14 @@ class Login extends React.Component {
   }
 
   render() {
-    const { email, password, isAnimated } = this.state;
+    const { email, isAnimated } = this.state;
     console.log(isAnimated);
     // console.log(this.state.loginWidth, this.state.loginHeight);
     return (
       <>
         <LoginAnimation isAnimated={isAnimated} />
-        <div className="glass"></div>
         <div className="login">
+          <div className="glass"></div>
           <h2>LOGIN</h2>
           <form onSubmit={this.handleSubmitForm}>
             <input
