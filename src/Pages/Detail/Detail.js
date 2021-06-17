@@ -58,7 +58,7 @@ class Detail extends React.Component {
     const token = localStorage.getItem('access_token');
     const resource = `/orders/cart`;
 
-    return fetch(API.detail + resource, {
+    return fetch(API + resource, {
       headers: {
         Authorization: token,
       },
@@ -74,7 +74,7 @@ class Detail extends React.Component {
     const resource = `/products/${product_id}`;
 
     // fetch('/Data/detail.json')
-    fetch(API.detail + resource)
+    fetch(API + resource)
       .then(res => res.json())
       .then(data => {
         if (!data.MESSAGE) {

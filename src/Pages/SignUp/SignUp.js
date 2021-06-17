@@ -96,7 +96,7 @@ class SignUp extends React.Component {
     const { email, password, name, sex, mobile } = this.state;
 
     try {
-      const res = await fetch(`${API.signup}/users/signup`, {
+      const res = await fetch(`${API}/users/signup`, {
         method: 'POST',
         body: JSON.stringify({
           email,
@@ -180,7 +180,7 @@ class SignUp extends React.Component {
       isClickedMobileButton,
       isClickedSignUpButton,
     } = this.state;
-
+    console.log(this.props.location);
     return (
       <div className="signup">
         <div className="title">
