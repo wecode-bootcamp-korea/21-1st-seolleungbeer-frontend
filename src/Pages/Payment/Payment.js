@@ -61,7 +61,6 @@ class Payment extends React.Component {
     const token = localStorage.getItem('access_token');
     const resource = `/users/account`;
     const { order_item } = this.props.history.location.state;
-
     fetch(API.payment + resource, {
       headers: {
         Authorization: token,
@@ -73,20 +72,16 @@ class Payment extends React.Component {
           return;
         }
         const { email, mobile, name } = data;
-
         if (order_item) {
           const total_amount = order_item.reduce(
             (acc, order) => acc + order.amount,
             0
           );
-
           const total_price = order_item.reduce(
             (acc, order) => acc + order.amount * order.price,
             0
           );
-
           const delivery_charge = 0;
-
           this.setState({
             order_item,
             total_amount,
@@ -365,7 +360,7 @@ class Payment extends React.Component {
                     <span>주문자 정보와 동일</span>
                   </label>
                 </div>
-                <div>
+                <div className="card-delivery-section">
                   <input
                     type="text"
                     name="delivery_user_name"
@@ -387,7 +382,7 @@ class Payment extends React.Component {
                     }
                   />
                 </div>
-                <div>
+                <div className="card-delivery-section">
                   <span
                     className={
                       checkList.delivery_user_name.validator ? '' : 'warning'
@@ -403,8 +398,8 @@ class Payment extends React.Component {
                     수령인 연락처를 입력해주세요
                   </span>
                 </div>
-                <div>
-                  <div>
+                <div className="card-delivery-section">
+                  <div className="card-delivery-section">
                     <input
                       type="text"
                       placeholder="우편번호"
