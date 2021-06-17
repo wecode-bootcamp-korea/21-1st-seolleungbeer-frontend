@@ -31,7 +31,7 @@ class Basket extends React.Component {
 
   fetchBasketItems = async () => {
     try {
-      const res = await fetch(`${API.login}/orders/cart`, {
+      const res = await fetch(`${API}/orders/cart`, {
         method: 'GET',
         headers: {
           Authorization: getToken(),
@@ -59,7 +59,7 @@ class Basket extends React.Component {
     }
 
     try {
-      const res = await fetch(`${API.login}/orders/cart`, {
+      const res = await fetch(`${API}/orders/cart`, {
         method: 'PUT',
         headers: {
           Authorization: getToken(),
@@ -135,7 +135,7 @@ class Basket extends React.Component {
 
   requestModifyQuantity = async (orderItemId, amount) => {
     try {
-      const res = await fetch(`${API.basket}/orders/cart`, {
+      const res = await fetch(`${API}/orders/cart`, {
         method: 'PATCH',
         headers: {
           Authorization: getToken(),

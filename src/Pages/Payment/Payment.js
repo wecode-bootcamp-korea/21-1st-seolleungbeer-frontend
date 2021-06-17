@@ -59,7 +59,7 @@ class Payment extends React.Component {
 
   componentDidMount = () => {
     const token = localStorage.getItem('access_token');
-    const resource = `/users/account`;
+    const resource = `/users`;
     const { order_item } = this.props.history.location.state;
     fetch(API.payment + resource, {
       headers: {
@@ -224,8 +224,8 @@ class Payment extends React.Component {
 
   gotoServer = data => {
     const token = localStorage.getItem('access_token');
-    const resource = '/orders/payment';
-    fetch(API.payment + resource, {
+    const resource = '/orders';
+    fetch(API + resource, {
       headers: {
         Authorization: token,
       },
@@ -234,7 +234,6 @@ class Payment extends React.Component {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.message === 'SUCCESS') {
           alert('결제가 완료되었습니다');
           this.props.history.push('/');
