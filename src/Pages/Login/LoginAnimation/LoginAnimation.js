@@ -37,7 +37,7 @@ function LoginAnimation({ isAnimated }) {
 
     setTimeout(() => {
       cancelAnimationFrame(rafId);
-    }, 100);
+    }, 300);
   }, []);
 
   const animate = () => {
