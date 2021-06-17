@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import SignUp from './Pages/SignUp/SignUp';
 import Login from './Pages/Login/Login';
+import Shop from './Pages/Shop/Shop';
 import Nav from './Components/Nav/Nav';
 import Main from './Pages/Main/Main';
 import Payment from './Pages/Payment/Payment';
@@ -18,8 +19,9 @@ class Routes extends React.Component {
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/" component={Main} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/payment" component={Payment} />
+          <Route exact path="/shop" component={Shop} />
           <Route exact path="/shop/detail/:product_id" component={Detail} />
+          <Route exact path="/payment" component={Payment} />
         </Switch>
       </Router>
     );
