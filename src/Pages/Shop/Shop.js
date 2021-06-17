@@ -51,7 +51,7 @@ class Shop extends React.Component {
 
     try {
       const res = await fetch(
-        `${API.shop}/products?category=${
+        `${API}/products?category=${
           category === 'all' ? '' : category
         }&subcategory=${subCategory}&offset=${
           offset * this.state.limit
