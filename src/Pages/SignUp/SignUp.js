@@ -180,7 +180,7 @@ class SignUp extends React.Component {
       isClickedMobileButton,
       isClickedSignUpButton,
     } = this.state;
-
+    console.log(this.props.location);
     return (
       <div className="signup">
         <div className="title">
@@ -226,6 +226,9 @@ class SignUp extends React.Component {
             )}
             {!isCheckedEmail && isClickedEmailButton && (
               <span>동일한 이메일이 존재합니다</span>
+            )}
+            {isCheckedEmail && validator.email(email) && (
+              <span>사용가능한 이메일입니다</span>
             )}
           </div>
           <div className="password">
@@ -333,6 +336,9 @@ class SignUp extends React.Component {
             )}
             {!isCheckedMobile && isClickedMobileButton && (
               <span>동일한 핸드폰 번호가 존재합니다</span>
+            )}
+            {isCheckedMobile && validator.mobile(mobile) && (
+              <span>사용가능한 핸드폰 번호입니다</span>
             )}
           </div>
           <button type="submit">가입하기</button>
