@@ -180,7 +180,7 @@ class SignUp extends React.Component {
       isClickedMobileButton,
       isClickedSignUpButton,
     } = this.state;
-
+    console.log(this.props.location);
     return (
       <div className="signup">
         <div className="title">
