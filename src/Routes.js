@@ -8,6 +8,7 @@ import Main from './Pages/Main/Main';
 import Basket from './Pages/Basket/Basket';
 import Payment from './Pages/Payment/Payment';
 import Detail from './Pages/Detail/Detail';
+import Footer from './Components/Footer/Footer';
 import './Style/reset.scss';
 import './Style/common.scss';
 
@@ -25,6 +26,7 @@ class Routes extends React.Component {
           <Route exact path="/shop/detail/:product_id" component={Detail} />
           <Route exact path="/payment" component={Payment} />
         </Switch>
+        <Footer />
       </Router>
     );
   }
