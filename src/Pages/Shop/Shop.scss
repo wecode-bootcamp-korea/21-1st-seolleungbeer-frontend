@@ -1,0 +1,11 @@
+@import '../../Style/common.scss';
+
+.shop {
+  @include flex(_, center, column);
+  width: 100%;
+  margin: 150px auto;
+
+  .footer {
+    height: 100px;
+  }
+}

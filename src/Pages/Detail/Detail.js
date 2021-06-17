@@ -27,17 +27,17 @@ class Detail extends React.Component {
       if (isLogin) {
         const item = { product_id, korean_name, amount, price, image_url };
 
-        const { message, order_number, id } = await this.addOrder(item);
+        const { message, order_item_id } = await this.addOrder(item);
 
         if (message === 'SUCCESS') {
-          item.id = id;
+          item.order_item_id = order_item_id;
 
           const order_item = [item];
 
           if (buttonName === 'buy') {
             this.props.history.push({
               pathname: '/payment',
-              state: { order_item, order_number },
+              state: { order_item },
             });
             return;
           }

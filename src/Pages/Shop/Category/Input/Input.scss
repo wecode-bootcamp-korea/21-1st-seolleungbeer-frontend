@@ -1,0 +1,34 @@
+@import '../../../../Style/common.scss';
+
+.category-input-container {
+  @include flex(center, center);
+  width: 150px;
+
+  .category-input {
+    display: none;
+  }
+
+  label {
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: 0 10px 3px 0;
+    border: 1px solid #dfdfdf;
+  }
+
+  span {
+    margin-right: 20px;
+    color: #595959;
+    font-size: 15px;
+  }
+
+  .checked {
+    border: none;
+    background-color: $green;
+    opacity: 0.9;
+  }
+
+  .non-checked {
+    background-color: none;
+  }
+}
