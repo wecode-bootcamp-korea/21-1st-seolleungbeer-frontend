@@ -25,7 +25,13 @@ class Detail extends React.Component {
 
     if (buttonName === 'buy' || buttonName === 'cart') {
       if (isLogin) {
-        const item = { product_id, korean_name, amount, price, image_url };
+        const item = {
+          product_id,
+          korean_name,
+          amount,
+          payment_charge: price,
+          image_url,
+        };
 
         const { message, order_item_id } = await this.addOrder(item);
 
@@ -111,7 +117,9 @@ class Detail extends React.Component {
                 </div>
                 <div className="button-list">
                   <button onClick={e => this.handleModal(e)}>계속쇼핑</button>
-                  <button onClick={() => this.props.history.push('/cart')}>
+                  <button
+                    onClick={() => this.props.history.push('/shop/basket')}
+                  >
                     장바구니
                   </button>
                 </div>
