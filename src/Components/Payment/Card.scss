@@ -1,0 +1,190 @@
+@import '../../Style/common.scss';
+
+.card {
+  margin: 20px;
+  padding: 25px;
+  width: 100%;
+  background-color: white;
+
+  input {
+    cursor: pointer;
+  }
+
+  .title {
+    margin-bottom: 15px;
+  }
+
+  .card-goods-info {
+    @include flex(flex-start, flex-start);
+    padding-top: 10px;
+    padding-bottom: 15px;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+
+    .goods-left {
+      margin-right: 15px;
+    }
+
+    .goods-right {
+      @include flex(flex-start, flex-start, column);
+      font-size: 14px;
+
+      div {
+        margin-top: 5px;
+        width: 100%;
+      }
+
+      .card-goods-amount {
+        font-size: 12px;
+        color: #ddd;
+      }
+    }
+  }
+
+  .card-order-info {
+    div {
+      @include flex(center, center);
+      margin-top: 5px;
+    }
+
+    span {
+      width: 100%;
+      font-size: 12px;
+      color: red;
+      visibility: hidden;
+
+      &.warning {
+        visibility: visible;
+      }
+    }
+
+    input {
+      width: 100%;
+      margin-right: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      cursor: text;
+
+      &.warning {
+        border: 1px solid red;
+      }
+    }
+  }
+
+  .card-delivery-info {
+    @include flex(center, flex-start, column);
+    font-size: 15px;
+
+    div {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+
+    .card-delivery-section {
+      @include flex(flex-start, center);
+    }
+
+    label {
+      @include flex(flex-start, flex-start);
+      width: 100%;
+      input {
+        max-width: 20px;
+      }
+      span {
+        width: 100%;
+      }
+    }
+
+    p {
+      margin-top: 20px;
+    }
+
+    span {
+      width: 100%;
+      font-size: 12px;
+      color: red;
+      visibility: hidden;
+
+      &.warning {
+        visibility: visible;
+      }
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      margin-right: 10px;
+      margin-bottom: 5px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      cursor: text;
+
+      &.warning {
+        border: 1px solid red;
+      }
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      margin-right: 10px;
+      margin-bottom: 5px;
+      padding: 10px;
+      cursor: pointer;
+      color: white;
+      background-color: $green;
+    }
+
+    select {
+      width: 100%;
+      margin-right: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      cursor: pointer;
+    }
+  }
+
+  .price-info {
+    @include flex(center, center, column);
+    width: 100%;
+    font-size: 14px;
+
+    div {
+      width: 100%;
+    }
+
+    .price {
+      @include flex(space-between, flex-start, column);
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 20px;
+
+      div {
+        @include flex(space-between, flex-start, row);
+        margin-bottom: 10px;
+      }
+    }
+
+    .tot-info {
+      @include flex(space-between, flex-start, row);
+
+      span > strong {
+        color: $green;
+      }
+    }
+  }
+
+  .pay {
+    @include flex(space-evenly, flex-start);
+  }
+
+  .paygo {
+    button {
+      width: 100%;
+      margin-top: 30px;
+      padding: 15px;
+      color: white;
+      background-color: $green;
+      cursor: pointer;
+    }
+  }
+}
