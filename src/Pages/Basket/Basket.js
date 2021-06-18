@@ -175,8 +175,6 @@ class Basket extends React.Component {
     const { items, isClickedCountButton, quantityFormId } = this.state;
     const checkedItems = items.filter(item => item.isChecked);
 
-    console.log(items);
-
     return (
       <div className="basket">
         {isClickedCountButton && (
@@ -223,7 +221,6 @@ class Basket extends React.Component {
             requestDeleteItem={this.requestDeleteItem}
             checkItems={this.checkItems}
             openQuantityForm={this.openQuantityForm}
-            // isCheckedAllItems={isCheckedAllItems}
           />
           <div className="cart-result">
             <div className="cart-result-preview">
@@ -274,14 +271,20 @@ class Basket extends React.Component {
             <Link to="/shop">
               <button className="continue">계속 쇼핑하기</button>
             </Link>
-            <Link
-              to={{
-                pathname: '/payment',
-                state: { order_item: checkedItems },
-              }}
-            >
-              <button className="order">주문하기</button>
-            </Link>
+            {checkedItems.length > 0 ? (
+              <Link
+                to={{
+                  pathname: '/payment',
+                  state: { order_item: checkedItems },
+                }}
+              >
+                <button className="order">주문하기</button>
+              </Link>
+            ) : (
+              <Link to="#">
+                <button className="order">주문하기</button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
