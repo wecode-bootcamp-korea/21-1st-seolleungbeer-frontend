@@ -20,7 +20,7 @@ export default class BasketPopup extends React.Component {
             {this.props.children}
             {isUsed && (
               <button className="cancel" onClick={handleModal}>
-                <i className="fas fa-times"></i>
+                <i className="fas fa-times fa-lg"></i>
               </button>
             )}
           </div>

@@ -2,12 +2,13 @@
 
 .canvas-container {
   position: absolute;
-  top: 200px;
+  top: 170px;
   left: 50%;
   transform: translateX(-50%);
   width: 450px;
-  height: 650px;
+  height: 600px;
   padding: 0;
+  background: white;
   box-sizing: border-box;
   z-index: -2;
 }

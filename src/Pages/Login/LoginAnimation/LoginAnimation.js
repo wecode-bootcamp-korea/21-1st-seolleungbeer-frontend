@@ -37,12 +37,16 @@ function LoginAnimation({ isAnimated }) {
 
     setTimeout(() => {
       cancelAnimationFrame(rafId);
-    }, 100);
+    }, 300);
   }, []);
 
   const animate = () => {
     const canvasContainer = canvasContainerRef.current;
     const canvas = canvasRef.current;
+
+    if (!canvas) {
+      return;
+    }
     const ctx = canvas.getContext('2d');
 
     canvas.width = canvasContainer.clientWidth;
