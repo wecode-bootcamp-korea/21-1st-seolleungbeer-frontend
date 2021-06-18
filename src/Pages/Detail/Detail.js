@@ -30,7 +30,7 @@ class Detail extends React.Component {
           korean_name,
           amount,
           payment_charge: price,
-          image_url,
+          main_image: image_url,
         };
 
         const { message, order_item_id } = await this.addOrder(item);
