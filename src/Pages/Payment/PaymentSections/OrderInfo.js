@@ -11,7 +11,7 @@ class OrderInfo extends React.Component {
           <div className="card-goods-info" key={order.order_item_id}>
             <div className="goods-left">
               <img
-                src={order.image_url}
+                src={order.main_image}
                 alt={order.korean_name}
                 width="90px"
                 height="90px"

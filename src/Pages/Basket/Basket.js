@@ -274,7 +274,12 @@ class Basket extends React.Component {
             <Link to="/shop">
               <button className="continue">계속 쇼핑하기</button>
             </Link>
-            <Link to={{ pathname: '/signup', state: checkedItems }}>
+            <Link
+              to={{
+                pathname: '/payment',
+                state: { order_item: checkedItems },
+              }}
+            >
               <button className="order">주문하기</button>
             </Link>
           </div>
