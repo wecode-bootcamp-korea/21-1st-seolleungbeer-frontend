@@ -212,6 +212,7 @@ class Payment extends React.Component {
   gotoServer = data => {
     const token = localStorage.getItem('access_token');
     const resource = '/orders';
+
     fetch(API + resource, {
       headers: {
         Authorization: token,
