@@ -5,7 +5,7 @@ class UserLink extends React.Component {
   render() {
     return (
       <>
-        {localStorage.getItem('access_token') ? (
+        {!localStorage.getItem('access_token') ? (
           <div className="user-link">
             <Link to="/login">LOGIN</Link>
             <Link to="/signup">JOIN</Link>
