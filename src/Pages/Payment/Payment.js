@@ -46,7 +46,7 @@ class Payment extends React.Component {
     const token = localStorage.getItem('access_token');
     const resource = `/users`;
     const { order_item } = this.props.history.location.state;
-    fetch(API.payment + resource, {
+    fetch(API + resource, {
       headers: {
         Authorization: token,
       },
@@ -212,12 +212,7 @@ class Payment extends React.Component {
   gotoServer = data => {
     const token = localStorage.getItem('access_token');
     const resource = '/orders';
-<<<<<<< HEAD
-
-    fetch(API.payment + resource, {
-=======
     fetch(API + resource, {
->>>>>>> master
       headers: {
         Authorization: token,
       },

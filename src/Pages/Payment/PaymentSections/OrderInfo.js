@@ -22,7 +22,7 @@ class OrderInfo extends React.Component {
               <div className="card-goods-amount">{order.amount}개</div>
               <div>
                 <strong>
-                  ₩{(order.price * order.amount).toLocaleString()}원
+                  ₩{(order.payment_charge * order.amount).toLocaleString()}원
                 </strong>
               </div>
             </div>
