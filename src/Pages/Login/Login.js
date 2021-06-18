@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import API from '../../config';
 import LoginAnimation from './LoginAnimation/LoginAnimation';
 import { setToken } from '../../utils/token';
@@ -115,4 +116,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);
